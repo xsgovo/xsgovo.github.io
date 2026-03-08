@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>丝瓜研究所</title><description>No description</description><link>https://xsgovo.github.io/</link><language>zh_CN</language><item><title>Ubuntu 安装 MySQL</title><link>https://xsgovo.github.io/mysql-installation/</link><guid isPermaLink="true">https://xsgovo.github.io/mysql-installation/</guid><description>介绍在 Ubuntu 系统上安装、配置并开启远程访问 MySQL 数据库的步骤。</description><pubDate>Sun, 08 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;h4&gt;ubuntu下载安装MySQL&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt install mysql -y
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;初始化MySQL的安全配置（可选）&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;sudo mysql_secure_installation
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;过程中常见的选项说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;VALIDETE PASSWORD 插件：是否启用强密码验证&lt;/li&gt;
+&lt;li&gt;Remove anonymous users? （是否移除匿名用户）&lt;/li&gt;
+&lt;li&gt;Disallow root login remotely?（是否禁止root用户远程登陆）&lt;/li&gt;
+&lt;li&gt;Remove test database and access to it? （是否删除test数据库）&lt;/li&gt;
+&lt;li&gt;Reload privilege tables now? （重新加载权限）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;修改MySQL 监听地址&lt;/h4&gt;
+&lt;p&gt;编辑mysql的配置文件&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在该文件中找到&lt;code&gt;bind-address = 127.0.0.1&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;将其修改为&lt;code&gt;bind-address = 0.0.0.0&lt;/code&gt;保存并退出&lt;/p&gt;
+&lt;h4&gt;创建管理员用户用于远程登陆&lt;/h4&gt;
+&lt;p&gt;重启MySQL&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo systemctl restart mysql
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在终端使用默认的root账号登陆MySQL&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo mysql
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;进入数据库后，创建管理员账号，其中&lt;code&gt;admin&lt;/code&gt;可以换成自定义的名称&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;CREATE USER &apos;admin&apos;@&apos;%&apos; IDENTIFIED WITH mysql_native_password BY &apos;PASSWORD&apos;;
+GRANT ALL PRIVILEGES ON *.* TO &apos;admin&apos;@&apos;%&apos; WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;确认用户是否创建成功&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SELECT user, host, plugin FROM mysql.user;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;看到出现创建的用户并且后面为&lt;code&gt;mysql_native_password&lt;/code&gt;就代表用户创建成功了&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;+------------------+-----------+-----------------------+
+| user             | host      | plugin                |
++------------------+-----------+-----------------------+
+| admin            | %         | mysql_native_password |
+| debian-sys-maint | localhost | caching_sha2_password |
+| mysql.infoschema | localhost | caching_sha2_password |
+| mysql.session    | localhost | caching_sha2_password |
+| mysql.sys        | localhost | caching_sha2_password |
+| root             | localhost | auth_socket           |
++------------------+-----------+-----------------------+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;接下来就可以使用DBeaver等数据库客户端连接数据库了&lt;/p&gt;
+</content:encoded></item></channel></rss>

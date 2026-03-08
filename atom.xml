@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>丝瓜研究所</title>
+  <subtitle>No description</subtitle>
+  <link href="https://xsgovo.github.io/" rel="alternate" type="text/html"/>
+  <link href="https://xsgovo.github.io/atom.xml" rel="self" type="application/atom+xml"/>
+  <id>https://xsgovo.github.io/</id>
+  <updated>2026-03-08T17:54:45.910Z</updated>
+  <language>zh_CN</language>
+  <entry>
+    <title>Ubuntu 安装 MySQL</title>
+    <link href="https://xsgovo.github.io/mysql-installation/" rel="alternate" type="text/html"/>
+    <id>https://xsgovo.github.io/mysql-installation/</id>
+    <published>2026-03-08T00:00:00.000Z</published>
+    <updated>2026-03-08T00:00:00.000Z</updated>
+    <summary>介绍在 Ubuntu 系统上安装、配置并开启远程访问 MySQL 数据库的步骤。</summary>
+    <content type="html"><![CDATA[<h4>ubuntu下载安装MySQL</h4>
+<pre><code>sudo apt install mysql -y
+</code></pre>
+<h4>初始化MySQL的安全配置（可选）</h4>
+<pre><code>sudo mysql_secure_installation
+</code></pre>
+<p>过程中常见的选项说明：</p>
+<ul>
+<li>VALIDETE PASSWORD 插件：是否启用强密码验证</li>
+<li>Remove anonymous users? （是否移除匿名用户）</li>
+<li>Disallow root login remotely?（是否禁止root用户远程登陆）</li>
+<li>Remove test database and access to it? （是否删除test数据库）</li>
+<li>Reload privilege tables now? （重新加载权限）</li>
+</ul>
+<h4>修改MySQL 监听地址</h4>
+<p>编辑mysql的配置文件</p>
+<pre><code> sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+</code></pre>
+<p>在该文件中找到<code>bind-address = 127.0.0.1</code></p>
+<p>将其修改为<code>bind-address = 0.0.0.0</code>保存并退出</p>
+<h4>创建管理员用户用于远程登陆</h4>
+<p>重启MySQL</p>
+<pre><code>sudo systemctl restart mysql
+</code></pre>
+<p>在终端使用默认的root账号登陆MySQL</p>
+<pre><code>sudo mysql
+</code></pre>
+<p>进入数据库后，创建管理员账号，其中<code>admin</code>可以换成自定义的名称</p>
+<pre><code>CREATE USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'PASSWORD';
+GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+</code></pre>
+<p>确认用户是否创建成功</p>
+<pre><code>SELECT user, host, plugin FROM mysql.user;
+</code></pre>
+<p>看到出现创建的用户并且后面为<code>mysql_native_password</code>就代表用户创建成功了</p>
+<pre><code>+------------------+-----------+-----------------------+
+| user             | host      | plugin                |
++------------------+-----------+-----------------------+
+| admin            | %         | mysql_native_password |
+| debian-sys-maint | localhost | caching_sha2_password |
+| mysql.infoschema | localhost | caching_sha2_password |
+| mysql.session    | localhost | caching_sha2_password |
+| mysql.sys        | localhost | caching_sha2_password |
+| root             | localhost | auth_socket           |
++------------------+-----------+-----------------------+
+</code></pre>
+<p>接下来就可以使用DBeaver等数据库客户端连接数据库了</p>
+]]></content>
+    <author>
+      <name>小丝瓜</name>
+    </author>
+    <category term="Database"></category>
+  </entry>
+</feed>
