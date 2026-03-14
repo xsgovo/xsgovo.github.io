@@ -5,63 +5,102 @@
   <link href="https://xsgovo.github.io/" rel="alternate" type="text/html"/>
   <link href="https://xsgovo.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://xsgovo.github.io/</id>
-  <updated>2026-03-10T06:46:37.818Z</updated>
+  <updated>2026-03-14T04:40:42.868Z</updated>
   <language>zh_CN</language>
   <entry>
     <title>Ubuntu 安装 MySQL</title>
-    <link href="https://xsgovo.github.io/mysql-installation/" rel="alternate" type="text/html"/>
-    <id>https://xsgovo.github.io/mysql-installation/</id>
+    <link href="https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85mysql/" rel="alternate" type="text/html"/>
+    <id>https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85mysql/</id>
     <published>2026-03-08T00:00:00.000Z</published>
     <updated>2026-03-08T00:00:00.000Z</updated>
     <summary>介绍在 Ubuntu 系统上安装、配置并开启远程访问 MySQL 数据库的步骤。</summary>
-    <content type="html"><![CDATA[<h4>ubuntu下载安装MySQL</h4>
-<pre><code>sudo apt install mysql -y
+    <content type="html"><![CDATA[<p>在终端安装 MySQL（默认使用系统仓库当前版本）：</p>
+<pre><code>sudo apt install mysql-server -y
 </code></pre>
-<h4>初始化MySQL的安全配置（可选）</h4>
+<h2>初始化安全配置（可选）</h2>
 <pre><code>sudo mysql_secure_installation
 </code></pre>
-<p>过程中常见的选项说明：</p>
+<p>常见选项说明：</p>
 <ul>
-<li>VALIDETE PASSWORD 插件：是否启用强密码验证</li>
-<li>Remove anonymous users? （是否移除匿名用户）</li>
-<li>Disallow root login remotely?（是否禁止root用户远程登陆）</li>
-<li>Remove test database and access to it? （是否删除test数据库）</li>
-<li>Reload privilege tables now? （重新加载权限）</li>
+<li>VALIDATE PASSWORD 插件：是否启用强密码验证</li>
+<li>Remove anonymous users? 是否移除匿名用户</li>
+<li>Disallow root login remotely? 是否禁止 root 用户远程登录</li>
+<li>Remove test database and access to it? 是否删除 test 数据库</li>
+<li>Reload privilege tables now? 重新加载权限</li>
 </ul>
-<h4>修改MySQL 监听地址</h4>
-<p>编辑mysql的配置文件</p>
-<pre><code> sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+<h2>修改监听地址</h2>
+<p>编辑配置文件：</p>
+<pre><code>sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
 </code></pre>
-<p>在该文件中找到<code>bind-address = 127.0.0.1</code></p>
-<p>将其修改为<code>bind-address = 0.0.0.0</code>保存并退出</p>
-<h4>创建管理员用户用于远程登陆</h4>
-<p>重启MySQL</p>
+<p>找到 <code>bind-address = 127.0.0.1</code>：</p>
+<p>修改为 <code>bind-address = 0.0.0.0</code>，保存并退出。</p>
+<h2>创建管理员用户用于远程登录</h2>
+<p>重启 MySQL：</p>
 <pre><code>sudo systemctl restart mysql
 </code></pre>
-<p>在终端使用默认的root账号登陆MySQL</p>
+<p>使用默认的 root 账号登录：</p>
 <pre><code>sudo mysql
 </code></pre>
-<p>进入数据库后，创建管理员账号，其中<code>admin</code>可以换成自定义的名称</p>
+<p>创建管理员账号（<code>admin</code> 可替换为自定义名称）：</p>
 <pre><code>CREATE USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'PASSWORD';
 GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 </code></pre>
-<p>确认用户是否创建成功</p>
+<p>确认用户是否创建成功：</p>
 <pre><code>SELECT user, host, plugin FROM mysql.user;
 </code></pre>
-<p>看到出现创建的用户并且后面为<code>mysql_native_password</code>就代表用户创建成功了</p>
-<pre><code>+------------------+-----------+-----------------------+
-| user             | host      | plugin                |
-+------------------+-----------+-----------------------+
-| admin            | %         | mysql_native_password |
-| debian-sys-maint | localhost | caching_sha2_password |
-| mysql.infoschema | localhost | caching_sha2_password |
-| mysql.session    | localhost | caching_sha2_password |
-| mysql.sys        | localhost | caching_sha2_password |
-| root             | localhost | auth_socket           |
-+------------------+-----------+-----------------------+
-</code></pre>
-<p>接下来就可以使用DBeaver等数据库客户端连接数据库了</p>
+<p>示例输出：</p>
+<table>
+<thead>
+<tr>
+<th>user</th>
+<th>host</th>
+<th>plugin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>admin</td>
+<td>%</td>
+<td>mysql_native_password</td>
+</tr>
+<tr>
+<td>debian-sys-maint</td>
+<td>localhost</td>
+<td>caching_sha2_password</td>
+</tr>
+<tr>
+<td>mysql.infoschema</td>
+<td>localhost</td>
+<td>caching_sha2_password</td>
+</tr>
+<tr>
+<td>mysql.session</td>
+<td>localhost</td>
+<td>caching_sha2_password</td>
+</tr>
+<tr>
+<td>mysql.sys</td>
+<td>localhost</td>
+<td>caching_sha2_password</td>
+</tr>
+<tr>
+<td>root</td>
+<td>localhost</td>
+<td>auth_socket</td>
+</tr>
+</tbody>
+</table>
+<p>当看到创建的用户且 <code>plugin</code> 为 <code>mysql_native_password</code> 即表示成功。</p>
+<p>接下来可以用 DBeaver 等客户端连接数据库。</p>
+<p>::github{repo="dbeaver/dbeaver"}</p>
+<h2>远程连接常见问题排查</h2>
+<ul>
+<li>端口未放行：确保服务器防火墙/安全组已放行 <code>3306</code> 端口</li>
+<li>服务未监听公网：确认 <code>bind-address</code> 已改为 <code>0.0.0.0</code>，并重启 MySQL</li>
+<li>权限或账号不对：确认账号的 <code>host</code> 为 <code>%</code>，并重新 <code>FLUSH PRIVILEGES</code></li>
+<li>仍无法登录：确认使用的用户名、密码与数据库实例一致</li>
+</ul>
 ]]></content>
     <author>
       <name>小丝瓜</name>
