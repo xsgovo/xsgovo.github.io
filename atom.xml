@@ -5,8 +5,105 @@
   <link href="https://xsgovo.github.io/" rel="alternate" type="text/html"/>
   <link href="https://xsgovo.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://xsgovo.github.io/</id>
-  <updated>2026-03-16T12:25:59.807Z</updated>
+  <updated>2026-03-20T03:58:19.389Z</updated>
   <language>zh_CN</language>
+  <entry>
+    <title>使用 nvm 安装和管理 Node.js</title>
+    <link href="https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85node%E7%8E%AF%E5%A2%83/" rel="alternate" type="text/html"/>
+    <id>https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85node%E7%8E%AF%E5%A2%83/</id>
+    <published>2026-03-20T00:00:00.000Z</published>
+    <updated>2026-03-20T00:00:00.000Z</updated>
+    <summary>使用 nvm 安装、切换和管理多版本 Node.js，并配置镜像与 pnpm。</summary>
+    <content type="html"><![CDATA[<p>使用 <code>nvm</code> 安装和管理 Node.js</p>
+<h2>适用场景</h2>
+<p>如果你需要在同一台电脑上安装多个 Node.js 版本，或经常切换版本进行开发，推荐使用 <code>nvm</code> 来管理。为避免冲突，建议先卸载电脑中已有的 Node.js。</p>
+<h2>nvm 简介</h2>
+<p><code>nvm</code>（Node Version Manager）是 Node.js 的版本管理工具。它可以安装和切换不同版本的 Node.js，以解决不同项目对版本兼容性的需求。</p>
+<h2>安装 nvm</h2>
+<p>下载地址：
+<code>https://nvm.uihtm.com/doc/download-nvm</code></p>
+<p>安装时注意两点：</p>
+<ol>
+<li>安装目录建议放在非中文路径，例如 <code>D:\nvm</code>。</li>
+<li>Node.js 安装目录建议放在<code>nvm</code>的目录下 <code>D:\nvm\nodejs</code>，之后通过 <code>nvm</code> 安装的 Node.js 版本都会统一放在这里。</li>
+</ol>
+<h2>配置下载镜像（可选）</h2>
+<p>如果 <code>nvm</code> 下载 Node.js 失败，可以切换到国内镜像。</p>
+<p>方式一：使用命令设置镜像</p>
+<pre><code>nvm node_mirror https://npmmirror.com/mirrors/node/
+</code></pre>
+<p>方式二：在nvm的安装目录修改 <code>settings.txt</code>（不推荐）</p>
+<p>默认路径通常是：<code>C:\Users\用户名\AppData\Local\nvm</code></p>
+<p>在 <code>settings.txt</code> 中添加：</p>
+<pre><code>node_mirror: https://npmmirror.com/mirrors/node/
+</code></pre>
+<h2>安装与切换 Node.js</h2>
+<p>安装最新的 22 大版本：</p>
+<pre><code>nvm install 22
+</code></pre>
+<p>安装指定版本：</p>
+<pre><code>nvm install 22.19.5
+</code></pre>
+<p>切换版本：</p>
+<pre><code>nvm use 22
+</code></pre>
+<p>或切换到指定版本：</p>
+<pre><code>nvm use 22.19.5
+</code></pre>
+<p>卸载指定版本：</p>
+<pre><code>nvm uninstall 22.19.5
+</code></pre>
+<h2>常用 nvm 命令</h2>
+<ul>
+<li><code>nvm install &lt;version&gt; [arch]</code>：安装指定版本，<code>arch</code> 可选 32/64 位，默认与系统一致，可加 <code>--insecure</code> 跳过 SSL 校验</li>
+<li><code>nvm list [available]</code>：列出已安装版本，<code>available</code> 显示可安装的所有版本（<code>list</code> 可简写为 <code>ls</code>）</li>
+<li><code>nvm uninstall &lt;version&gt;</code>：卸载指定版本</li>
+<li><code>nvm use &lt;version&gt; [arch]</code>：切换到指定版本</li>
+<li><code>nvm root [path]</code>：设置或查看 Node.js 版本存放目录</li>
+</ul>
+<h2>安装 pnpm（推荐）</h2>
+<h3>方式一：使用 npm 全局安装</h3>
+<pre><code>npm install -g pnpm
+</code></pre>
+<p>验证是否安装成功：</p>
+<pre><code>pnpm -v
+</code></pre>
+<h3>方式二：使用 Corepack（推荐）</h3>
+<p>如果你使用的是 <strong>Node.js 16.13+</strong>，可以通过 <code>corepack</code> 来管理 <code>pnpm</code> 和 <code>yarn</code>，不需要额外的全局安装。</p>
+<p>Corepack 的特点：</p>
+<ul>
+<li><code>npm -g</code>：直接在全局目录安装 <code>pnpm</code> 可执行文件</li>
+<li><code>corepack enable</code>：生成代理脚本，根据项目 <code>package.json</code> 的 <code>packageManager</code> 字段自动下载并使用对应版本</li>
+</ul>
+<p>启用并安装最新 <code>pnpm</code>：</p>
+<pre><code>corepack enable
+corepack prepare pnpm@latest --activate
+</code></pre>
+<h2>切换 npm / pnpm 镜像源（可选）</h2>
+<p>npm：</p>
+<pre><code>npm config set registry https://registry.npmmirror.com
+</code></pre>
+<p>pnpm：</p>
+<pre><code>pnpm config set registry https://registry.npmmirror.com
+</code></pre>
+<h2>常见问题</h2>
+<p><strong>提示 “nvm 不是内部或外部命令”</strong></p>
+<ol>
+<li>确认 <code>nvm</code> 已正确安装。</li>
+<li>检查环境变量是否生效（重新打开终端或重启系统后再试）。</li>
+<li>确保安装路径没有中文字符。</li>
+</ol>
+<p><strong>nvm 下载 Node.js 失败</strong></p>
+<ol>
+<li>先尝试配置镜像（见上方“配置下载镜像”）。</li>
+<li>如果仍失败，检查网络代理或防火墙设置。</li>
+</ol>
+]]></content>
+    <author>
+      <name>小丝瓜</name>
+    </author>
+    <category term="Frontend"></category>
+  </entry>
   <entry>
     <title>Ubuntu 安装 MySQL</title>
     <link href="https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85mysql/" rel="alternate" type="text/html"/>

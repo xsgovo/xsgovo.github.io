@@ -1,4 +1,88 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>丝瓜研究所</title><description>No description</description><link>https://xsgovo.github.io/</link><language>zh_CN</language><item><title>Ubuntu 安装 MySQL</title><link>https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85mysql/</link><guid isPermaLink="true">https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85mysql/</guid><description>介绍在 Ubuntu 系统上安装、配置并开启远程访问 MySQL 数据库的步骤。</description><pubDate>Sun, 08 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;在终端安装 MySQL（默认使用系统仓库当前版本）：&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>丝瓜研究所</title><description>No description</description><link>https://xsgovo.github.io/</link><language>zh_CN</language><item><title>使用 nvm 安装和管理 Node.js</title><link>https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85node%E7%8E%AF%E5%A2%83/</link><guid isPermaLink="true">https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85node%E7%8E%AF%E5%A2%83/</guid><description>使用 nvm 安装、切换和管理多版本 Node.js，并配置镜像与 pnpm。</description><pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;使用 &lt;code&gt;nvm&lt;/code&gt; 安装和管理 Node.js&lt;/p&gt;
+&lt;h2&gt;适用场景&lt;/h2&gt;
+&lt;p&gt;如果你需要在同一台电脑上安装多个 Node.js 版本，或经常切换版本进行开发，推荐使用 &lt;code&gt;nvm&lt;/code&gt; 来管理。为避免冲突，建议先卸载电脑中已有的 Node.js。&lt;/p&gt;
+&lt;h2&gt;nvm 简介&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;nvm&lt;/code&gt;（Node Version Manager）是 Node.js 的版本管理工具。它可以安装和切换不同版本的 Node.js，以解决不同项目对版本兼容性的需求。&lt;/p&gt;
+&lt;h2&gt;安装 nvm&lt;/h2&gt;
+&lt;p&gt;下载地址：
+&lt;code&gt;https://nvm.uihtm.com/doc/download-nvm&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;安装时注意两点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;安装目录建议放在非中文路径，例如 &lt;code&gt;D:\nvm&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;Node.js 安装目录建议放在&lt;code&gt;nvm&lt;/code&gt;的目录下 &lt;code&gt;D:\nvm\nodejs&lt;/code&gt;，之后通过 &lt;code&gt;nvm&lt;/code&gt; 安装的 Node.js 版本都会统一放在这里。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;配置下载镜像（可选）&lt;/h2&gt;
+&lt;p&gt;如果 &lt;code&gt;nvm&lt;/code&gt; 下载 Node.js 失败，可以切换到国内镜像。&lt;/p&gt;
+&lt;p&gt;方式一：使用命令设置镜像&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;nvm node_mirror https://npmmirror.com/mirrors/node/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;方式二：在nvm的安装目录修改 &lt;code&gt;settings.txt&lt;/code&gt;（不推荐）&lt;/p&gt;
+&lt;p&gt;默认路径通常是：&lt;code&gt;C:\Users\用户名\AppData\Local\nvm&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;在 &lt;code&gt;settings.txt&lt;/code&gt; 中添加：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;node_mirror: https://npmmirror.com/mirrors/node/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;安装与切换 Node.js&lt;/h2&gt;
+&lt;p&gt;安装最新的 22 大版本：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;nvm install 22
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;安装指定版本：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;nvm install 22.19.5
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;切换版本：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;nvm use 22
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;或切换到指定版本：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;nvm use 22.19.5
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;卸载指定版本：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;nvm uninstall 22.19.5
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;常用 nvm 命令&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;nvm install &amp;lt;version&amp;gt; [arch]&lt;/code&gt;：安装指定版本，&lt;code&gt;arch&lt;/code&gt; 可选 32/64 位，默认与系统一致，可加 &lt;code&gt;--insecure&lt;/code&gt; 跳过 SSL 校验&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nvm list [available]&lt;/code&gt;：列出已安装版本，&lt;code&gt;available&lt;/code&gt; 显示可安装的所有版本（&lt;code&gt;list&lt;/code&gt; 可简写为 &lt;code&gt;ls&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nvm uninstall &amp;lt;version&amp;gt;&lt;/code&gt;：卸载指定版本&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nvm use &amp;lt;version&amp;gt; [arch]&lt;/code&gt;：切换到指定版本&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nvm root [path]&lt;/code&gt;：设置或查看 Node.js 版本存放目录&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;安装 pnpm（推荐）&lt;/h2&gt;
+&lt;h3&gt;方式一：使用 npm 全局安装&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;npm install -g pnpm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;验证是否安装成功：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pnpm -v
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;方式二：使用 Corepack（推荐）&lt;/h3&gt;
+&lt;p&gt;如果你使用的是 &lt;strong&gt;Node.js 16.13+&lt;/strong&gt;，可以通过 &lt;code&gt;corepack&lt;/code&gt; 来管理 &lt;code&gt;pnpm&lt;/code&gt; 和 &lt;code&gt;yarn&lt;/code&gt;，不需要额外的全局安装。&lt;/p&gt;
+&lt;p&gt;Corepack 的特点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;npm -g&lt;/code&gt;：直接在全局目录安装 &lt;code&gt;pnpm&lt;/code&gt; 可执行文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;corepack enable&lt;/code&gt;：生成代理脚本，根据项目 &lt;code&gt;package.json&lt;/code&gt; 的 &lt;code&gt;packageManager&lt;/code&gt; 字段自动下载并使用对应版本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;启用并安装最新 &lt;code&gt;pnpm&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;corepack enable
+corepack prepare pnpm@latest --activate
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;切换 npm / pnpm 镜像源（可选）&lt;/h2&gt;
+&lt;p&gt;npm：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm config set registry https://registry.npmmirror.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;pnpm：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pnpm config set registry https://registry.npmmirror.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;常见问题&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;提示 “nvm 不是内部或外部命令”&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;确认 &lt;code&gt;nvm&lt;/code&gt; 已正确安装。&lt;/li&gt;
+&lt;li&gt;检查环境变量是否生效（重新打开终端或重启系统后再试）。&lt;/li&gt;
+&lt;li&gt;确保安装路径没有中文字符。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;nvm 下载 Node.js 失败&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;先尝试配置镜像（见上方“配置下载镜像”）。&lt;/li&gt;
+&lt;li&gt;如果仍失败，检查网络代理或防火墙设置。&lt;/li&gt;
+&lt;/ol&gt;
+</content:encoded></item><item><title>Ubuntu 安装 MySQL</title><link>https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85mysql/</link><guid isPermaLink="true">https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85mysql/</guid><description>介绍在 Ubuntu 系统上安装、配置并开启远程访问 MySQL 数据库的步骤。</description><pubDate>Sun, 08 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;在终端安装 MySQL（默认使用系统仓库当前版本）：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;sudo apt install mysql-server -y
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2&gt;初始化安全配置（可选）&lt;/h2&gt;
