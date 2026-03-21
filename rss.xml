@@ -1,4 +1,228 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>丝瓜研究所</title><description>No description</description><link>https://xsgovo.github.io/</link><language>zh_CN</language><item><title>使用 nvm 安装和管理 Node.js</title><link>https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85node%E7%8E%AF%E5%A2%83/</link><guid isPermaLink="true">https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85node%E7%8E%AF%E5%A2%83/</guid><description>使用 nvm 安装、切换和管理多版本 Node.js，并配置镜像与 pnpm。</description><pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;使用 &lt;code&gt;nvm&lt;/code&gt; 安装和管理 Node.js&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>丝瓜研究所</title><description>No description</description><link>https://xsgovo.github.io/</link><language>zh_CN</language><item><title>Windows 配置 C 语言开发环境</title><link>https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85c%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83/</link><guid isPermaLink="true">https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85c%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83/</guid><description>在 Windows 上安装 C 语言开发环境，包含编译器选择、VS Code 配置与 CMake 管理项目的方法。</description><pubDate>Sat, 21 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;本教程面向 Windows 用户，目标是用最少步骤搭好 C 语言环境，并能通过 CMake 管理项目。&lt;/p&gt;
+&lt;h2&gt;选择方案&lt;/h2&gt;
+&lt;p&gt;如果你是初学者或做课程作业，推荐方案三（MinGW-w64 + VS Code），轻量且通用。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Dev-C++（简单但功能有限）&lt;/li&gt;
+&lt;li&gt;Visual Studio（集成度高，体积较大）&lt;/li&gt;
+&lt;li&gt;MinGW-w64 + VS Code（推荐）&lt;/li&gt;
+&lt;li&gt;CLion（专业 C/C++ IDE）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;下面以推荐方案为主，其他方案提供简要说明。&lt;/p&gt;
+&lt;h2&gt;方案一：Dev-C++（可选）&lt;/h2&gt;
+&lt;p&gt;推荐使用小熊猫改版的 Dev-C++。&lt;/p&gt;
+&lt;p&gt;下载：
+&lt;code&gt;http://royqh.net/redpandacpp/download/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;安装完成后即可新建 C 项目并运行。&lt;/p&gt;
+&lt;h2&gt;方案二：Visual Studio（可选）&lt;/h2&gt;
+&lt;p&gt;下载并安装 Visual Studio Installer，选择 Community 版本即可。&lt;/p&gt;
+&lt;p&gt;安装时选择工作负荷：
+&lt;code&gt;使用 C++ 的桌面开发&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;安装完成后即可使用。&lt;/p&gt;
+&lt;h2&gt;方案三：MinGW-w64 + VS Code（推荐）&lt;/h2&gt;
+&lt;h3&gt;1. 下载并解压 MinGW-w64&lt;/h3&gt;
+&lt;p&gt;官方站点：
+&lt;code&gt;https://winlibs.com/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;如果官网下载慢，可以使用网盘镜像：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;123 云盘：&lt;code&gt;https://www.123865.com/s/JnJ5Vv-GWIMA?pwd=ONsx#&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;百度网盘：&lt;code&gt;https://pan.baidu.com/s/1MY19qEViOL0W4qTfl3CKFA?pwd=pcae&lt;/code&gt;（提取码：&lt;code&gt;pcae&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;夸克网盘：&lt;code&gt;https://pan.quark.cn/s/769ab8ff174c?pwd=dkm2&lt;/code&gt;（提取码：&lt;code&gt;dkm2&lt;/code&gt;）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下载后解压，建议放在非中文路径，例如：
+&lt;code&gt;D:\mingw64&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;2. 配置环境变量&lt;/h3&gt;
+&lt;p&gt;优先尝试解压目录下的脚本：
+&lt;code&gt;mingwvars.bat&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;如果脚本无效，手动把 &lt;code&gt;bin&lt;/code&gt; 目录加入系统环境变量 &lt;code&gt;Path&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;D:\mingw64\bin&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;3. 验证安装&lt;/h3&gt;
+&lt;p&gt;打开终端（PowerShell / CMD），输入：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;gcc --version
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;能看到版本信息说明配置成功。&lt;/p&gt;
+&lt;h3&gt;4. 安装 VS Code（可选但推荐）&lt;/h3&gt;
+&lt;p&gt;下载：
+&lt;code&gt;https://code.visualstudio.com/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;建议安装扩展：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;C/C++（Microsoft）&lt;/li&gt;
+&lt;li&gt;CMake Tools（Microsoft）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;使用命令编译 C 程序&lt;/h2&gt;
+&lt;p&gt;创建 &lt;code&gt;main.c&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+
+int main() {
+    printf(&quot;Hello, World!\n&quot;);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;最基础编译并运行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;gcc main.c -o main
+.\main.exe
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;使用 CMake 管理 C 项目&lt;/h2&gt;
+&lt;p&gt;当项目变大时，推荐用 CMake 统一管理构建。&lt;/p&gt;
+&lt;h3&gt;1. 项目结构示例&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;.
+├── CMakeLists.txt
+├── include
+│   └── Hello.h
+└── src
+    ├── Hello.cpp
+    └── main.cpp
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;2. 编写 CMakeLists.txt&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;# 指定构建此项目所需的最小 CMake 版本为 3.20
+# 如果用户安装的 CMake 版本低于此版本，配置过程将报错并停止
+cmake_minimum_required(VERSION 3.20)
+
+# 定义项目名称为 &quot;hello_c&quot;，并指定主要编程语言为 C
+# 这行命令会初始化项目变量，如 CMAKE_C_COMPILER 等
+project(hello_c C)
+
+# 添加一个可执行目标（即最终生成的程序），目标名为 &quot;hello_c&quot;
+# 该目标由源文件 src/main.c 编译而成
+# CMake 会自动处理编译和链接过程
+add_executable(hello_c
+    src/main.c
+)
+
+# 为目标 &quot;hello_c&quot; 设置头文件搜索路径（include 目录）
+# ${CMAKE_CURRENT_SOURCE_DIR} 表示当前 CMakeLists.txt 所在的目录
+# PRIVATE 表示这些头文件路径仅在当前目标内部有效，不会传递给依赖此目标的其他目标
+target_include_directories(hello_c PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+# 设置目标 &quot;hello_c&quot; 的特定属性
+# 这里指定使用的 C 语言标准为 C11 (C_STANDARD 11)
+# C_STANDARD_REQUIRED YES 表示必须使用指定的标准，如果编译器不支持则报错
+set_target_properties(hello_c PROPERTIES
+    C_STANDARD 11
+    C_STANDARD_REQUIRED YES
+)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;3. 典型 CMake 用法补充&lt;/h3&gt;
+&lt;p&gt;添加多个源文件：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;add_executable(hello_c
+    src/main.c
+    src/util.c
+)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;添加库并链接：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;add_library(util STATIC src/util.c)
+target_link_libraries(hello_c PRIVATE util)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;添加编译选项与宏：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;target_compile_options(hello_c PRIVATE -Wall -Wextra)
+target_compile_definitions(hello_c PRIVATE DEBUG)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;4. 构建与运行&lt;/h3&gt;
+&lt;p&gt;在项目根目录执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+cmake --build build
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;运行可执行文件：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.\build\hello_c.exe
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;5. 清理与重新生成&lt;/h3&gt;
+&lt;p&gt;当 CMake 配置异常时，可以删除构建目录重新生成：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;rmdir /s /q build
+cmake -S . -B build
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;在 VS Code 使用 CMake 初始化项目&lt;/h2&gt;
+&lt;p&gt;主要方式（推荐）：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;File&lt;/code&gt; → &lt;code&gt;Open Folder&lt;/code&gt; 打开项目根目录。&lt;/li&gt;
+&lt;li&gt;按下&lt;code&gt;Ctrl+Shift+P&lt;/code&gt; 或 &lt;code&gt;F1&lt;/code&gt;，运行 &lt;code&gt;CMake: Quick Start&lt;/code&gt;（创建项目的主要方式）。&lt;/li&gt;
+&lt;li&gt;选择语言：&lt;code&gt;C&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;输入项目名：例如 &lt;code&gt;hello_c&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;选择项目类型：&lt;code&gt;Executable&lt;/code&gt;（生成可执行文件）。&lt;/li&gt;
+&lt;li&gt;选择生成器：推荐 &lt;code&gt;MinGW Makefiles&lt;/code&gt; 或 &lt;code&gt;Ninja&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;是否添加 &lt;code&gt;CTest&lt;/code&gt; / &lt;code&gt;CPack&lt;/code&gt;：按需选择（不需要就跳过）。&lt;/li&gt;
+&lt;li&gt;选择要包含在&lt;code&gt;CMakeLists.txt&lt;/code&gt;中的文件：勾选C语言源文件。&lt;/li&gt;
+&lt;li&gt;是否添加预设（Presets）：可以先跳过，后续需要再添加。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;CMake 会自动生成 &lt;code&gt;CMakeLists.txt&lt;/code&gt;、&lt;code&gt;main.c&lt;/code&gt; 和 &lt;code&gt;build&lt;/code&gt; 目录，尽量减少手写配置。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;补充说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;CTest&lt;/code&gt; 用于自动化测试，便于与 CI/CD 集成。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CPack&lt;/code&gt; 用于打包发布，生成可安装或可分发的安装包。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;VS Code 调试工作流（CMake）&lt;/h2&gt;
+&lt;p&gt;推荐使用 CMake Tools 集成调试：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;确保 &lt;code&gt;CMake: Build&lt;/code&gt; 成功。&lt;/li&gt;
+&lt;li&gt;状态栏选择要调试的目标与变体（建议 &lt;code&gt;Debug&lt;/code&gt;）。&lt;/li&gt;
+&lt;li&gt;点击 &lt;code&gt;Debug&lt;/code&gt; 按钮即可启动调试。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;如果需要手动配置 &lt;code&gt;launch.json&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+  &quot;version&quot;: &quot;0.2.0&quot;,
+  &quot;configurations&quot;: [
+    {
+      &quot;name&quot;: &quot;Debug CMake Target&quot;,
+      &quot;type&quot;: &quot;cppdbg&quot;,
+      &quot;request&quot;: &quot;launch&quot;,
+      &quot;program&quot;: &quot;${workspaceFolder}/build/hello_c.exe&quot;,
+      &quot;args&quot;: [],
+      &quot;stopAtEntry&quot;: false,
+      &quot;cwd&quot;: &quot;${workspaceFolder}&quot;,
+      &quot;environment&quot;: [],
+      &quot;externalConsole&quot;: false,
+      &quot;MIMode&quot;: &quot;gdb&quot;
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;调试建议：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;使用 &lt;code&gt;-DCMAKE_BUILD_TYPE=Debug&lt;/code&gt; 生成调试符号。&lt;/li&gt;
+&lt;li&gt;确保 &lt;code&gt;gdb&lt;/code&gt; 位于 &lt;code&gt;PATH&lt;/code&gt; 中（MinGW-w64 自带）。&lt;/li&gt;
+&lt;li&gt;如果断点不生效，先检查是否用的是 Debug 变体。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;常见问题&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;提示 “gcc 不是内部或外部命令”&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;确认 &lt;code&gt;bin&lt;/code&gt; 目录已加入 &lt;code&gt;Path&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;重新打开终端或重启系统后再试。&lt;/li&gt;
+&lt;li&gt;确认路径没有中文或空格。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;CMake 找不到编译器&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;先确保 &lt;code&gt;gcc --version&lt;/code&gt; 可用。&lt;/li&gt;
+&lt;li&gt;关闭所有终端后重新打开再执行 CMake。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;方案四：CLion（专业 IDE）&lt;/h2&gt;
+&lt;p&gt;CLion 是 JetBrains 的 C/C++ IDE，内置 CMake 支持，现在非商业用途免费使用。&lt;/p&gt;
+&lt;h3&gt;1. 下载与安装&lt;/h3&gt;
+&lt;p&gt;官网下载：
+&lt;code&gt;https://www.jetbrains.com/clion/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;安装完成后首次启动会提示选择工具链。&lt;/p&gt;
+&lt;h3&gt;2. 配置工具链&lt;/h3&gt;
+&lt;p&gt;CLion 需要编译器和调试器，推荐搭配前文的 MinGW-w64。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;安装并配置 MinGW-w64（见“方案三”）。&lt;/li&gt;
+&lt;li&gt;打开 CLion，进入 &lt;code&gt;Settings&lt;/code&gt; → &lt;code&gt;Build, Execution, Deployment&lt;/code&gt; → &lt;code&gt;Toolchains&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;选择 &lt;code&gt;MinGW&lt;/code&gt;，并确保 &lt;code&gt;C Compiler&lt;/code&gt;、&lt;code&gt;C++ Compiler&lt;/code&gt;、&lt;code&gt;Debugger&lt;/code&gt; 指向你的 MinGW 目录。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;常见的 MinGW 路径示例：
+&lt;code&gt;D:\mingw64\bin&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;3. 创建并运行项目&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;New Project&lt;/code&gt; 选择 &lt;code&gt;C Executable&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;选择项目位置，CLion 会生成 &lt;code&gt;CMakeLists.txt&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;点击右上角运行按钮即可编译并运行。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;4. 使用建议&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;如果提示找不到编译器，优先检查 &lt;code&gt;Toolchains&lt;/code&gt; 配置。&lt;/li&gt;
+&lt;li&gt;如果 CMake 报错，删除项目下的 &lt;code&gt;cmake-build-*&lt;/code&gt; 目录后重新加载。&lt;/li&gt;
+&lt;li&gt;CLion 对 CMake 支持很好，建议后续项目统一使用 CMake 管理。&lt;/li&gt;
+&lt;/ol&gt;
+</content:encoded></item><item><title>使用 nvm 安装和管理 Node.js</title><link>https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85node%E7%8E%AF%E5%A2%83/</link><guid isPermaLink="true">https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85node%E7%8E%AF%E5%A2%83/</guid><description>使用 nvm 安装、切换和管理多版本 Node.js，并配置镜像与 pnpm。</description><pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;使用 &lt;code&gt;nvm&lt;/code&gt; 安装和管理 Node.js&lt;/p&gt;
 &lt;h2&gt;适用场景&lt;/h2&gt;
 &lt;p&gt;如果你需要在同一台电脑上安装多个 Node.js 版本，或经常切换版本进行开发，推荐使用 &lt;code&gt;nvm&lt;/code&gt; 来管理。为避免冲突，建议先卸载电脑中已有的 Node.js。&lt;/p&gt;
 &lt;h2&gt;nvm 简介&lt;/h2&gt;
