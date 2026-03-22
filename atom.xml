@@ -5,7 +5,7 @@
   <link href="https://xsgovo.github.io/" rel="alternate" type="text/html"/>
   <link href="https://xsgovo.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://xsgovo.github.io/</id>
-  <updated>2026-03-21T15:55:10.806Z</updated>
+  <updated>2026-03-22T10:54:15.768Z</updated>
   <language>zh_CN</language>
   <entry>
     <title>Windows 配置 C 语言开发环境</title>
@@ -14,58 +14,164 @@
     <published>2026-03-21T00:00:00.000Z</published>
     <updated>2026-03-21T00:00:00.000Z</updated>
     <summary>在 Windows 上安装 C 语言开发环境，包含编译器选择、VS Code 配置与 CMake 管理项目的方法。</summary>
-    <content type="html"><![CDATA[<p>本教程面向 Windows 用户，目标是用最少步骤搭好 C 语言环境，并能通过 CMake 管理项目。</p>
-<h2>选择方案</h2>
-<p>如果你是初学者或做课程作业，推荐方案三（MinGW-w64 + VS Code），轻量且通用。</p>
+    <content type="html"><![CDATA[<p>说实话，之前我刚学 C 语言的时候，被各种编译器、安装配置折磨得够呛。这篇文章会手把手教你搭建环境，从最简单的方案到进阶的 CMake 管理项目的方法都会讲到。好了，让我们开始吧！</p>
+<hr />
+<h2>方案选择</h2>
+<p>市面上的 C 语言开发方案还挺多的，我先把各个方案的特点列出来，方便你选择。</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>特点</th>
+<th>推荐度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dev-C++</td>
+<td>简单但功能有限</td>
+<td>一般</td>
+</tr>
+<tr>
+<td>Visual Studio</td>
+<td>集成度高，体积较大</td>
+<td>还行</td>
+</tr>
+<tr>
+<td>MinGW-w64 + VS Code</td>
+<td>轻量、通用、灵活</td>
+<td>强烈推荐</td>
+</tr>
+<tr>
+<td>CLion</td>
+<td>专业 C/C++ IDE</td>
+<td>推荐</td>
+</tr>
+</tbody>
+</table>
+<p>如果你和一样是初学者，或者只是用来做课程作业，我个人最推荐MinGW-w64 搭配 VS Code。这个组合比较轻量，而且 VS Code 用起来真的很舒服。当然，如果你想要更专业的 IDE，CLion 也是不错的选择。</p>
+<hr />
+<h2>Dev-C++</h2>
+<p>先说说 Dev-C++ 吧。这个算是比较老牌的选择了，安装简单，打开就能用。</p>
+<p>这里推荐使用小熊猫改版的 Dev-C++，比原版好用很多。</p>
+<p>官方下载地址是：http://royqh.net/redpandacpp/download/</p>
+<p>安装完成后就可以新建 C 项目并运行了，非常适合不想折腾的同学。</p>
+<hr />
+<h2>Visual Studio</h2>
+<p>如果你想要一个功能强大的 IDE，Visual Studio 是个不错的选择。虽然体积大了点，但集成度真的很高。</p>
+<p>值得注意的是，Visual Studio默认采用的是MSVC编译器，而国内教材上默认都使用GCC编译器，部分函数可能会有差异，比如典中典的<code>scanf_s()</code>和<code>scanf()</code>。</p>
+<h3>安装步骤</h3>
 <ol>
-<li>Dev-C++（简单但功能有限）</li>
-<li>Visual Studio（集成度高，体积较大）</li>
-<li>MinGW-w64 + VS Code（推荐）</li>
-<li>CLion（专业 C/C++ IDE）</li>
+<li>
+<p><strong>下载安装器</strong></p>
+<p>访问 Visual Studio 官网：https://visualstudio.microsoft.com/zh-hans/
+这里下载的是Visual Studio Installer。</p>
+</li>
+<li>
+<p><strong>选择Visual Studio版本</strong></p>
+<p>安装后打开Visual Studio Installer，在可用一栏找到Visual Studio Community 2026版本安装。</p>
+</li>
+<li>
+<p><strong>选择工作负载</strong></p>
+<p>安装的时候，记得勾选「使用 C++ 的桌面开发」这个选项。</p>
+</li>
+<li>
+<p><strong>完成安装</strong></p>
+<p>等安装完成就可以用了。</p>
+</li>
 </ol>
-<p>下面以推荐方案为主，其他方案提供简要说明。</p>
-<h2>方案一：Dev-C++（可选）</h2>
-<p>推荐使用小熊猫改版的 Dev-C++。</p>
-<p>下载：
-<code>http://royqh.net/redpandacpp/download/</code></p>
-<p>安装完成后即可新建 C 项目并运行。</p>
-<h2>方案二：Visual Studio（可选）</h2>
-<p>下载并安装 Visual Studio Installer，选择 Community 版本即可。</p>
-<p>安装时选择工作负荷：
-<code>使用 C++ 的桌面开发</code></p>
-<p>安装完成后即可使用。</p>
-<h2>方案三：MinGW-w64 + VS Code（推荐）</h2>
+<hr />
+<h2>MinGW-w64 + VS Code（推荐）</h2>
+<p>重头戏来了！这是我最推荐的方案，也是我自己一直在用的组合。<s>主要是方便Vibe Coding</s></p>
 <h3>1. 下载并解压 MinGW-w64</h3>
-<p>官方站点：
-<code>https://winlibs.com/</code></p>
-<p>如果官网下载慢，可以使用网盘镜像：</p>
-<ul>
-<li>123 云盘：<code>https://www.123865.com/s/JnJ5Vv-GWIMA?pwd=ONsx#</code></li>
-<li>百度网盘：<code>https://pan.baidu.com/s/1MY19qEViOL0W4qTfl3CKFA?pwd=pcae</code>（提取码：<code>pcae</code>）</li>
-<li>夸克网盘：<code>https://pan.quark.cn/s/769ab8ff174c?pwd=dkm2</code>（提取码：<code>dkm2</code>）</li>
-</ul>
-<p>下载后解压，建议放在非中文路径，例如：
-<code>D:\mingw64</code></p>
+<p>MinGW-w64 是一个 GCC 编译器在 Windows 上的移植版本，我们主要用到它的 gcc 编译器。这里我们使用winlib，里面包含了在Windows上C和C++的常用工具。</p>
+<h4>官方下载</h4>
+<p>官网地址是：https://winlibs.com/</p>
+<p>如果你觉得官网下载太慢，我这里也整理了国内的网盘链接：</p>
+<table>
+<thead>
+<tr>
+<th>云盘类型</th>
+<th>下载地址</th>
+<th>提取码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>123 云盘</td>
+<td>https://www.123865.com/s/JnJ5Vv-GWIMA?pwd=ONsx#</td>
+<td>ONsx</td>
+</tr>
+<tr>
+<td>百度网盘</td>
+<td>https://pan.baidu.com/s/1MY19qEViOL0W4qTfl3CKFA?pwd=pcae</td>
+<td>pcae</td>
+</tr>
+<tr>
+<td>夸克网盘</td>
+<td>https://pan.quark.cn/s/769ab8ff174c?pwd=dkm2</td>
+<td>dkm2</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>小提醒：下载完成后解压，建议放在非中文路径下，比如 D:\mingw64，这样后续配置起来会省心很多。</p>
+</blockquote>
+<hr />
 <h3>2. 配置环境变量</h3>
-<p>优先尝试解压目录下的脚本：
-<code>mingwvars.bat</code></p>
-<p>如果脚本无效，手动把 <code>bin</code> 目录加入系统环境变量 <code>Path</code>：</p>
-<p><code>D:\mingw64\bin</code></p>
+<p>好，下载并解压完成后，我们需要把 MinGW 的 bin 目录添加到系统环境变量里，这样系统才能找到 gcc 命令。</p>
+<h4>方式一：使用脚本</h4>
+<p>解压后的目录里应该有一个 <code>mingwvars.bat</code> 脚本，双击运行一下试试。</p>
+<h4>方式二：手动配置</h4>
+<p>如果脚本不好用，那我们就手动来：</p>
+<ol>
+<li>右键「此电脑」-「属性」</li>
+<li>点击「高级系统设置」</li>
+<li>点击「环境变量」</li>
+<li>在「系统变量」里找到 Path，双击编辑</li>
+<li>新建一个条目，输入 <code>D:\mingw64\bin</code>（改成你实际的解压路径）</li>
+<li>确定保存</li>
+</ol>
+<hr />
 <h3>3. 验证安装</h3>
-<p>打开终端（PowerShell / CMD），输入：</p>
+<p>环境变量配置好以后，我们需要验证一下安装是否成功。</p>
+<p>打开 PowerShell 或者 CMD，输入：</p>
 <pre><code>gcc --version
 </code></pre>
-<p>能看到版本信息说明配置成功。</p>
-<h3>4. 安装 VS Code（可选但推荐）</h3>
-<p>下载：
-<code>https://code.visualstudio.com/</code></p>
-<p>建议安装扩展：</p>
-<ul>
-<li>C/C++（Microsoft）</li>
-<li>CMake Tools（Microsoft）</li>
-</ul>
-<h2>使用命令编译 C 程序</h2>
-<p>创建 <code>main.c</code>：</p>
+<p>如果能看到 gcc 的版本信息，说明配置成功啦！</p>
+<hr />
+<h3>4. 安装 VS Code</h3>
+<p>VS Code 是微软出品的代码编辑器，非常好用，而且插件生态很丰富。</p>
+<h4>下载</h4>
+<p>VS Code 官网：https://code.visualstudio.com/</p>
+<h4>推荐安装的插件</h4>
+<table>
+<thead>
+<tr>
+<th>插件名称</th>
+<th>提供者</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C/C++</td>
+<td>Microsoft</td>
+<td>C/C++ 语言支持，包括代码补全、语法高亮等</td>
+</tr>
+<tr>
+<td>CMake Tools</td>
+<td>Microsoft</td>
+<td>CMake 项目管理插件</td>
+</tr>
+</tbody>
+</table>
+<p>这两个插件是必装的，装好之后 VS Code 就能很好地支持 C 语言开发了。</p>
+<hr />
+<h2>用命令编译 C 程序</h2>
+<p>环境搭好了，让我们来写一个最简单的 C 程序试试。</p>
+<h3>创建测试文件</h3>
+<p>新建一个文件叫 <code>main.c</code>，内容如下：</p>
 <pre><code>#include &lt;stdio.h&gt;
 
 int main() {
@@ -73,171 +179,203 @@ int main() {
     return 0;
 }
 </code></pre>
-<p>最基础编译并运行：</p>
-<pre><code>gcc main.c -o main
-.\main.exe
+<h3>编译并运行</h3>
+<p>在终端里执行：</p>
+<pre><code>gcc main.c -o main.exe
 </code></pre>
-<h2>使用 CMake 管理 C 项目</h2>
-<p>当项目变大时，推荐用 CMake 统一管理构建。</p>
-<h3>1. 项目结构示例</h3>
-<pre><code>.
-├── CMakeLists.txt
-├── include
-│   └── Hello.h
-└── src
-    ├── Hello.cpp
-    └── main.cpp
-
+<p>编译成功后，会生成一个 main.exe 文件，然后运行它：</p>
+<pre><code>.\main.exe
 </code></pre>
-<h3>2. 编写 CMakeLists.txt</h3>
-<pre><code># 指定构建此项目所需的最小 CMake 版本为 3.20
-# 如果用户安装的 CMake 版本低于此版本，配置过程将报错并停止
-cmake_minimum_required(VERSION 3.20)
-
-# 定义项目名称为 "hello_c"，并指定主要编程语言为 C
-# 这行命令会初始化项目变量，如 CMAKE_C_COMPILER 等
-project(hello_c C)
-
-# 添加一个可执行目标（即最终生成的程序），目标名为 "hello_c"
-# 该目标由源文件 src/main.c 编译而成
-# CMake 会自动处理编译和链接过程
-add_executable(hello_c
-    src/main.c
-)
-
-# 为目标 "hello_c" 设置头文件搜索路径（include 目录）
-# ${CMAKE_CURRENT_SOURCE_DIR} 表示当前 CMakeLists.txt 所在的目录
-# PRIVATE 表示这些头文件路径仅在当前目标内部有效，不会传递给依赖此目标的其他目标
-target_include_directories(hello_c PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
-
-# 设置目标 "hello_c" 的特定属性
-# 这里指定使用的 C 语言标准为 C11 (C_STANDARD 11)
-# C_STANDARD_REQUIRED YES 表示必须使用指定的标准，如果编译器不支持则报错
-set_target_properties(hello_c PROPERTIES
-    C_STANDARD 11
-    C_STANDARD_REQUIRED YES
-)
-</code></pre>
-<h3>3. 典型 CMake 用法补充</h3>
-<p>添加多个源文件：</p>
-<pre><code>add_executable(hello_c
-    src/main.c
-    src/util.c
-)
-</code></pre>
-<p>添加库并链接：</p>
-<pre><code>add_library(util STATIC src/util.c)
-target_link_libraries(hello_c PRIVATE util)
-</code></pre>
-<p>添加编译选项与宏：</p>
-<pre><code>target_compile_options(hello_c PRIVATE -Wall -Wextra)
-target_compile_definitions(hello_c PRIVATE DEBUG)
-</code></pre>
-<h3>4. 构建与运行</h3>
-<p>在项目根目录执行：</p>
-<pre><code>cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
-cmake --build build
-</code></pre>
-<p>运行可执行文件：</p>
-<pre><code>.\build\hello_c.exe
-</code></pre>
-<h3>5. 清理与重新生成</h3>
-<p>当 CMake 配置异常时，可以删除构建目录重新生成：</p>
-<pre><code>rmdir /s /q build
-cmake -S . -B build
-</code></pre>
-<h2>在 VS Code 使用 CMake 初始化项目</h2>
-<p>主要方式（推荐）：</p>
-<ol>
-<li><code>File</code> → <code>Open Folder</code> 打开项目根目录。</li>
-<li>按下<code>Ctrl+Shift+P</code> 或 <code>F1</code>，运行 <code>CMake: Quick Start</code>（创建项目的主要方式）。</li>
-<li>选择语言：<code>C</code>。</li>
-<li>输入项目名：例如 <code>hello_c</code>。</li>
-<li>选择项目类型：<code>Executable</code>（生成可执行文件）。</li>
-<li>选择生成器：推荐 <code>MinGW Makefiles</code> 或 <code>Ninja</code>。</li>
-<li>是否添加 <code>CTest</code> / <code>CPack</code>：按需选择（不需要就跳过）。</li>
-<li>选择要包含在<code>CMakeLists.txt</code>中的文件：勾选C语言源文件。</li>
-<li>是否添加预设（Presets）：可以先跳过，后续需要再添加。</li>
-</ol>
-<p><strong>CMake 会自动生成 <code>CMakeLists.txt</code>、<code>main.c</code> 和 <code>build</code> 目录，尽量减少手写配置。</strong></p>
-<p>补充说明：</p>
-<ul>
-<li><code>CTest</code> 用于自动化测试，便于与 CI/CD 集成。</li>
-<li><code>CPack</code> 用于打包发布，生成可安装或可分发的安装包。</li>
-</ul>
-<h2>VS Code 调试工作流（CMake）</h2>
-<p>推荐使用 CMake Tools 集成调试：</p>
-<ol>
-<li>确保 <code>CMake: Build</code> 成功。</li>
-<li>状态栏选择要调试的目标与变体（建议 <code>Debug</code>）。</li>
-<li>点击 <code>Debug</code> 按钮即可启动调试。</li>
-</ol>
-<p>如果需要手动配置 <code>launch.json</code>：</p>
+<p>看到输出 "Hello, World!" 就说明编译运行成功了！</p>
+<hr />
+<h3>用 VS Code 调试</h3>
+<p>虽然用命令行编译很酷，但每次都要手动输入命令确实有点麻烦。VS Code 提供了一套调试配置，我们可以根据自己的需要来定制。</p>
+<p>VS Code 会自动生成一些配置，但说实话，那些默认配置用起来不太顺手。我比较推荐自己在 .vscode 目录下创建 <code>launch.json</code> 和<code>tasks.json</code>这两个配置文件。</p>
+<h4>tasks.json（编译任务）</h4>
+<p>这个文件用来配置怎么编译你的代码：</p>
 <pre><code>{
-  "version": "0.2.0",
-  "configurations": [
+  "version": "2.0.0",
+  "tasks": [
     {
-      "name": "Debug CMake Target",
-      "type": "cppdbg",
-      "request": "launch",
-      "program": "${workspaceFolder}/build/hello_c.exe",
-      "args": [],
-      "stopAtEntry": false,
-      "cwd": "${workspaceFolder}",
-      "environment": [],
-      "externalConsole": false,
-      "MIMode": "gdb"
+      "label": "gcc build",
+      "type": "shell",
+      "command": "gcc",
+      "args": [
+        "-g",
+        "${fileBasename}",
+        "-o",
+        "${fileBasenameNoExtension}.exe"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
     }
   ]
 }
 </code></pre>
-<p>调试建议：</p>
+<h4>launch.json（调试配置）</h4>
+<p>这个文件用来配置怎么启动调试：</p>
+<pre><code>{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C Debug",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/${fileBasenameNoExtension}.exe",
+      "cwd": "${workspaceFolder}",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "externalConsole": false,
+      "preLaunchTask": "gcc build"
+    }
+  ]
+}
+</code></pre>
+<p>配置好这两个文件以后，写好 C 源文件，按下 F5 就可以直接调试运行了，比命令行方便多了。</p>
+<hr />
+<h2>用 CMake 管理多文件项目</h2>
+<p>当你写项目时，代码量变大了，就需要把代码拆分成多个文件来管理。这时候手动用 gcc 逐个编译就很麻烦了，推荐使用 CMake 来统一管理构建。</p>
+<h3>1. 项目结构示例</h3>
+<p>一个典型的 C 项目结构是这样的：</p>
+<pre><code>.
+├── CMakeLists.txt
+├── include
+│   └── hello.h
+└── src
+    ├── hello.c
+    └── main.c
+</code></pre>
+<p>我来分别创建这几个文件：</p>
+<p><code>hello.h</code>（头文件）：</p>
+<pre><code>#ifndef HELLO_H
+#define HELLO_H
+
+void say_hello();
+
+#endif
+</code></pre>
+<p><code>hello.c</code>（函数实现）：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include "../include/hello.h"
+
+void say_hello() {
+    printf("Hello, World!\n");
+}
+</code></pre>
+<p><code>main.c</code>（主程序）：</p>
+<pre><code>#include "hello.h"
+
+int main() {
+    say_hello();
+    return 0;
+}
+</code></pre>
+<h3>2. 编写 CMakeLists.txt</h3>
+<p><code>CMakeLists.txt</code> 是 CMake 的配置文件，告诉它怎么编译我们的项目：</p>
+<pre><code>cmake_minimum_required(VERSION 3.10)
+
+project(MyCProject C)
+
+set(CMAKE_C_STANDARD 11)
+
+set(CMAKE_BUILD_TYPE Debug)
+
+include_directories(include)
+
+add_executable(main
+    src/main.c
+    src/hello.c
+)
+</code></pre>
+<h3>配置 CMake Tools</h3>
+<p>在 VS Code 里配置 CMake Tools 有两种方式：</p>
 <ol>
-<li>使用 <code>-DCMAKE_BUILD_TYPE=Debug</code> 生成调试符号。</li>
-<li>确保 <code>gdb</code> 位于 <code>PATH</code> 中（MinGW-w64 自带）。</li>
-<li>如果断点不生效，先检查是否用的是 Debug 变体。</li>
+<li>在 VS Code 左侧点击 CMake 图标，然后点击「配置」按钮，选择 GCC 作为工具包</li>
+<li>直接点击 VS Code 底部的工具包按钮，选择 GCC</li>
 </ol>
-<h2>常见问题</h2>
-<p><strong>提示 “gcc 不是内部或外部命令”</strong></p>
-<ol>
-<li>确认 <code>bin</code> 目录已加入 <code>Path</code>。</li>
-<li>重新打开终端或重启系统后再试。</li>
-<li>确认路径没有中文或空格。</li>
-</ol>
-<p><strong>CMake 找不到编译器</strong></p>
-<ol>
-<li>先确保 <code>gcc --version</code> 可用。</li>
-<li>关闭所有终端后重新打开再执行 CMake。</li>
-</ol>
-<h2>方案四：CLion（专业 IDE）</h2>
-<p>CLion 是 JetBrains 的 C/C++ IDE，内置 CMake 支持，现在非商业用途免费使用。</p>
+<p>配置好之后，CMake Tools 会帮我们自动生成 build 目录，非常方便。</p>
+<hr />
+<h2>VS Code 调试 CMake 项目</h2>
+<p>用 CMake 构建的项目，调试配置会稍有不同。</p>
+<h3>tasks.json</h3>
+<pre><code>{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "cmake build",
+      "type": "shell",
+      "command": "cmake",
+      "args": ["--build", "build"],
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}
+</code></pre>
+<h3>launch.json</h3>
+<pre><code>{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "CMake Debug",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/main.exe",
+      "cwd": "${workspaceFolder}",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "externalConsole": false,
+      "preLaunchTask": "cmake build"
+    }
+  ]
+}
+</code></pre>
+<p>配置好之后，同样是按下 F5 就可以调试运行了。</p>
+<hr />
+<h2>CLion</h2>
+<p>最后简单介绍一下 CLion，这是 JetBrains 出品的专业 C/C++ IDE。</p>
 <h3>1. 下载与安装</h3>
-<p>官网下载：
-<code>https://www.jetbrains.com/clion/</code></p>
-<p>安装完成后首次启动会提示选择工具链。</p>
+<p>官网地址：https://www.jetbrains.com/zh-cn/clion/</p>
+<p>CLion 的好处是内置了对 CMake 的支持，而且功能非常全面。现在非商业用途也可以免费使用了，学生或者个人开发者都可以白嫖。</p>
 <h3>2. 配置工具链</h3>
-<p>CLion 需要编译器和调试器，推荐搭配前文的 MinGW-w64。</p>
+<p>CLion 需要编译器和调试器，我们之前安装的 MinGW-w64 正好可以用上。</p>
 <ol>
-<li>安装并配置 MinGW-w64（见“方案三”）。</li>
-<li>打开 CLion，进入 <code>Settings</code> → <code>Build, Execution, Deployment</code> → <code>Toolchains</code>。</li>
-<li>选择 <code>MinGW</code>，并确保 <code>C Compiler</code>、<code>C++ Compiler</code>、<code>Debugger</code> 指向你的 MinGW 目录。</li>
+<li>先确保 MinGW-w64 已经配置好（参考上面步骤）</li>
+<li>打开 CLion，进入 <code>设置</code> → <code>构建、执行、部署 </code>→ <code>工具链</code></li>
+<li>选择 MinGW，把路径指向 <code>D:\mingw64</code></li>
 </ol>
-<p>常见的 MinGW 路径示例：
-<code>D:\mingw64\bin</code></p>
 <h3>3. 创建并运行项目</h3>
 <ol>
-<li><code>New Project</code> 选择 <code>C Executable</code>。</li>
-<li>选择项目位置，CLion 会生成 <code>CMakeLists.txt</code>。</li>
-<li>点击右上角运行按钮即可编译并运行。</li>
+<li>新建项目，选择 C Executable</li>
+<li>选择保存位置，CLion 会自动生成 CMakeLists.txt</li>
+<li>点击右上角的运行按钮就可以编译运行了</li>
 </ol>
 <h3>4. 使用建议</h3>
+<ul>
+<li>如果提示找不到编译器，先检查 Toolchains 配置</li>
+<li>如果 CMake 报错，删掉项目下的 cmake-build-* 目录，然后重新加载</li>
+<li>建议后续项目都用 CMake 来管理，这样迁移到其他 IDE 也方便</li>
+</ul>
+<hr />
+<h2>常见问题</h2>
+<p>最后整理几个常见的问题和解决方法：</p>
+<h3>问题一：提示 "gcc 不是内部或外部命令"</h3>
+<p>这说明环境变量没有配置好。检查一下：</p>
 <ol>
-<li>如果提示找不到编译器，优先检查 <code>Toolchains</code> 配置。</li>
-<li>如果 CMake 报错，删除项目下的 <code>cmake-build-*</code> 目录后重新加载。</li>
-<li>CLion 对 CMake 支持很好，建议后续项目统一使用 CMake 管理。</li>
+<li>确认 bin 目录已经加到 Path 里了</li>
+<li>重启终端或者重启电脑后再试试</li>
+<li>确认路径没有中文或者空格</li>
 </ol>
+<h3>问题二：CMake 找不到编译器</h3>
+<ol>
+<li>先确认 <code>gcc --version</code> 能正常输出版本</li>
+<li>关掉所有终端，重新打开再执行 CMake</li>
+</ol>
+<hr />
+<p>好了，这篇教程就到这里啦！希望能够帮助大家顺利搭建好 C 语言的开发环境。</p>
 ]]></content>
     <author>
       <name>小丝瓜</name>
