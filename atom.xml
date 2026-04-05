@@ -5,12 +5,12 @@
   <link href="https://xsgovo.github.io/" rel="alternate" type="text/html"/>
   <link href="https://xsgovo.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://xsgovo.github.io/</id>
-  <updated>2026-04-02T03:47:57.604Z</updated>
+  <updated>2026-04-05T12:33:07.711Z</updated>
   <language>zh_CN</language>
   <entry>
     <title>Windows 配置 C 语言开发环境</title>
-    <link href="https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85c%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83/" rel="alternate" type="text/html"/>
-    <id>https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85c%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83/</id>
+    <link href="https://xsgovo.github.io/20260321a/" rel="alternate" type="text/html"/>
+    <id>https://xsgovo.github.io/20260321a/</id>
     <published>2026-03-21T00:00:00.000Z</published>
     <updated>2026-03-21T00:00:00.000Z</updated>
     <summary>在 Windows 上安装 C 语言开发环境，包含编译器选择、VS Code 配置与 CMake 管理项目的方法。</summary>
@@ -384,95 +384,171 @@ add_executable(main
   </entry>
   <entry>
     <title>使用 nvm 安装和管理 Node.js</title>
-    <link href="https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85node%E7%8E%AF%E5%A2%83/" rel="alternate" type="text/html"/>
-    <id>https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85node%E7%8E%AF%E5%A2%83/</id>
+    <link href="https://xsgovo.github.io/20260320a/" rel="alternate" type="text/html"/>
+    <id>https://xsgovo.github.io/20260320a/</id>
     <published>2026-03-20T00:00:00.000Z</published>
     <updated>2026-03-20T00:00:00.000Z</updated>
     <summary>使用 nvm 安装、切换和管理多版本 Node.js，并配置镜像与 pnpm。</summary>
-    <content type="html"><![CDATA[<p>使用 <code>nvm</code> 安装和管理 Node.js</p>
-<h2>适用场景</h2>
-<p>如果你需要在同一台电脑上安装多个 Node.js 版本，或经常切换版本进行开发，推荐使用 <code>nvm</code> 来管理。为避免冲突，建议先卸载电脑中已有的 Node.js。</p>
-<h2>nvm 简介</h2>
-<p><code>nvm</code>（Node Version Manager）是 Node.js 的版本管理工具。它可以安装和切换不同版本的 Node.js，以解决不同项目对版本兼容性的需求。</p>
-<h2>安装 nvm</h2>
-<p>下载地址：
-<code>https://nvm.uihtm.com/doc/download-nvm</code></p>
-<p>安装时注意两点：</p>
-<ol>
-<li>安装目录建议放在非中文路径，例如 <code>D:\nvm</code>。</li>
-<li>Node.js 安装目录建议放在<code>nvm</code>的目录下 <code>D:\nvm\nodejs</code>，之后通过 <code>nvm</code> 安装的 Node.js 版本都会统一放在这里。</li>
-</ol>
-<h2>配置下载镜像（可选）</h2>
-<p>如果 <code>nvm</code> 下载 Node.js 失败，可以切换到国内镜像。</p>
-<p>方式一：使用命令设置镜像</p>
+    <content type="html"><![CDATA[<p>你知道人类最古老的三大错觉是什么吗？</p>
+<p>第一，我能反杀。</p>
+<p>第二，这件衣服我以后会穿。</p>
+<p>第三，这次装的 Node.js 版本，应该够用了。</p>
+<hr />
+<p>你们有没有遇到过这种情况。</p>
+<p>你在公司里干活，用的是 Node 16。你们组那个祖传项目，是 Node 8 写的。你们老大说："别动，能跑就行。"</p>
+<p>你回到家，想搞点自己的小项目，人家要求 Node 22。你装上了 Node 22，祖传项目打不开了。你又装回 Node 14，新项目又报错了。</p>
+<p>于是你开始研究："能不能让两个版本同时存在？"</p>
+<p>你搜了一下，发现有一种东西叫"版本管理器"。你说太好了，装一个。</p>
+<p>然后你又遇到了一个新问题：<strong>Windows 用户该用哪个版本管理器？</strong></p>
+<hr />
+<h2>关于 nvm 这件事</h2>
+<p>好，先说为什么是 nvm。</p>
+<p>nvm 干的事情，就是给你一个可以切换不同版本的容器。</p>
+<p>它把你的每一个 Node 版本装在各自的目录里。你想用哪个，它就把哪个的目录加到环境变量里。一条命令，三秒切换。</p>
+<p>而且如果你用的是 Windows，请认准 <strong>nvm-windows</strong>。其他的 nvm 是给 Mac 和 Linux 用的，你别装错了。装错了你也装不上，但你会花五分钟去研究为什么装不上。</p>
+<p>这时你可能会说，为什么不用 fnm、Volta 呢？不也可以管理 Node 版本吗？</p>
+<p>我只能说当然可以，但是没必要。</p>
+<p>你大概率是从某个满脑子幻觉的 AI 那里听到过这些工具，但对于我来说都大差不差。</p>
+<p>我想你也是。</p>
+<p>因为<strong>你大概率不想在环境工具上搞科研。</strong></p>
+<hr />
+<h2>安装这件事——有两个坑</h2>
+<p>去这个地址下载：<code>https://nvm.uihtm.com/doc/download-nvm</code></p>
+<p>找到 Windows 的安装包，下载，运行。</p>
+<p>安装过程没什么可说的，没有什么坑。</p>
+<p>拿到安装程序后，一直点击下一步，你的 nvm 大概率会安装在 <code>C:\Users\&lt;你的用户名&gt;\AppData\Roaming\nvm</code></p>
+<p>而 Node.js 的安装目录会在 <code>C:\nvm4w\nodejs</code></p>
+<p>那么恭喜你，此时你的 nvm 就已经可以用了。</p>
+<p>但是如果你得了<strong>安装到 C 盘就不舒服</strong>的强迫症，那么你需要在安装的时候手动选择路径。</p>
+<p><strong>第一件事——nvm 安装路径。</strong></p>
+<p>运行安装程序后，安装程序会让你选一个目录。</p>
+<p>我建议你选一个<strong>纯英文、没有空格、没有中文</strong>的路径。</p>
+<p>就比如说：</p>
+<pre><code>D:\nvm
+</code></pre>
+<p>就放 D 盘根目录，一个干净的文件夹。</p>
+<p>为什么？</p>
+<p>因为 Windows 的命令行工具对中文和空格非常敏感。如果你的路径里有空格——比如 "Program Files" 里的那个空格——nvm 在设置环境变量的时候就会出问题。</p>
+<p>出问题之后会怎样？</p>
+<p>你去终端里输入 <code>nvm</code>，它会回你一句：</p>
+<p><strong>'nvm' 不是内部或外部命令，也不是可运行的程序或批处理文件。</strong></p>
+<p>你看到这个提示的时候，通常已经装完五分钟了。你会开始怀疑人生，怀疑自己是不是做错了什么，怀疑这台电脑是不是有自己的意志。</p>
+<p>然后你开始重启电脑。</p>
+<p>重启能解决 90% 的问题。但解决不了这个。</p>
+<p>所以，从源头杜绝：<strong>选纯英文路径。</strong></p>
+<p><strong>第二件事——Node.js 的安装目录。</strong></p>
+<p>安装程序还会问你，Node.js 装在哪里。</p>
+<p>通常你配置完 nvm 路径下一步就是这个。</p>
+<p>建议你填 nvm 目录下面的一个子目录，比如：</p>
+<pre><code>D:\nvm\nodejs
+</code></pre>
+<p>以后你通过 nvm 安装的所有 Node 版本，都会放在 <code>D:\nvm\nodejs</code> 里面。你的 C 盘不会被污染，你的管理界面是干净的。</p>
+<hr />
+<h2>nvm 镜像——这可能是最重要的配置</h2>
+<p>好，nvm 装好了。现在你可以开始安装 Node.js 了。</p>
+<p>但在你安装之前——</p>
+<p><strong>如果你是中国大陆用户，这一步你必须做。</strong></p>
+<p>这一步叫配置镜像。</p>
+<p>由于 nvm 默认是从 Node.js 的官方服务器下载的，那个服务器在国外。你在中国的家里访问它，就像你用 2G 信号刷视频——能打开，但会浪费你为数不多的耐心。</p>
+<p>有时候更惨——你直接超时，连不上。</p>
+<p><strong>npmmirror</strong> 就是你们熟悉的淘宝镜像。稳定、快速，在大陆访问毫无压力。</p>
+<p>所以你要告诉 nvm：以后下载 Node.js，去这个地址，在终端输入：</p>
 <pre><code>nvm node_mirror https://npmmirror.com/mirrors/node/
 </code></pre>
-<p>方式二：在nvm的安装目录修改 <code>settings.txt</code>（不推荐）</p>
-<p>默认路径通常是：<code>C:\Users\用户名\AppData\Local\nvm</code></p>
-<p>在 <code>settings.txt</code> 中添加：</p>
-<pre><code>node_mirror: https://npmmirror.com/mirrors/node/
-</code></pre>
-<h2>安装与切换 Node.js</h2>
-<p>安装最新的 22 大版本：</p>
+<hr />
+<h2>安装、切换、卸载</h2>
+<p>好了，镜像配好了，现在开始安装 Node.js。</p>
+<h3>安装</h3>
+<p>你想装 Node 22，最新版的大版本，直接：</p>
 <pre><code>nvm install 22
 </code></pre>
-<p>安装指定版本：</p>
-<pre><code>nvm install 22.19.5
+<p>nvm 会自动给你装上 22 大版本里最新的那个。比如现在是 22.19.5。</p>
+<p>如果你想装一个精确的版本，比如你想用 20.18.0，因为你的项目刚好卡在这个版本上，就：</p>
+<pre><code>nvm install 20.18.0
 </code></pre>
-<p>切换版本：</p>
+<h3>切换</h3>
+<p>装好了，怎么切换？</p>
 <pre><code>nvm use 22
 </code></pre>
-<p>或切换到指定版本：</p>
-<pre><code>nvm use 22.19.5
+<p>这条命令做了一件事——它把你的 <code>PATH</code> 环境变量指向 22 版本对应的目录。</p>
+<p>从这一刻起，你终端里输入的 <code>node</code>、<code>npm</code>、<code>npx</code>，全部都会用 22 版本的。</p>
+<h3>卸载</h3>
+<p>不想要的版本，直接删：</p>
+<pre><code>nvm uninstall 20.18.0
 </code></pre>
-<p>卸载指定版本：</p>
-<pre><code>nvm uninstall 22.19.5
+<p>这个版本的目录会被清理掉。</p>
+<h3>常用命令</h3>
+<p>这里我整理了一下 nvm 最常用的命令：</p>
+<pre><code>nvm install &lt;版本号&gt;      # 安装指定版本
+nvm list                  # 查看已安装的版本
+nvm list available        # 查看所有可安装的版本
+nvm use &lt;版本号&gt;          # 切换到指定版本
+nvm uninstall &lt;版本号&gt;    # 卸载指定版本
+nvm root                  # 查看 Node.js 安装根目录
 </code></pre>
-<h2>常用 nvm 命令</h2>
-<ul>
-<li><code>nvm install &lt;version&gt; [arch]</code>：安装指定版本，<code>arch</code> 可选 32/64 位，默认与系统一致，可加 <code>--insecure</code> 跳过 SSL 校验</li>
-<li><code>nvm list [available]</code>：列出已安装版本，<code>available</code> 显示可安装的所有版本（<code>list</code> 可简写为 <code>ls</code>）</li>
-<li><code>nvm uninstall &lt;version&gt;</code>：卸载指定版本</li>
-<li><code>nvm use &lt;version&gt; [arch]</code>：切换到指定版本</li>
-<li><code>nvm root [path]</code>：设置或查看 Node.js 版本存放目录</li>
-</ul>
-<h2>安装 pnpm（推荐）</h2>
-<h3>方式一：使用 npm 全局安装</h3>
-<pre><code>npm install -g pnpm
-</code></pre>
-<p>验证是否安装成功：</p>
-<pre><code>pnpm -v
-</code></pre>
-<h3>方式二：使用 Corepack（推荐）</h3>
-<p>如果你使用的是 <strong>Node.js 16.13+</strong>，可以通过 <code>corepack</code> 来管理 <code>pnpm</code> 和 <code>yarn</code>，不需要额外的全局安装。</p>
-<p>Corepack 的特点：</p>
-<ul>
-<li><code>npm -g</code>：直接在全局目录安装 <code>pnpm</code> 可执行文件</li>
-<li><code>corepack enable</code>：生成代理脚本，根据项目 <code>package.json</code> 的 <code>packageManager</code> 字段自动下载并使用对应版本</li>
-</ul>
-<p>启用并安装最新 <code>pnpm</code>：</p>
-<pre><code>corepack enable
-corepack prepare pnpm@latest --activate
-</code></pre>
-<h2>切换 npm / pnpm 镜像源（可选）</h2>
-<p>npm：</p>
+<p>这些命令，你用熟了之后，版本切换就是两秒钟的事情。</p>
+<p><strong>你再也不用为版本号的事情焦虑了。</strong></p>
+<p>你焦虑的东西可以少一件。这个世界上的焦虑已经够多了。</p>
+<hr />
+<h2>npm 和 pnpm 的镜像</h2>
+<p>nvm 搞定了，顺手把包管理器的镜像也配一下。</p>
+<p>因为 npm 默认也是走官方源，在大陆访问慢，有时候包直接装不上。</p>
+<p>两条命令：</p>
 <pre><code>npm config set registry https://registry.npmmirror.com
 </code></pre>
-<p>pnpm：</p>
 <pre><code>pnpm config set registry https://registry.npmmirror.com
 </code></pre>
-<h2>常见问题</h2>
-<p><strong>提示 “nvm 不是内部或外部命令”</strong></p>
-<ol>
-<li>确认 <code>nvm</code> 已正确安装。</li>
-<li>检查环境变量是否生效（重新打开终端或重启系统后再试）。</li>
-<li>确保安装路径没有中文字符。</li>
-</ol>
-<p><strong>nvm 下载 Node.js 失败</strong></p>
-<ol>
-<li>先尝试配置镜像（见上方“配置下载镜像”）。</li>
-<li>如果仍失败，检查网络代理或防火墙设置。</li>
-</ol>
+<p>配完之后，<code>npm install</code> 和 <code>pnpm install</code> 都会走淘宝镜像，速度直接起飞。</p>
+<p><strong>npm 的镜像和 nvm 的镜像，配置方式不同，但来源是一样的——都是 npmmirror。</strong></p>
+<p>你可能会问：我用 npm 还是 pnpm？</p>
+<p>我推荐 pnpm。</p>
+<p><strong>但 pnpm 这件事，我想单独说一段。</strong></p>
+<hr />
+<h2>pnpm——我是怎么从 npm 叛逃的</h2>
+<p>pnpm 是什么？</p>
+<p>简单说——是一个比 npm 更好用的包管理器。</p>
+<p>npm 的问题是：每次你 <code>npm install</code>，它会把所有依赖包复制到当前项目目录里。你十个项目用同一个包，那个包就被复制了十份。</p>
+<p>pnpm 解决这个的方式是——<strong>它不复制，它链接</strong>。所有项目共享同一个真实目录，然后通过硬链接或符号链接的方式"假装"每个项目都有自己的一份。</p>
+<p>这样做的结果是：安装更快，磁盘占用更少，依赖管理更干净。</p>
+<p>pnpm 还有一个很酷的功能——它能自动检测你 <code>node_modules</code> 里的包是否和 <code>package.json</code> 里声明的一致。如果有人偷偷改了包，你一眼就能看出来。</p>
+<p><strong>所以 pnpm 不仅仅是快——它更安全。</strong></p>
+<p>怎么装 pnpm？<strong>有两种方式。</strong></p>
+<h3>方式一：npm 全局安装</h3>
+<p>如果你用的还是上古 Node.js，还不支持 corepack。</p>
+<p>没有关系，nvm 会帮你搞定这一切的，你可以放心直接全局安装 pnpm：</p>
+<pre><code>npm install -g pnpm
+</code></pre>
+<p>装完之后验证一下：</p>
+<pre><code>pnpm -v
+</code></pre>
+<p>看到版本号就说明装好了。</p>
+<h3>方式二：Corepack</h3>
+<p>如果你用的是 Node.js 16.13 及以上，你不需要额外安装 pnpm。</p>
+<p>因为从 Node.js 16.13 开始，Node.js 自带了一个工具叫 <strong>Corepack</strong>。</p>
+<p>Corepack 不是一个包管理器——它是一个<strong>包管理器的代理</strong>。</p>
+<p>什么意思？</p>
+<p>它的原理是这样的：你在项目里有一个 <code>package.json</code>，里面有一行：</p>
+<pre><code>"packageManager": "pnpm@9.0.0"
+</code></pre>
+<p>当你第一次在这个项目里运行 <code>pnpm install</code> 的时候，Corepack 会自动去下载 9.0.0 版本的 pnpm，然后执行。</p>
+<p><strong>你不需要提前安装 pnpm。</strong></p>
+<p>你团队里的每个人，每个项目，用的都是同一个版本号。不存在"我装了最新版 pnpm，但你的老项目需要旧版本"的问题。</p>
+<p>启用 Corepack：</p>
+<pre><code>corepack enable pnpm
+</code></pre>
+<h2>结语</h2>
+<p>好了，我们来回顾一下。</p>
+<p><strong>nvm 解决了什么问题？</strong></p>
+<p>版本隔离的问题。你再也不用卸载重装了。</p>
+<p><strong>镜像解决了什么问题？</strong></p>
+<p>下载速度的问题。你再也不用对着进度条发呆了。</p>
+<p><strong>pnpm 解决了什么问题？</strong></p>
+<p>包管理效率的问题。你再也不用看着 C 盘一点点被蚕食了。</p>
+<p>这三件套组合起来，你就拥有了一套稳定、灵活、高效的 Node.js 本地开发环境。</p>
+<p><strong>工具存在的意义，是让你有更多时间去关心真正重要的事情。</strong></p>
+<p>而不是让你花三个小时研究为什么你的 Node 版本装不上去。</p>
+<p>如果这个教程帮你解决了问题——</p>
+<p><strong>那说明你终于下定决心，把那些本该浪费在配置环境上的时间，用来做真正有意义的事情了。</strong></p>
 ]]></content>
     <author>
       <name>小丝瓜</name>
@@ -481,8 +557,8 @@ corepack prepare pnpm@latest --activate
   </entry>
   <entry>
     <title>Ubuntu 安装 MySQL</title>
-    <link href="https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85mysql/" rel="alternate" type="text/html"/>
-    <id>https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85mysql/</id>
+    <link href="https://xsgovo.github.io/20260308a/" rel="alternate" type="text/html"/>
+    <id>https://xsgovo.github.io/20260308a/</id>
     <published>2026-03-08T00:00:00.000Z</published>
     <updated>2026-03-08T00:00:00.000Z</updated>
     <summary>介绍在 Ubuntu 系统上安装、配置并开启远程访问 MySQL 数据库的步骤。</summary>

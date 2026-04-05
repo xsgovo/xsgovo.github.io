@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>丝瓜研究所</title><description>No description</description><link>https://xsgovo.github.io/</link><language>zh_CN</language><item><title>Windows 配置 C 语言开发环境</title><link>https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85c%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83/</link><guid isPermaLink="true">https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85c%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83/</guid><description>在 Windows 上安装 C 语言开发环境，包含编译器选择、VS Code 配置与 CMake 管理项目的方法。</description><pubDate>Sat, 21 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;说实话，之前我刚学 C 语言的时候，被各种编译器、安装配置折磨得够呛。这篇文章会手把手教你搭建环境，从最简单的方案到进阶的 CMake 管理项目的方法都会讲到。好了，让我们开始吧！&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>丝瓜研究所</title><description>No description</description><link>https://xsgovo.github.io/</link><language>zh_CN</language><item><title>Windows 配置 C 语言开发环境</title><link>https://xsgovo.github.io/20260321a/</link><guid isPermaLink="true">https://xsgovo.github.io/20260321a/</guid><description>在 Windows 上安装 C 语言开发环境，包含编译器选择、VS Code 配置与 CMake 管理项目的方法。</description><pubDate>Sat, 21 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;说实话，之前我刚学 C 语言的时候，被各种编译器、安装配置折磨得够呛。这篇文章会手把手教你搭建环境，从最简单的方案到进阶的 CMake 管理项目的方法都会讲到。好了，让我们开始吧！&lt;/p&gt;
 &lt;hr /&gt;
 &lt;h2&gt;方案选择&lt;/h2&gt;
 &lt;p&gt;市面上的 C 语言开发方案还挺多的，我先把各个方案的特点列出来，方便你选择。&lt;/p&gt;
@@ -360,91 +360,167 @@ add_executable(main
 &lt;/ol&gt;
 &lt;hr /&gt;
 &lt;p&gt;好了，这篇教程就到这里啦！希望能够帮助大家顺利搭建好 C 语言的开发环境。&lt;/p&gt;
-</content:encoded></item><item><title>使用 nvm 安装和管理 Node.js</title><link>https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85node%E7%8E%AF%E5%A2%83/</link><guid isPermaLink="true">https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85node%E7%8E%AF%E5%A2%83/</guid><description>使用 nvm 安装、切换和管理多版本 Node.js，并配置镜像与 pnpm。</description><pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;使用 &lt;code&gt;nvm&lt;/code&gt; 安装和管理 Node.js&lt;/p&gt;
-&lt;h2&gt;适用场景&lt;/h2&gt;
-&lt;p&gt;如果你需要在同一台电脑上安装多个 Node.js 版本，或经常切换版本进行开发，推荐使用 &lt;code&gt;nvm&lt;/code&gt; 来管理。为避免冲突，建议先卸载电脑中已有的 Node.js。&lt;/p&gt;
-&lt;h2&gt;nvm 简介&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;nvm&lt;/code&gt;（Node Version Manager）是 Node.js 的版本管理工具。它可以安装和切换不同版本的 Node.js，以解决不同项目对版本兼容性的需求。&lt;/p&gt;
-&lt;h2&gt;安装 nvm&lt;/h2&gt;
-&lt;p&gt;下载地址：
-&lt;code&gt;https://nvm.uihtm.com/doc/download-nvm&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;安装时注意两点：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;安装目录建议放在非中文路径，例如 &lt;code&gt;D:\nvm&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;Node.js 安装目录建议放在&lt;code&gt;nvm&lt;/code&gt;的目录下 &lt;code&gt;D:\nvm\nodejs&lt;/code&gt;，之后通过 &lt;code&gt;nvm&lt;/code&gt; 安装的 Node.js 版本都会统一放在这里。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2&gt;配置下载镜像（可选）&lt;/h2&gt;
-&lt;p&gt;如果 &lt;code&gt;nvm&lt;/code&gt; 下载 Node.js 失败，可以切换到国内镜像。&lt;/p&gt;
-&lt;p&gt;方式一：使用命令设置镜像&lt;/p&gt;
+</content:encoded></item><item><title>使用 nvm 安装和管理 Node.js</title><link>https://xsgovo.github.io/20260320a/</link><guid isPermaLink="true">https://xsgovo.github.io/20260320a/</guid><description>使用 nvm 安装、切换和管理多版本 Node.js，并配置镜像与 pnpm。</description><pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;你知道人类最古老的三大错觉是什么吗？&lt;/p&gt;
+&lt;p&gt;第一，我能反杀。&lt;/p&gt;
+&lt;p&gt;第二，这件衣服我以后会穿。&lt;/p&gt;
+&lt;p&gt;第三，这次装的 Node.js 版本，应该够用了。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;你们有没有遇到过这种情况。&lt;/p&gt;
+&lt;p&gt;你在公司里干活，用的是 Node 16。你们组那个祖传项目，是 Node 8 写的。你们老大说：&quot;别动，能跑就行。&quot;&lt;/p&gt;
+&lt;p&gt;你回到家，想搞点自己的小项目，人家要求 Node 22。你装上了 Node 22，祖传项目打不开了。你又装回 Node 14，新项目又报错了。&lt;/p&gt;
+&lt;p&gt;于是你开始研究：&quot;能不能让两个版本同时存在？&quot;&lt;/p&gt;
+&lt;p&gt;你搜了一下，发现有一种东西叫&quot;版本管理器&quot;。你说太好了，装一个。&lt;/p&gt;
+&lt;p&gt;然后你又遇到了一个新问题：&lt;strong&gt;Windows 用户该用哪个版本管理器？&lt;/strong&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;关于 nvm 这件事&lt;/h2&gt;
+&lt;p&gt;好，先说为什么是 nvm。&lt;/p&gt;
+&lt;p&gt;nvm 干的事情，就是给你一个可以切换不同版本的容器。&lt;/p&gt;
+&lt;p&gt;它把你的每一个 Node 版本装在各自的目录里。你想用哪个，它就把哪个的目录加到环境变量里。一条命令，三秒切换。&lt;/p&gt;
+&lt;p&gt;而且如果你用的是 Windows，请认准 &lt;strong&gt;nvm-windows&lt;/strong&gt;。其他的 nvm 是给 Mac 和 Linux 用的，你别装错了。装错了你也装不上，但你会花五分钟去研究为什么装不上。&lt;/p&gt;
+&lt;p&gt;这时你可能会说，为什么不用 fnm、Volta 呢？不也可以管理 Node 版本吗？&lt;/p&gt;
+&lt;p&gt;我只能说当然可以，但是没必要。&lt;/p&gt;
+&lt;p&gt;你大概率是从某个满脑子幻觉的 AI 那里听到过这些工具，但对于我来说都大差不差。&lt;/p&gt;
+&lt;p&gt;我想你也是。&lt;/p&gt;
+&lt;p&gt;因为&lt;strong&gt;你大概率不想在环境工具上搞科研。&lt;/strong&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;安装这件事——有两个坑&lt;/h2&gt;
+&lt;p&gt;去这个地址下载：&lt;code&gt;https://nvm.uihtm.com/doc/download-nvm&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;找到 Windows 的安装包，下载，运行。&lt;/p&gt;
+&lt;p&gt;安装过程没什么可说的，没有什么坑。&lt;/p&gt;
+&lt;p&gt;拿到安装程序后，一直点击下一步，你的 nvm 大概率会安装在 &lt;code&gt;C:\Users\&amp;lt;你的用户名&amp;gt;\AppData\Roaming\nvm&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;而 Node.js 的安装目录会在 &lt;code&gt;C:\nvm4w\nodejs&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;那么恭喜你，此时你的 nvm 就已经可以用了。&lt;/p&gt;
+&lt;p&gt;但是如果你得了&lt;strong&gt;安装到 C 盘就不舒服&lt;/strong&gt;的强迫症，那么你需要在安装的时候手动选择路径。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第一件事——nvm 安装路径。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;运行安装程序后，安装程序会让你选一个目录。&lt;/p&gt;
+&lt;p&gt;我建议你选一个&lt;strong&gt;纯英文、没有空格、没有中文&lt;/strong&gt;的路径。&lt;/p&gt;
+&lt;p&gt;就比如说：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;D:\nvm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;就放 D 盘根目录，一个干净的文件夹。&lt;/p&gt;
+&lt;p&gt;为什么？&lt;/p&gt;
+&lt;p&gt;因为 Windows 的命令行工具对中文和空格非常敏感。如果你的路径里有空格——比如 &quot;Program Files&quot; 里的那个空格——nvm 在设置环境变量的时候就会出问题。&lt;/p&gt;
+&lt;p&gt;出问题之后会怎样？&lt;/p&gt;
+&lt;p&gt;你去终端里输入 &lt;code&gt;nvm&lt;/code&gt;，它会回你一句：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&apos;nvm&apos; 不是内部或外部命令，也不是可运行的程序或批处理文件。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;你看到这个提示的时候，通常已经装完五分钟了。你会开始怀疑人生，怀疑自己是不是做错了什么，怀疑这台电脑是不是有自己的意志。&lt;/p&gt;
+&lt;p&gt;然后你开始重启电脑。&lt;/p&gt;
+&lt;p&gt;重启能解决 90% 的问题。但解决不了这个。&lt;/p&gt;
+&lt;p&gt;所以，从源头杜绝：&lt;strong&gt;选纯英文路径。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第二件事——Node.js 的安装目录。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;安装程序还会问你，Node.js 装在哪里。&lt;/p&gt;
+&lt;p&gt;通常你配置完 nvm 路径下一步就是这个。&lt;/p&gt;
+&lt;p&gt;建议你填 nvm 目录下面的一个子目录，比如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;D:\nvm\nodejs
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;以后你通过 nvm 安装的所有 Node 版本，都会放在 &lt;code&gt;D:\nvm\nodejs&lt;/code&gt; 里面。你的 C 盘不会被污染，你的管理界面是干净的。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;nvm 镜像——这可能是最重要的配置&lt;/h2&gt;
+&lt;p&gt;好，nvm 装好了。现在你可以开始安装 Node.js 了。&lt;/p&gt;
+&lt;p&gt;但在你安装之前——&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;如果你是中国大陆用户，这一步你必须做。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这一步叫配置镜像。&lt;/p&gt;
+&lt;p&gt;由于 nvm 默认是从 Node.js 的官方服务器下载的，那个服务器在国外。你在中国的家里访问它，就像你用 2G 信号刷视频——能打开，但会浪费你为数不多的耐心。&lt;/p&gt;
+&lt;p&gt;有时候更惨——你直接超时，连不上。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;npmmirror&lt;/strong&gt; 就是你们熟悉的淘宝镜像。稳定、快速，在大陆访问毫无压力。&lt;/p&gt;
+&lt;p&gt;所以你要告诉 nvm：以后下载 Node.js，去这个地址，在终端输入：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;nvm node_mirror https://npmmirror.com/mirrors/node/
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;方式二：在nvm的安装目录修改 &lt;code&gt;settings.txt&lt;/code&gt;（不推荐）&lt;/p&gt;
-&lt;p&gt;默认路径通常是：&lt;code&gt;C:\Users\用户名\AppData\Local\nvm&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;在 &lt;code&gt;settings.txt&lt;/code&gt; 中添加：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;node_mirror: https://npmmirror.com/mirrors/node/
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;安装与切换 Node.js&lt;/h2&gt;
-&lt;p&gt;安装最新的 22 大版本：&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;安装、切换、卸载&lt;/h2&gt;
+&lt;p&gt;好了，镜像配好了，现在开始安装 Node.js。&lt;/p&gt;
+&lt;h3&gt;安装&lt;/h3&gt;
+&lt;p&gt;你想装 Node 22，最新版的大版本，直接：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;nvm install 22
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;安装指定版本：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;nvm install 22.19.5
+&lt;p&gt;nvm 会自动给你装上 22 大版本里最新的那个。比如现在是 22.19.5。&lt;/p&gt;
+&lt;p&gt;如果你想装一个精确的版本，比如你想用 20.18.0，因为你的项目刚好卡在这个版本上，就：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;nvm install 20.18.0
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;切换版本：&lt;/p&gt;
+&lt;h3&gt;切换&lt;/h3&gt;
+&lt;p&gt;装好了，怎么切换？&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;nvm use 22
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;或切换到指定版本：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;nvm use 22.19.5
+&lt;p&gt;这条命令做了一件事——它把你的 &lt;code&gt;PATH&lt;/code&gt; 环境变量指向 22 版本对应的目录。&lt;/p&gt;
+&lt;p&gt;从这一刻起，你终端里输入的 &lt;code&gt;node&lt;/code&gt;、&lt;code&gt;npm&lt;/code&gt;、&lt;code&gt;npx&lt;/code&gt;，全部都会用 22 版本的。&lt;/p&gt;
+&lt;h3&gt;卸载&lt;/h3&gt;
+&lt;p&gt;不想要的版本，直接删：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;nvm uninstall 20.18.0
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;卸载指定版本：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;nvm uninstall 22.19.5
+&lt;p&gt;这个版本的目录会被清理掉。&lt;/p&gt;
+&lt;h3&gt;常用命令&lt;/h3&gt;
+&lt;p&gt;这里我整理了一下 nvm 最常用的命令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;nvm install &amp;lt;版本号&amp;gt;      # 安装指定版本
+nvm list                  # 查看已安装的版本
+nvm list available        # 查看所有可安装的版本
+nvm use &amp;lt;版本号&amp;gt;          # 切换到指定版本
+nvm uninstall &amp;lt;版本号&amp;gt;    # 卸载指定版本
+nvm root                  # 查看 Node.js 安装根目录
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;常用 nvm 命令&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;nvm install &amp;lt;version&amp;gt; [arch]&lt;/code&gt;：安装指定版本，&lt;code&gt;arch&lt;/code&gt; 可选 32/64 位，默认与系统一致，可加 &lt;code&gt;--insecure&lt;/code&gt; 跳过 SSL 校验&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;nvm list [available]&lt;/code&gt;：列出已安装版本，&lt;code&gt;available&lt;/code&gt; 显示可安装的所有版本（&lt;code&gt;list&lt;/code&gt; 可简写为 &lt;code&gt;ls&lt;/code&gt;）&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;nvm uninstall &amp;lt;version&amp;gt;&lt;/code&gt;：卸载指定版本&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;nvm use &amp;lt;version&amp;gt; [arch]&lt;/code&gt;：切换到指定版本&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;nvm root [path]&lt;/code&gt;：设置或查看 Node.js 版本存放目录&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;安装 pnpm（推荐）&lt;/h2&gt;
-&lt;h3&gt;方式一：使用 npm 全局安装&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;npm install -g pnpm
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;验证是否安装成功：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;pnpm -v
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;方式二：使用 Corepack（推荐）&lt;/h3&gt;
-&lt;p&gt;如果你使用的是 &lt;strong&gt;Node.js 16.13+&lt;/strong&gt;，可以通过 &lt;code&gt;corepack&lt;/code&gt; 来管理 &lt;code&gt;pnpm&lt;/code&gt; 和 &lt;code&gt;yarn&lt;/code&gt;，不需要额外的全局安装。&lt;/p&gt;
-&lt;p&gt;Corepack 的特点：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;npm -g&lt;/code&gt;：直接在全局目录安装 &lt;code&gt;pnpm&lt;/code&gt; 可执行文件&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;corepack enable&lt;/code&gt;：生成代理脚本，根据项目 &lt;code&gt;package.json&lt;/code&gt; 的 &lt;code&gt;packageManager&lt;/code&gt; 字段自动下载并使用对应版本&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;启用并安装最新 &lt;code&gt;pnpm&lt;/code&gt;：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;corepack enable
-corepack prepare pnpm@latest --activate
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;切换 npm / pnpm 镜像源（可选）&lt;/h2&gt;
-&lt;p&gt;npm：&lt;/p&gt;
+&lt;p&gt;这些命令，你用熟了之后，版本切换就是两秒钟的事情。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;你再也不用为版本号的事情焦虑了。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;你焦虑的东西可以少一件。这个世界上的焦虑已经够多了。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;npm 和 pnpm 的镜像&lt;/h2&gt;
+&lt;p&gt;nvm 搞定了，顺手把包管理器的镜像也配一下。&lt;/p&gt;
+&lt;p&gt;因为 npm 默认也是走官方源，在大陆访问慢，有时候包直接装不上。&lt;/p&gt;
+&lt;p&gt;两条命令：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;npm config set registry https://registry.npmmirror.com
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;pnpm：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;pnpm config set registry https://registry.npmmirror.com
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;常见问题&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;提示 “nvm 不是内部或外部命令”&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;确认 &lt;code&gt;nvm&lt;/code&gt; 已正确安装。&lt;/li&gt;
-&lt;li&gt;检查环境变量是否生效（重新打开终端或重启系统后再试）。&lt;/li&gt;
-&lt;li&gt;确保安装路径没有中文字符。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;nvm 下载 Node.js 失败&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;先尝试配置镜像（见上方“配置下载镜像”）。&lt;/li&gt;
-&lt;li&gt;如果仍失败，检查网络代理或防火墙设置。&lt;/li&gt;
-&lt;/ol&gt;
-</content:encoded></item><item><title>Ubuntu 安装 MySQL</title><link>https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85mysql/</link><guid isPermaLink="true">https://xsgovo.github.io/posts/%E5%AE%89%E8%A3%85mysql/</guid><description>介绍在 Ubuntu 系统上安装、配置并开启远程访问 MySQL 数据库的步骤。</description><pubDate>Sun, 08 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;在终端安装 MySQL（默认使用系统仓库当前版本）：&lt;/p&gt;
+&lt;p&gt;配完之后，&lt;code&gt;npm install&lt;/code&gt; 和 &lt;code&gt;pnpm install&lt;/code&gt; 都会走淘宝镜像，速度直接起飞。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;npm 的镜像和 nvm 的镜像，配置方式不同，但来源是一样的——都是 npmmirror。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;你可能会问：我用 npm 还是 pnpm？&lt;/p&gt;
+&lt;p&gt;我推荐 pnpm。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;但 pnpm 这件事，我想单独说一段。&lt;/strong&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;pnpm——我是怎么从 npm 叛逃的&lt;/h2&gt;
+&lt;p&gt;pnpm 是什么？&lt;/p&gt;
+&lt;p&gt;简单说——是一个比 npm 更好用的包管理器。&lt;/p&gt;
+&lt;p&gt;npm 的问题是：每次你 &lt;code&gt;npm install&lt;/code&gt;，它会把所有依赖包复制到当前项目目录里。你十个项目用同一个包，那个包就被复制了十份。&lt;/p&gt;
+&lt;p&gt;pnpm 解决这个的方式是——&lt;strong&gt;它不复制，它链接&lt;/strong&gt;。所有项目共享同一个真实目录，然后通过硬链接或符号链接的方式&quot;假装&quot;每个项目都有自己的一份。&lt;/p&gt;
+&lt;p&gt;这样做的结果是：安装更快，磁盘占用更少，依赖管理更干净。&lt;/p&gt;
+&lt;p&gt;pnpm 还有一个很酷的功能——它能自动检测你 &lt;code&gt;node_modules&lt;/code&gt; 里的包是否和 &lt;code&gt;package.json&lt;/code&gt; 里声明的一致。如果有人偷偷改了包，你一眼就能看出来。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;所以 pnpm 不仅仅是快——它更安全。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;怎么装 pnpm？&lt;strong&gt;有两种方式。&lt;/strong&gt;&lt;/p&gt;
+&lt;h3&gt;方式一：npm 全局安装&lt;/h3&gt;
+&lt;p&gt;如果你用的还是上古 Node.js，还不支持 corepack。&lt;/p&gt;
+&lt;p&gt;没有关系，nvm 会帮你搞定这一切的，你可以放心直接全局安装 pnpm：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm install -g pnpm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;装完之后验证一下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pnpm -v
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;看到版本号就说明装好了。&lt;/p&gt;
+&lt;h3&gt;方式二：Corepack&lt;/h3&gt;
+&lt;p&gt;如果你用的是 Node.js 16.13 及以上，你不需要额外安装 pnpm。&lt;/p&gt;
+&lt;p&gt;因为从 Node.js 16.13 开始，Node.js 自带了一个工具叫 &lt;strong&gt;Corepack&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;Corepack 不是一个包管理器——它是一个&lt;strong&gt;包管理器的代理&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;什么意思？&lt;/p&gt;
+&lt;p&gt;它的原理是这样的：你在项目里有一个 &lt;code&gt;package.json&lt;/code&gt;，里面有一行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&quot;packageManager&quot;: &quot;pnpm@9.0.0&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;当你第一次在这个项目里运行 &lt;code&gt;pnpm install&lt;/code&gt; 的时候，Corepack 会自动去下载 9.0.0 版本的 pnpm，然后执行。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;你不需要提前安装 pnpm。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;你团队里的每个人，每个项目，用的都是同一个版本号。不存在&quot;我装了最新版 pnpm，但你的老项目需要旧版本&quot;的问题。&lt;/p&gt;
+&lt;p&gt;启用 Corepack：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;corepack enable pnpm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;结语&lt;/h2&gt;
+&lt;p&gt;好了，我们来回顾一下。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;nvm 解决了什么问题？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;版本隔离的问题。你再也不用卸载重装了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;镜像解决了什么问题？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;下载速度的问题。你再也不用对着进度条发呆了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;pnpm 解决了什么问题？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;包管理效率的问题。你再也不用看着 C 盘一点点被蚕食了。&lt;/p&gt;
+&lt;p&gt;这三件套组合起来，你就拥有了一套稳定、灵活、高效的 Node.js 本地开发环境。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;工具存在的意义，是让你有更多时间去关心真正重要的事情。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;而不是让你花三个小时研究为什么你的 Node 版本装不上去。&lt;/p&gt;
+&lt;p&gt;如果这个教程帮你解决了问题——&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;那说明你终于下定决心，把那些本该浪费在配置环境上的时间，用来做真正有意义的事情了。&lt;/strong&gt;&lt;/p&gt;
+</content:encoded></item><item><title>Ubuntu 安装 MySQL</title><link>https://xsgovo.github.io/20260308a/</link><guid isPermaLink="true">https://xsgovo.github.io/20260308a/</guid><description>介绍在 Ubuntu 系统上安装、配置并开启远程访问 MySQL 数据库的步骤。</description><pubDate>Sun, 08 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;在终端安装 MySQL（默认使用系统仓库当前版本）：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;sudo apt install mysql-server -y
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2&gt;初始化安全配置（可选）&lt;/h2&gt;
