@@ -1,134 +1,614 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>丝瓜研究所</title><description>No description</description><link>https://xsgovo.github.io/</link><language>zh_CN</language><item><title>Windows 配置 C 语言开发环境</title><link>https://xsgovo.github.io/20260321a/</link><guid isPermaLink="true">https://xsgovo.github.io/20260321a/</guid><description>在 Windows 上安装 C 语言开发环境，包含编译器选择、VS Code 配置与 CMake 管理项目的方法。</description><pubDate>Sat, 21 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;说实话，之前我刚学 C 语言的时候，被各种编译器、安装配置折磨得够呛。这篇文章会手把手教你搭建环境，从最简单的方案到进阶的 CMake 管理项目的方法都会讲到。好了，让我们开始吧！&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>丝瓜研究所</title><description>No description</description><link>https://xsgovo.github.io/</link><language>zh_CN</language><item><title>Windows 配置 Python 环境——从安装到项目管理</title><link>https://xsgovo.github.io/20260409a/</link><guid isPermaLink="true">https://xsgovo.github.io/20260409a/</guid><description>在 Windows 上从零开始配置 Python 开发环境，包括 Python 安装、虚拟环境管理、包管理工具选择与项目工程化实践。</description><pubDate>Thu, 09 Apr 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Python 的环境问题，本质上不是“不会安装”，而是“选错工具”。&lt;/p&gt;
+&lt;p&gt;这个生态发展了太久：
+老工具没有消失，新工具不断出现，不同流派之间还存在明显分裂。&lt;/p&gt;
+&lt;p&gt;于是一个看似简单的问题：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“我要怎么在 Windows 上装 Python？”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;背后其实隐藏着一连串选择：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;用官方 Python 还是用 conda？&lt;/li&gt;
+&lt;li&gt;用 &lt;code&gt;pip&lt;/code&gt; 还是 &lt;code&gt;uv&lt;/code&gt;？&lt;/li&gt;
+&lt;li&gt;要不要用 &lt;code&gt;pyproject.toml&lt;/code&gt;？&lt;/li&gt;
+&lt;li&gt;环境要不要隔离？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果没人帮你把这套逻辑理清，很容易在第一步就卡住。&lt;/p&gt;
+&lt;p&gt;这篇文章，就是把这些选择一次讲明白。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h2&gt;方案选择&lt;/h2&gt;
-&lt;p&gt;市面上的 C 语言开发方案还挺多的，我先把各个方案的特点列出来，方便你选择。&lt;/p&gt;
+&lt;h2&gt;先搞清楚你要什么&lt;/h2&gt;
+&lt;p&gt;Python 环境管理工具可以分成两大派系：&lt;/p&gt;
+&lt;h3&gt;第一派：PyPI 生态&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;代表工具&lt;/strong&gt;：&lt;code&gt;pip&lt;/code&gt;、&lt;code&gt;venv&lt;/code&gt;、&lt;code&gt;uv&lt;/code&gt;、&lt;code&gt;poetry&lt;/code&gt;、&lt;code&gt;pdm&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;pip&lt;/strong&gt;: Python 官方包管理器，最基础&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;uv&lt;/strong&gt;: 用 Rust 重写，速度极快，目前最推荐&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;poetry&lt;/strong&gt;: 功能全面，适合库开发&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pdm&lt;/strong&gt;: 类似 poetry，但更符合 PEP 标准&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;特点&lt;/strong&gt;：只管理 Python 包，从 PyPI 下载。轻量、现代、速度快。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;适合&lt;/strong&gt;：Web 开发、自动化脚本、工具类项目、库开发。&lt;/p&gt;
+&lt;h3&gt;第二派：Conda 生态&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;代表工具&lt;/strong&gt;：Miniconda、Miniforge、mamba、pixi&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;conda&lt;/strong&gt;: 跨语言包管理器，能管 Python + 系统级库&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;miniforge&lt;/strong&gt;: 社区版 conda，免费，内置 mamba&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;mamba&lt;/strong&gt;: 用 C++ 重写的 conda，速度快&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pixi&lt;/strong&gt;: 用 Rust 写的 conda 包管理器，类似 uv 的体验&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;特点&lt;/strong&gt;：conda &lt;strong&gt;从根本上与官方 Python 走的不是一条路&lt;/strong&gt;，拥有自己的配置文件、软件仓库，甚至连 Python 解释器都是自己编译的。支持 Go、Rust、C++、R 等多种语言，本质上是一个&lt;strong&gt;跨语言的独立开发平台&lt;/strong&gt;，解决深度学习的环境地狱。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;适合&lt;/strong&gt;：数据分析、机器学习、深度学习。&lt;/p&gt;
+&lt;h3&gt;核心原则&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;不要把任何 Python 添加到系统环境变量。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这是血泪教训。一旦 PATH 里有多个 Python，各种工具会互相打架，排查问题能浪费你一整天。&lt;/p&gt;
+&lt;p&gt;正确的做法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;PyPI 派：用 uv 管理 Python 版本，通过 &lt;code&gt;uv run&lt;/code&gt; 调用&lt;/li&gt;
+&lt;li&gt;Conda 派：用 conda 创建隔离环境，通过 &lt;code&gt;conda activate&lt;/code&gt; 切换&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;**不要两派混着走。**我见过有人在 conda 环境里用 pip 装包，装完发现 CUDA 版本对不上，PyTorch 直接罢工。排查了三个小时，最后重装整个环境。&lt;/p&gt;
+&lt;p&gt;所以先问自己：我要不要碰深度学习？&lt;/p&gt;
+&lt;p&gt;不碰，走 PyPI 派。要碰，走 Conda 派。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;准备工作：安装 PyCharm&lt;/h2&gt;
+&lt;p&gt;写 Python 代码需要一个趁手的编辑器。推荐使用 PyCharm：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;官方下载地址：&lt;/strong&gt; https://www.jetbrains.com/zh-cn/pycharm/&lt;/p&gt;
+&lt;p&gt;PyCharm 是 JetBrains 开发的 Python 专用 IDE，分两个版本：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Community（社区版）&lt;/strong&gt;：免费，功能足够日常使用&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Professional（专业版）&lt;/strong&gt;：付费，支持 Web 开发、Django 等高级功能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;现在社区版和专业版整合到一起了，直接下载就行。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;方案一：PyPI 派（uv 管理，推荐）&lt;/h2&gt;
+&lt;p&gt;这是目前最轻量、最现代的选择。不需要下载官方 Python 安装包，一切交给 uv。&lt;/p&gt;
+&lt;h3&gt;第一步：安装 uv&lt;/h3&gt;
+&lt;p&gt;uv 是一个用 Rust 写的 Python 项目管理工具，速度比 pip 快 10 到 100 倍。&lt;/p&gt;
+&lt;p&gt;使用 PowerShell 一键安装：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;powershell -ExecutionPolicy ByPass -c &quot;irm https://astral.sh/uv/install.ps1 | iex&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这个命令会安装到 &lt;code&gt;C:\Users\你的用户名\.local\bin&lt;/code&gt;，装完验证：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uv --version
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;第二步：用 uv 安装 Python&lt;/h3&gt;
+&lt;p&gt;uv 可以自动下载并管理 Python 版本，不需要去 python.org 下载安装包。&lt;/p&gt;
+&lt;p&gt;安装最新版 Python：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uv python install
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;安装指定版本：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uv python install 3.14
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看已安装的版本：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uv python list
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Python 会被安装到 uv 的管理目录（如 &lt;code&gt;%APPDATA%\uv\python&lt;/code&gt;）中。&lt;/p&gt;
+&lt;h3&gt;第三步：创建你的第一个项目&lt;/h3&gt;
+&lt;p&gt;找个干净的文件夹，执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uv init my-project
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;uv 会自动：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;下载最新的 Python（如果还没装）&lt;/li&gt;
+&lt;li&gt;生成 &lt;code&gt;pyproject.toml&lt;/code&gt; 配置文件&lt;/li&gt;
+&lt;li&gt;创建 &lt;code&gt;.venv&lt;/code&gt; 虚拟环境&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;生成的 &lt;code&gt;pyproject.toml&lt;/code&gt; 长这样：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[project]
+name = &quot;my-project&quot;
+version = &quot;0.1.0&quot;
+description = &quot;Add your description here&quot;
+readme = &quot;README.md&quot;
+requires-python = &quot;&amp;gt;=3.14&quot;
+dependencies = []
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;requires-python&lt;/code&gt; 声明了项目需要的 Python 版本，&lt;code&gt;dependencies&lt;/code&gt; 是项目依赖的包。&lt;/p&gt;
+&lt;h3&gt;第四步：安装依赖&lt;/h3&gt;
+&lt;p&gt;假设你要用 requests 写个爬虫：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uv add requests
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;这条命令背后发生了什么？&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;解析依赖&lt;/strong&gt;：uv 去 PyPI 查询 requests 的最新版本，以及它依赖的其他包&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;写入配置&lt;/strong&gt;：把 &lt;code&gt;requests = &quot;^2.31.0&quot;&lt;/code&gt; 写进 &lt;code&gt;pyproject.toml&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;生成锁文件&lt;/strong&gt;：创建 &lt;code&gt;uv.lock&lt;/code&gt;，精确记录所有依赖的具体版本号和哈希值&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;安装包&lt;/strong&gt;：把 requests 和所有依赖装进 &lt;code&gt;.venv&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;整个过程几秒钟完成。&lt;/p&gt;
+&lt;h3&gt;第五步：在 PyCharm 中打开项目&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;命令行把项目建好之后，用 PyCharm 打开它：&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;打开 PyCharm，选择 &lt;strong&gt;打开&lt;/strong&gt;，选中刚才 &lt;code&gt;uv init&lt;/code&gt; 创建的项目目录&lt;/li&gt;
+&lt;li&gt;进入 &lt;strong&gt;设置 → Python → 解释器&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;点击右上角 &lt;strong&gt;添加解释器 → 添加本地解释器&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;左侧选 &lt;strong&gt;生成新的&lt;/strong&gt;，类型选选 &lt;strong&gt;uv&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;PyCharm 识别到 &lt;code&gt;.venv&lt;/code&gt; 之后，编辑器的自动补全、跳转定义、类型推断全部生效。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;后续用 &lt;code&gt;uv add&lt;/code&gt; 安装新包时，PyCharm 会自动检测到 &lt;code&gt;.venv&lt;/code&gt; 的变化并刷新索引，不需要手动操作。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;或者用 PyCharm 直接创建：&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;打开 PyCharm，选择&lt;strong&gt;新建项目&lt;/strong&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在解释器类型一栏选择需要的解释器，PyCharm 现在默认支持 venv、uv 和 conda 解释器。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;通常情况下 PyCharm 会自动检测到这些工具的路径，如果没有，请手动添加。下次新建项目 PyCharm 就会记住这些路径。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;点击创建就行了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;第六步：运行代码&lt;/h3&gt;
+&lt;p&gt;如果你使用 PyCharm，直接点击顶部的运行按钮就可以了。&lt;/p&gt;
+&lt;p&gt;或者使用 &lt;code&gt;uv run&lt;/code&gt; 运行代码，它会自动找到对应的环境：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uv run python main.py
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;uv run&lt;/code&gt; 的工作原理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;uv run&lt;/code&gt; 会：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;检查当前目录有没有 &lt;code&gt;.venv&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;临时把 &lt;code&gt;.venv\Scripts&lt;/code&gt; 加到 PATH 最前面&lt;/li&gt;
+&lt;li&gt;在这个环境下执行命令&lt;/li&gt;
+&lt;li&gt;命令结束后恢复原 PATH&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;所以你不需要手动 &lt;code&gt;activate&lt;/code&gt;，也不用担心忘记 &lt;code&gt;deactivate&lt;/code&gt; 导致全局环境被污染。&lt;/p&gt;
+&lt;h3&gt;验证安装&lt;/h3&gt;
+&lt;p&gt;确认环境是否正常工作：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uv run python --version
+uv pip list
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果能看到 Python 版本号和已安装的包列表，说明一切正常。&lt;/p&gt;
+&lt;h3&gt;常用命令速查&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;uv python install 3.14      # 安装 Python 3.14
+uv python list              # 查看已安装的 Python 版本
+uv python uninstall 3.14	# 卸载 Python 3.14
+uv add &amp;lt;package_name&amp;gt;       # 安装包并声明依赖
+uv add --dev &amp;lt;package_name&amp;gt; # 安装开发依赖（如 pytest）
+uv sync                     # 根据 pyproject.toml 还原环境
+uv run &amp;lt;file_name&amp;gt;          # 在虚拟环境中运行文件
+uv pip list                 # 查看已安装的包
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;换源&lt;/h3&gt;
+&lt;p&gt;PyPI 官方源服务器在国外，国内访问经常慢。配置清华镜像：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uv pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;或者临时用：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uv add requests -i https://pypi.tuna.tsinghua.edu.cn/simple
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;常用国内镜像：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;清华：&lt;code&gt;https://pypi.tuna.tsinghua.edu.cn/simple&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;阿里云：&lt;code&gt;https://mirrors.aliyun.com/pypi/simple/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;豆瓣：&lt;code&gt;https://pypi.doubanio.com/simple/&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;方案二：Conda 派（深度学习专用）&lt;/h2&gt;
+&lt;p&gt;如果你要装 PyTorch、TensorFlow，或者任何依赖 CUDA 的库，用 Conda 派。&lt;/p&gt;
+&lt;h3&gt;为什么深度学习必须用 Conda？&lt;/h3&gt;
+&lt;p&gt;深度学习框架底层依赖大量 C/C++/CUDA 编写的库：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CUDA：NVIDIA 的并行计算平台&lt;/li&gt;
+&lt;li&gt;cuDNN：深度神经网络加速库&lt;/li&gt;
+&lt;li&gt;MKL：Intel 数学核心库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这些不是 Python 包，是系统级的二进制库。pip 只能管 Python 包，管不了这些。&lt;/p&gt;
+&lt;p&gt;Conda 的优势在于：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;跨语言包管理&lt;/strong&gt;：能安装 Python 包 + 系统级库&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;预编译二进制&lt;/strong&gt;：Windows 上编译 CUDA 库非常麻烦，conda 直接提供编译好的版本&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;版本协调&lt;/strong&gt;：PyTorch 需要 CUDA 11.8 还是 12.1？conda 会帮你算清楚&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;选择哪个工具？&lt;/h3&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;方案&lt;/th&gt;
+&lt;th&gt;工具&lt;/th&gt;
 &lt;th&gt;特点&lt;/th&gt;
 &lt;th&gt;推荐度&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;Dev-C++&lt;/td&gt;
-&lt;td&gt;简单但功能有限&lt;/td&gt;
-&lt;td&gt;一般&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Anaconda&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;全家桶，3GB+，商业收费&lt;/td&gt;
+&lt;td&gt;⭐ 不推荐&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Visual Studio&lt;/td&gt;
-&lt;td&gt;集成度高，体积较大&lt;/td&gt;
-&lt;td&gt;还行&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Miniconda&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;精简版，只含 conda&lt;/td&gt;
+&lt;td&gt;⭐⭐ 可用&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;MinGW-w64 + VS Code&lt;/td&gt;
-&lt;td&gt;轻量、通用、灵活&lt;/td&gt;
-&lt;td&gt;强烈推荐&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Miniforge&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;社区版，免费，内置 mamba&lt;/td&gt;
+&lt;td&gt;⭐⭐⭐⭐⭐ 最推荐&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;CLion&lt;/td&gt;
-&lt;td&gt;专业 C/C++ IDE&lt;/td&gt;
-&lt;td&gt;推荐&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;pixi&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Rust 写的，类似 uv 的体验，IDE 支持有限&lt;/td&gt;
+&lt;td&gt;⭐⭐⭐⭐ 新兴&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;如果你和一样是初学者，或者只是用来做课程作业，我个人最推荐MinGW-w64 搭配 VS Code。这个组合比较轻量，而且 VS Code 用起来真的很舒服。当然，如果你想要更专业的 IDE，CLion 也是不错的选择。&lt;/p&gt;
-&lt;hr /&gt;
-&lt;h2&gt;Dev-C++&lt;/h2&gt;
-&lt;p&gt;先说说 Dev-C++ 吧。这个算是比较老牌的选择了，安装简单，打开就能用。&lt;/p&gt;
-&lt;p&gt;这里推荐使用小熊猫改版的 Dev-C++，比原版好用很多。&lt;/p&gt;
-&lt;p&gt;官方下载地址是：http://royqh.net/redpandacpp/download/&lt;/p&gt;
-&lt;p&gt;安装完成后就可以新建 C 项目并运行了，非常适合不想折腾的同学。&lt;/p&gt;
-&lt;hr /&gt;
-&lt;h2&gt;Visual Studio&lt;/h2&gt;
-&lt;p&gt;如果你想要一个功能强大的 IDE，Visual Studio 是个不错的选择。虽然体积大了点，但集成度真的很高。&lt;/p&gt;
-&lt;p&gt;值得注意的是，Visual Studio默认采用的是MSVC编译器，而国内教材上默认都使用GCC编译器，部分函数可能会有差异，比如典中典的&lt;code&gt;scanf_s()&lt;/code&gt;和&lt;code&gt;scanf()&lt;/code&gt;。&lt;/p&gt;
-&lt;h3&gt;安装步骤&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;为什么选 Miniforge？&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Anaconda 的默认频道 2020 年起对商业用途收费&lt;/li&gt;
+&lt;li&gt;Miniforge 默认用 conda-forge，完全免费&lt;/li&gt;
+&lt;li&gt;Miniforge 内置 Mamba，安装速度快 4-5 倍&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;安装 Miniforge&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官方下载地址：&lt;/strong&gt; https://conda-forge.org/miniforge/&lt;/p&gt;
+&lt;p&gt;Windows 用户找 &lt;code&gt;Miniforge3-Windows-x86_64.exe&lt;/code&gt; 下载。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;警告&lt;/strong&gt;：不要将 Miniforge 安装到权限受限的文件夹中，比如 &lt;code&gt;Program Files&lt;/code&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;安装步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;运行安装包&lt;/li&gt;
+&lt;li&gt;安装路径建议选纯英文，比如 &lt;code&gt;D:\miniforge3&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;默认取消勾选&lt;/strong&gt; &quot;Add Miniforge3 to my PATH environment variable&quot;&lt;/li&gt;
+&lt;li&gt;完成安装&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;由于 Miniforge3 添加环境变量是通过修改注册表实现的，所以不建议添加到环境变量。&lt;/p&gt;
+&lt;p&gt;既然没有添加到环境变量，你需要通过完整路径调用 conda。一般路径 &lt;code&gt;D:\miniforge3\Scripts\conda.exe&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;不过也不用担心，安装完成后你的电脑会出现一个 &lt;code&gt;Miniforge Prompt&lt;/code&gt; 的程序，打开它就可以使用 conda 了。&lt;/p&gt;
+&lt;h3&gt;配置镜像&lt;/h3&gt;
+&lt;p&gt;打开 &lt;code&gt;Miniforge Prompt&lt;/code&gt;，在出现的终端前有类似括号代表当前的环境：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;(base) C:\Users\user&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;conda 默认源在国外，国内访问慢。配置清华镜像：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+conda config --set show_channel_urls yes
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;创建环境&lt;/h3&gt;
+&lt;p&gt;每个项目一个环境，不要往 base 里装东西：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;conda create -n my_env python=3.14
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;切换到创建的环境：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;conda activate my_env
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;当看见终端前变成 &lt;code&gt;(my_env)&lt;/code&gt; 时就代表切换成功了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;为什么不要往 base 装？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;base 是 conda 自己的运行环境。如果你在 base 里乱装包，可能破坏 conda 本身的依赖，导致 conda 命令都跑不起来。&lt;/p&gt;
+&lt;p&gt;养成习惯：每个项目 &lt;code&gt;conda create -n 环境名&lt;/code&gt;，隔离干净。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;删除环境&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;先退出到 &lt;code&gt;base&lt;/code&gt; 环境。&lt;/p&gt;
+&lt;p&gt;为了防止误删，建议先查看一下现有的环境列表，确认你要删除的环境名称拼写无误：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;conda env list
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;删除指定的环境：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;conda env remove --name my_env
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;安装依赖&lt;/h3&gt;
+&lt;p&gt;在激活的环境中安装 Python 包：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;conda install requests
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果 conda 找不到某个包，再用 pip 安装：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install some-package
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;安装深度学习框架&lt;/h3&gt;
+&lt;p&gt;以 PyTorch 为例：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;这条命令拆解&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;pytorch torchvision torchaudio&lt;/code&gt;：PyTorch 核心包 + 视觉/音频工具包&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pytorch-cuda=12.1&lt;/code&gt;：指定 CUDA 12.1 版本&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-c pytorch&lt;/code&gt;：从 pytorch 频道下载&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-c nvidia&lt;/code&gt;：从 nvidia 频道下载 CUDA 相关库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;conda 会自动计算依赖关系，确保 PyTorch、CUDA、cuDNN 版本兼容。&lt;/p&gt;
+&lt;p&gt;如果用 pip 装 PyTorch，你得自己去 NVIDIA 官网下载 CUDA，配置环境变量，确保版本匹配。一步错，PyTorch 就检测不到 GPU。&lt;/p&gt;
+&lt;h3&gt;一个原则&lt;/h3&gt;
+&lt;p&gt;在 conda 环境里，&lt;strong&gt;优先用 conda install&lt;/strong&gt;，找不到的包再用 pip install。顺序反了容易把环境搞乱。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;为什么顺序重要？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;conda 和 pip 的依赖解析器不一样。conda 装包时会考虑整个环境的依赖图，pip 只考虑 Python 包。&lt;/p&gt;
+&lt;p&gt;如果你先用 pip 装了某个包，再用 conda 装其他包，conda 可能不知道 pip 装的包的存在，导致依赖冲突。&lt;/p&gt;
+&lt;p&gt;正确顺序：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;conda install&lt;/code&gt; 装所有能装的（尤其是 CUDA 相关的）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pip install&lt;/code&gt; 补 conda 找不到的包&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;在 PyCharm 中使用 Conda 环境&lt;/h3&gt;
+&lt;p&gt;环境建好之后，把 PyCharm 指向它：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;打开 PyCharm，选择 &lt;strong&gt;打开&lt;/strong&gt;，选中刚才 &lt;code&gt;uv init&lt;/code&gt; 创建的项目目录&lt;/li&gt;
+&lt;li&gt;进入 &lt;strong&gt;设置 → Python → 解释器&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;点击右上角 &lt;strong&gt;添加解释器 → 添加本地解释器&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;右侧选 &lt;strong&gt;选择现有&lt;/strong&gt;，类型选选 &lt;strong&gt;conda&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;点击右侧下拉框，PyCharm 通常能自动列出已有的 conda 环境。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;配置完成后，PyCharm 会索引这个环境里的所有包，自动补全和类型推断随即生效。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;或者用 PyCharm 直接创建：&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;下载安装器&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;访问 Visual Studio 官网：https://visualstudio.microsoft.com/zh-hans/
-这里下载的是Visual Studio Installer。&lt;/p&gt;
+&lt;p&gt;打开 Pycharm，点击&lt;strong&gt;新建项目&lt;/strong&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;选择Visual Studio版本&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;安装后打开Visual Studio Installer，在可用一栏找到Visual Studio Community 2026版本安装。&lt;/p&gt;
+&lt;p&gt;在解释器类型一栏选择需要的解释器，选择 Conda 解释器。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;选择工作负载&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;安装的时候，记得勾选「使用 C++ 的桌面开发」这个选项。&lt;/p&gt;
+&lt;p&gt;通常情况下 PyCharm 会自动检测到这些工具的路径，如果没有，请手动添加。下次新建项目 PyCharm 就会记住这些路径。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;完成安装&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;等安装完成就可以用了。&lt;/p&gt;
+&lt;p&gt;点击创建就行了。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
+&lt;h3&gt;验证安装&lt;/h3&gt;
+&lt;p&gt;确认环境是否正常工作：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;python --version
+conda list
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果安装了 PyTorch，可以验证 GPU 是否可用：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;python -c &quot;import torch; print(torch.cuda.is_available())&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出 &lt;code&gt;True&lt;/code&gt; 表示 GPU 可以被 PyTorch 调用。&lt;/p&gt;
+&lt;h3&gt;将 Conda 的项目分享给他人&lt;/h3&gt;
+&lt;p&gt;首先激活你创建的 conda 环境：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;conda activate your_env
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;使用 &lt;code&gt;conda env export&lt;/code&gt; 命令导出配置：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;conda env export &amp;gt; environment.yml
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;导出的文件会出现在当前目录。&lt;/p&gt;
+&lt;p&gt;对方拿到 &lt;code&gt;environment.yml&lt;/code&gt; 文件后，在自己的终端执行以下命令即可创建并激活环境：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;conda env create -f environment.yml
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;常用命令速查&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;conda create -n &amp;lt;env_name&amp;gt; python=3.14	# 创建环境
+conda list								# 列出环境
+conda activate &amp;lt;env_name&amp;gt;				# 激活环境
+conda deactivate						# 退出当前环境
+conda remove -n &amp;lt;env_name&amp;gt; --all		# 删除环境
+conda env export &amp;gt; environment.yml		# 导出环境
+conda env create -f environment.yml		# 导入环境
+conda install &amp;lt;package_name&amp;gt;			# 安装包
+conda update &amp;lt;package_name&amp;gt;				# 更新包
+conda remove &amp;lt;package_name&amp;gt;				# 卸载包
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;常见问题&lt;/h2&gt;
+&lt;h3&gt;PowerShell 执行脚本报错&lt;/h3&gt;
+&lt;p&gt;如果遇到：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;无法加载文件，因为在此系统上禁止运行脚本
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;解决：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;只需要执行一次。&lt;/p&gt;
+&lt;h3&gt;中文路径问题&lt;/h3&gt;
+&lt;p&gt;Python 和很多第三方库对中文路径支持不好。建议：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;安装路径用纯英文，如 &lt;code&gt;D:\miniforge3&lt;/code&gt; 而不是 &lt;code&gt;D:\软件\miniforge3&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;项目路径也别用中文&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;为什么中文路径会出问题？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Windows 默认用 GBK 编码，而 Python 3 默认用 UTF-8。路径里有中文时，编码不一致可能导致文件打不开、导入模块失败、编译 C 扩展时报错。&lt;/p&gt;
+&lt;p&gt;最简单的解决方案：统一用英文路径。&lt;/p&gt;
+&lt;h3&gt;多个 Python 版本共存&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;用 uv：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uv python install 3.13 3.14
+uv init --python 3.13 my-old-project
+uv init --python 3.14 my-new-project
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;uv 会自动下载并管理多个 Python 版本，每个项目可以指定用哪个版本。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;用 conda：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;conda create -n py313 python=3.13
+conda create -n py314 python=3.14
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;conda 通过不同环境隔离不同 Python 版本，切换环境就是切换 Python 版本。&lt;/p&gt;
+&lt;h3&gt;uv 命令找不到&lt;/h3&gt;
+&lt;p&gt;如果安装 uv 后提示命令不存在，说明 PATH 没有配置好。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决方法：&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;找到 uv 的安装位置（通常是 &lt;code&gt;C:\Users\你的用户名\.local\bin&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;手动添加到 PATH：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Win + S&lt;/code&gt; 搜索&quot;环境变量&quot;&lt;/li&gt;
+&lt;li&gt;编辑用户变量的 &lt;code&gt;Path&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;添加 &lt;code&gt;C:\Users\你的用户名\.local\bin&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;重启 PowerShell&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;或者直接用完整路径调用：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;C:\Users\你的用户名\.local\bin\uv.exe --version
+&lt;/code&gt;&lt;/pre&gt;
 &lt;hr /&gt;
-&lt;h2&gt;MinGW-w64 + VS Code（推荐）&lt;/h2&gt;
-&lt;p&gt;重头戏来了！这是我最推荐的方案，也是我自己一直在用的组合。&lt;s&gt;主要是方便Vibe Coding&lt;/s&gt;&lt;/p&gt;
-&lt;h3&gt;1. 下载并解压 MinGW-w64&lt;/h3&gt;
-&lt;p&gt;MinGW-w64 是一个 GCC 编译器在 Windows 上的移植版本，我们主要用到它的 gcc 编译器。这里我们使用winlib，里面包含了在Windows上C和C++的常用工具。&lt;/p&gt;
-&lt;h4&gt;官方下载&lt;/h4&gt;
-&lt;p&gt;官网地址是：https://winlibs.com/&lt;/p&gt;
-&lt;p&gt;如果你觉得官网下载太慢，我这里也整理了国内的网盘链接：&lt;/p&gt;
+&lt;h2&gt;附录 A：更新和卸载&lt;/h2&gt;
+&lt;h3&gt;更新 uv&lt;/h3&gt;
+&lt;p&gt;如果你是通过脚本安装的话，你可以升级 uv：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uv self update
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;卸载 uv&lt;/h3&gt;
+&lt;p&gt;清理存储的数据（可选）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uv cache clean
+rm -r &quot;$(uv python dir)&quot;
+rm -r &quot;$(uv tool dir)&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;删除 uv 和 uvx 二进制文件：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;rm $HOME\.local\bin\uv.exe
+rm $HOME\.local\bin\uvx.exe
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;更新 Miniforge&lt;/h3&gt;
+&lt;p&gt;一般不推荐直接更新 Miniforge 本体，如果你一定要更新，请卸载并从官网重新下载安装最新版本的 Miniforge。&lt;/p&gt;
+&lt;h3&gt;卸载 Miniforge&lt;/h3&gt;
+&lt;p&gt;没什么好说的，直接在 Windows 应用管理直接卸载就可以了。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;附录 B：运行别人的旧项目&lt;/h2&gt;
+&lt;h3&gt;场景一：有 requirements.txt&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;requirements.txt&lt;/code&gt; 是一种早期的分享虚拟环境的方法，使用 &lt;code&gt;pip freeze&lt;/code&gt; 就可以将安装的包导出：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip freeze &amp;gt; requirements.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果需要安装：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install -r requirements.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;让 pip 自动找兼容版本：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install -r requirements.txt --upgrade
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;场景二：有 pyproject.toml&lt;/h3&gt;
+&lt;p&gt;目前 Python 官方指定了 &lt;code&gt;pyproject.toml&lt;/code&gt; 作为&lt;strong&gt;统一的项目配置文件&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;uv 项目：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;uv sync
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;poetry 项目：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;poetry install
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;pdm 项目：&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pdm install
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;场景三：什么都没有&lt;/h3&gt;
+&lt;p&gt;没招，只能自己一个个找了。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;附录 C：其他工具速览&lt;/h2&gt;
+&lt;h3&gt;poetry&lt;/h3&gt;
+&lt;p&gt;功能全面的 Python 包管理工具，适合库开发。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install poetry			# 安装poetry
+poetry init					# 初始化
+poetry add requests			# 安装包
+poetry run python main.py	# 运行文件
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;pdm&lt;/h3&gt;
+&lt;p&gt;类似 poetry，但更符合 PEP 标准。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install pdm			# 安装pdm
+pdm init				# 初始化
+pdm add requests		# 安装包
+pdm run python main.py	# 运行文件
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;pixi&lt;/h3&gt;
+&lt;p&gt;用 Rust 写的 conda 包管理器，结合 conda 能力和 uv 体验。&lt;/p&gt;
+&lt;p&gt;这里稍微介绍一下 pixi，pixi 通过在项目当前目录创建了一个 &lt;code&gt;.pixi&lt;/code&gt; 文件夹用来存放所有环境依赖，但是它是由 &lt;code&gt;pixi.toml&lt;/code&gt; 来统一管理的，和 Python 的 &lt;code&gt;pyproject.toml&lt;/code&gt; 并不完全兼容。&lt;/p&gt;
+&lt;p&gt;官网：&lt;code&gt;https://pixi.prefix.dev/latest/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;安装 pixi：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;powershell -ExecutionPolicy ByPass -c &quot;irm -useb https://pixi.sh/install.ps1 | iex&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;更新 pixi：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pixi self-update
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;常用命令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pixi init my-project	# 初始化
+pixi add python=3.14	# 安装Python环境
+pixi add nodejs			# 安装Node环境
+pixi add pytorch		# 安装pytorch包
+pixi run python main.py	# 运行文件
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;pixi 相对较新，社区生态还在成长中。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;选择建议&lt;/h2&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;云盘类型&lt;/th&gt;
-&lt;th&gt;下载地址&lt;/th&gt;
-&lt;th&gt;提取码&lt;/th&gt;
+&lt;th&gt;场景&lt;/th&gt;
+&lt;th&gt;推荐方案&lt;/th&gt;
+&lt;th&gt;理由&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;123 云盘&lt;/td&gt;
-&lt;td&gt;https://www.123865.com/s/JnJ5Vv-GWIMA?pwd=ONsx#&lt;/td&gt;
-&lt;td&gt;ONsx&lt;/td&gt;
+&lt;td&gt;Web 开发 / 自动化脚本 / 工具类项目&lt;/td&gt;
+&lt;td&gt;uv&lt;/td&gt;
+&lt;td&gt;轻量、现代、速度极快&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;百度网盘&lt;/td&gt;
-&lt;td&gt;https://pan.baidu.com/s/1MY19qEViOL0W4qTfl3CKFA?pwd=pcae&lt;/td&gt;
-&lt;td&gt;pcae&lt;/td&gt;
+&lt;td&gt;库开发 / 要发布到 PyPI&lt;/td&gt;
+&lt;td&gt;uv 或 poetry&lt;/td&gt;
+&lt;td&gt;支持构建和发布&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;夸克网盘&lt;/td&gt;
-&lt;td&gt;https://pan.quark.cn/s/769ab8ff174c?pwd=dkm2&lt;/td&gt;
-&lt;td&gt;dkm2&lt;/td&gt;
+&lt;td&gt;数据分析 / 机器学习 / 深度学习&lt;/td&gt;
+&lt;td&gt;Miniforge&lt;/td&gt;
+&lt;td&gt;能管 CUDA 等系统级依赖&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;同时维护多个 Python 版本&lt;/td&gt;
+&lt;td&gt;uv 或 conda&lt;/td&gt;
+&lt;td&gt;都能隔离管理&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;公司项目要求合规（无商业风险）&lt;/td&gt;
+&lt;td&gt;Miniforge&lt;/td&gt;
+&lt;td&gt;conda-forge 免费&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;blockquote&gt;
-&lt;p&gt;小提醒：下载完成后解压，建议放在非中文路径下，比如 D:\mingw64，这样后续配置起来会省心很多。&lt;/p&gt;
-&lt;/blockquote&gt;
 &lt;hr /&gt;
-&lt;h3&gt;2. 配置环境变量&lt;/h3&gt;
-&lt;p&gt;好，下载并解压完成后，我们需要把 MinGW 的 bin 目录添加到系统环境变量里，这样系统才能找到 gcc 命令。&lt;/p&gt;
+&lt;h2&gt;结语&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;核心原则再强调一遍：非必要就不要把任何 Python 添加到系统环境变量。&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;PyPI 派：用 uv 管理 Python，通过 &lt;code&gt;uv run&lt;/code&gt; 调用&lt;/li&gt;
+&lt;li&gt;Conda 派：用 miniforge 创建隔离环境，通过 &lt;code&gt;conda activate&lt;/code&gt; 切换&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;现在，去创建一个项目试试吧。如果遇到问题，回到「常见问题」章节看看，或者检查一下是不是混用了两派的工具。&lt;/p&gt;
+&lt;p&gt;祝编码愉快。&lt;/p&gt;
+</content:encoded></item><item><title>Windows 配置 C 语言开发环境</title><link>https://xsgovo.github.io/20260321a/</link><guid isPermaLink="true">https://xsgovo.github.io/20260321a/</guid><description>在 Windows 上安装 C 语言开发环境，包含编译器选择、VS Code 配置与 CMake 管理项目的方法。</description><pubDate>Sat, 21 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;学 C 语言的第一步不是写代码，是把环境搭好。环境搭不好，后面全是坑。&lt;/p&gt;
+&lt;p&gt;Windows 上配 C 语言环境，我只推荐一个方案：&lt;strong&gt;MinGW-w64 + VS Code&lt;/strong&gt;。其他方案要么过时，要么太重，要么藏着各种暗坑。等你把这组工具用熟了，想换 CLion 或者研究其他工具都很容易。&lt;/p&gt;
+&lt;p&gt;这篇文章就是教你把这套环境搭起来，从安装到能跑多文件项目。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;为什么选择 MinGW-w64 + VS Code&lt;/h2&gt;
+&lt;p&gt;在 Windows 上写 C 代码，你有很多种选择。但大多数选择都有问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Visual Studio&lt;/strong&gt; 是微软的官方方案，功能强大，但体积动不动超过好几个G。更重要的是，它默认使用 MSVC 编译器，而国内教材、在线评测系统、Linux 服务器都用 GCC。MSVC 和 GCC 有差异，比如 &lt;code&gt;scanf_s&lt;/code&gt; 是微软的安全扩展，GCC 不认。你用 Visual Studio 写的代码，交到服务器上可能直接编译失败。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Dev-C++&lt;/strong&gt; 轻量，但已经停止维护多年。它的代码补全、调试功能、Git 集成都停留在 20 年前的水平。你能用它写课程作业，但写大一点的项目会很痛苦。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MinGW-w64 + VS Code&lt;/strong&gt; 的优势在于：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;编译器一致&lt;/strong&gt;：GCC 是 Linux 世界的事实标准，也是国内教材默认用的编译器。你写的代码在 Windows 上能跑，在 Linux 服务器上也能直接编译，不用改。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;轻量&lt;/strong&gt;：MinGW-w64 只有几百 MB，VS Code 启动快，不吃内存。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;灵活&lt;/strong&gt;：VS Code 是编辑器，不是 IDE。你装什么插件，它就有什么功能。不需要的功能可以不装，保持简洁。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;可迁移&lt;/strong&gt;：这套配置是跨平台的。你以后换 Mac 或 Linux，VS Code 和 GCC 的配置基本不变，只需要改几个路径。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr /&gt;
+&lt;h2&gt;安装 MinGW-w64&lt;/h2&gt;
+&lt;p&gt;MinGW-w64 是 GCC 编译器在 Windows 上的移植版本。它把你的 C 代码编译成 Windows 能运行的可执行文件，同时保持和 Linux GCC 的行为一致。&lt;/p&gt;
+&lt;h3&gt;下载&lt;/h3&gt;
+&lt;p&gt;官网地址：https://winlibs.com/&lt;/p&gt;
+&lt;p&gt;官网下载慢的话，可以用国内网盘：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;123 云盘：https://www.123865.com/s/JnJ5Vv-GWIMA?pwd=ONsx#&lt;/li&gt;
+&lt;li&gt;百度网盘：https://pan.baidu.com/s/1MY19qEViOL0W4qTfl3CKFA?pwd=pcae&lt;/li&gt;
+&lt;li&gt;夸克网盘：https://pan.quark.cn/s/769ab8ff174c?pwd=dkm2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下载完成后解压。这里有一个关键细节：&lt;strong&gt;路径不能有中文，也不能有空格&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;为什么？因为 Windows 的命令行工具对路径处理有历史遗留问题。空格会被解析成参数分隔符，中文在某些旧版工具链里会乱码。你如果把 MinGW 放在 &lt;code&gt;C:\Program Files&lt;/code&gt; 或 &lt;code&gt;D:\软件\mingw64&lt;/code&gt;，后面配置环境变量时可能会遇到各种奇怪的错误，比如「找不到命令」「路径不存在」「gcc 不是内部或外部命令」。&lt;/p&gt;
+&lt;p&gt;建议放在 &lt;code&gt;D:/mingw64&lt;/code&gt;，根目录，纯英文，没有空格。这是最少麻烦的选择。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3&gt;配置环境变量&lt;/h3&gt;
+&lt;p&gt;解压完成后，需要把 MinGW 的 bin 目录添加到系统环境变量。环境变量是操作系统用来查找可执行文件的机制。当你在终端输入 &lt;code&gt;gcc&lt;/code&gt; 时，系统会在 Path 里列出的目录中依次查找，找到就执行，找不到就报错。&lt;/p&gt;
 &lt;h4&gt;方式一：使用脚本&lt;/h4&gt;
-&lt;p&gt;解压后的目录里应该有一个 &lt;code&gt;mingwvars.bat&lt;/code&gt; 脚本，双击运行一下试试。&lt;/p&gt;
+&lt;p&gt;解压后的目录里有一个 &lt;code&gt;mingwvars.bat&lt;/code&gt;，双击运行。这个脚本会临时把 bin 目录加到当前终端的 Path 里，但关掉终端就失效。每次新开终端都要重新运行，麻烦，而且容易忘。&lt;/p&gt;
 &lt;h4&gt;方式二：手动配置&lt;/h4&gt;
-&lt;p&gt;如果脚本不好用，那我们就手动来：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;右键「此电脑」-「属性」&lt;/li&gt;
 &lt;li&gt;点击「高级系统设置」&lt;/li&gt;
 &lt;li&gt;点击「环境变量」&lt;/li&gt;
 &lt;li&gt;在「系统变量」里找到 Path，双击编辑&lt;/li&gt;
-&lt;li&gt;新建一个条目，输入 &lt;code&gt;D:\mingw64\bin&lt;/code&gt;（改成你实际的解压路径）&lt;/li&gt;
+&lt;li&gt;新建一个条目，输入 &lt;code&gt;D:/mingw64/bin&lt;/code&gt;（改成你实际的解压路径）&lt;/li&gt;
 &lt;li&gt;确定保存&lt;/li&gt;
 &lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;重要：配置完成后，重启你的终端。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Windows 的环境变量不会自动同步到已打开的终端。你如果在配置之前就开了 PowerShell 或 CMD，那个终端里的 Path 还是旧的，输入 &lt;code&gt;gcc&lt;/code&gt; 会提示找不到命令。这不是你的问题，是 Windows 的设计。关掉终端重新打开，或者重启电脑，都能解决。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3&gt;3. 验证安装&lt;/h3&gt;
-&lt;p&gt;环境变量配置好以后，我们需要验证一下安装是否成功。&lt;/p&gt;
+&lt;h3&gt;验证安装&lt;/h3&gt;
 &lt;p&gt;打开 PowerShell 或者 CMD，输入：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;gcc --version
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;如果能看到 gcc 的版本信息，说明配置成功啦！&lt;/p&gt;
+&lt;p&gt;能看到类似这样的输出，说明配置成功：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;gcc.exe (MinGW-W64 x86_64-posix-seh, built by Brecht Sanders) 13.2.0
+Copyright (C) 2023 Free Software Foundation, Inc.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果提示 &quot;gcc 不是内部或外部命令&quot;，按以下顺序排查：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;检查 Path&lt;/strong&gt;：环境变量里有没有 &lt;code&gt;D:/mingw64/bin&lt;/code&gt;，路径对不对&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;检查路径格式&lt;/strong&gt;：有没有中文或空格&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;重启终端&lt;/strong&gt;：配置环境变量之前打开的终端，需要重启才能读到新配置&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这三件事排查完，99% 的问题都能解决。剩下 1% 建议重启电脑，重启能解决 90% 的问题，但解决不了路径带中文的那个。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3&gt;4. 安装 VS Code&lt;/h3&gt;
-&lt;p&gt;VS Code 是微软出品的代码编辑器，非常好用，而且插件生态很丰富。&lt;/p&gt;
-&lt;h4&gt;下载&lt;/h4&gt;
-&lt;p&gt;VS Code 官网：https://code.visualstudio.com/&lt;/p&gt;
-&lt;h4&gt;推荐安装的插件&lt;/h4&gt;
+&lt;h2&gt;安装 VS Code&lt;/h2&gt;
+&lt;p&gt;VS Code 是微软出品的代码编辑器，2015 年发布，现在是最流行的代码编辑器之一。它的设计理念是「编辑器 + 插件」，核心功能轻量，需要什么功能就装什么插件。&lt;/p&gt;
+&lt;p&gt;下载地址：https://code.visualstudio.com/&lt;/p&gt;
+&lt;p&gt;安装过程没什么可说的，一直点下一步就行。建议勾选「添加到 PATH」，这样可以在终端用 &lt;code&gt;code&lt;/code&gt; 命令打开文件。&lt;/p&gt;
+&lt;h3&gt;推荐安装的插件&lt;/h3&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -141,7 +621,7 @@
 &lt;tr&gt;
 &lt;td&gt;C/C++&lt;/td&gt;
 &lt;td&gt;Microsoft&lt;/td&gt;
-&lt;td&gt;C/C++ 语言支持，包括代码补全、语法高亮等&lt;/td&gt;
+&lt;td&gt;C/C++ 语言支持，包括代码补全、语法高亮、调试&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;CMake Tools&lt;/td&gt;
@@ -150,12 +630,13 @@
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;这两个插件是必装的，装好之后 VS Code 就能很好地支持 C 语言开发了。&lt;/p&gt;
+&lt;p&gt;装完这两个插件，VS Code 就能支持 C 语言开发了。&lt;/p&gt;
+&lt;p&gt;为什么不推荐装更多插件？因为插件越多，启动越慢，冲突越多。C/C++ 插件已经包含了 IntelliSense 代码补全、语法检查、调试支持，够用。CMake Tools 用来管理多文件项目，后面会讲到。其他插件等你遇到具体需求再装，不要提前预装一堆「可能有用」的东西。&lt;/p&gt;
 &lt;hr /&gt;
 &lt;h2&gt;用命令编译 C 程序&lt;/h2&gt;
-&lt;p&gt;环境搭好了，让我们来写一个最简单的 C 程序试试。&lt;/p&gt;
+&lt;p&gt;环境搭好，先写个最简单的程序验证一下。这一步是为了确认 gcc 能正常工作，也是理解 C 语言编译过程的基础。&lt;/p&gt;
 &lt;h3&gt;创建测试文件&lt;/h3&gt;
-&lt;p&gt;新建一个文件叫 &lt;code&gt;main.c&lt;/code&gt;，内容如下：&lt;/p&gt;
+&lt;p&gt;新建文件 &lt;code&gt;main.c&lt;/code&gt;：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
 
 int main() {
@@ -163,20 +644,34 @@ int main() {
     return 0;
 }
 &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这段代码的作用是：包含标准输入输出库，定义主函数，打印一行文字，返回 0 表示正常结束。&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;&lt;/code&gt; 是预处理指令，告诉编译器把标准库的头文件内容插入到这里。&lt;code&gt;printf&lt;/code&gt; 是标准库函数，负责把字符串输出到终端。&lt;/p&gt;
 &lt;h3&gt;编译并运行&lt;/h3&gt;
-&lt;p&gt;在终端里执行：&lt;/p&gt;
+&lt;p&gt;在终端执行：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;gcc main.c -o main.exe
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;编译成功后，会生成一个 main.exe 文件，然后运行它：&lt;/p&gt;
+&lt;p&gt;这条命令做了三件事：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;预处理&lt;/strong&gt;：处理 &lt;code&gt;#include&lt;/code&gt; 和宏定义，把 &lt;code&gt;stdio.h&lt;/code&gt; 的内容插入到代码里&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;编译&lt;/strong&gt;：把 C 代码翻译成汇编代码&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;链接&lt;/strong&gt;：把汇编代码和目标文件链接成可执行文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;code&gt;-o main.exe&lt;/code&gt; 指定输出文件名为 &lt;code&gt;main.exe&lt;/code&gt;。如果不加 &lt;code&gt;-o&lt;/code&gt;，Windows 下默认输出 &lt;code&gt;a.exe&lt;/code&gt;，Linux 下默认输出 &lt;code&gt;a.out&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;编译成功后，当前目录会生成 &lt;code&gt;main.exe&lt;/code&gt;，运行它：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;.\main.exe
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;看到输出 &quot;Hello, World!&quot; 就说明编译运行成功了！&lt;/p&gt;
+&lt;p&gt;看到输出 &quot;Hello, World!&quot; 就是成功了。&lt;/p&gt;
+&lt;p&gt;这一步跑不通，后面不用看了，回去检查环境变量。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h3&gt;用 VS Code 调试&lt;/h3&gt;
-&lt;p&gt;虽然用命令行编译很酷，但每次都要手动输入命令确实有点麻烦。VS Code 提供了一套调试配置，我们可以根据自己的需要来定制。&lt;/p&gt;
-&lt;p&gt;VS Code 会自动生成一些配置，但说实话，那些默认配置用起来不太顺手。我比较推荐自己在 .vscode 目录下创建 &lt;code&gt;launch.json&lt;/code&gt; 和&lt;code&gt;tasks.json&lt;/code&gt;这两个配置文件。&lt;/p&gt;
-&lt;h4&gt;tasks.json（编译任务）&lt;/h4&gt;
-&lt;p&gt;这个文件用来配置怎么编译你的代码：&lt;/p&gt;
+&lt;h2&gt;配置 VS Code 调试&lt;/h2&gt;
+&lt;p&gt;命令行编译能跑，但每次手动输入麻烦。VS Code 可以配置一键编译调试，还能打断点、看变量、单步执行。&lt;/p&gt;
+&lt;p&gt;VS Code 的调试系统由两部分组成：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;tasks.json&lt;/strong&gt;：定义「编译任务」，告诉 VS Code 怎么把代码编译成可执行文件&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;launch.json&lt;/strong&gt;：定义「启动配置」，告诉 VS Code 怎么运行调试器&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;调试流程是：按 F5 → 执行 preLaunchTask（编译）→ 启动调试器 → 运行程序。&lt;/p&gt;
+&lt;p&gt;在项目根目录创建 &lt;code&gt;.vscode&lt;/code&gt; 文件夹，里面放两个配置文件：&lt;/p&gt;
+&lt;h3&gt;tasks.json（编译任务）&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;{
   &quot;version&quot;: &quot;2.0.0&quot;,
   &quot;tasks&quot;: [
@@ -199,8 +694,23 @@ int main() {
   ]
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h4&gt;launch.json（调试配置）&lt;/h4&gt;
-&lt;p&gt;这个文件用来配置怎么启动调试：&lt;/p&gt;
+&lt;p&gt;配置说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&quot;label&quot;: &quot;gcc build&quot;&lt;/code&gt;：任务名称，launch.json 会通过这个名字引用它&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&quot;type&quot;: &quot;shell&quot;&lt;/code&gt;：在 shell 里执行命令&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&quot;command&quot;: &quot;gcc&quot;&lt;/code&gt;：执行的命令&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&quot;args&quot;&lt;/code&gt;：传递给 gcc 的参数
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-g&lt;/code&gt;：生成调试信息，这样调试器才能知道代码行号和变量名&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;${fileBasename}&lt;/code&gt;：当前打开的文件名，VS Code 的变量&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-o&lt;/code&gt;：指定输出文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;${fileBasenameNoExtension}.exe&lt;/code&gt;：去掉扩展名的文件名加 &lt;code&gt;.exe&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&quot;group&quot;: {&quot;kind&quot;: &quot;build&quot;, &quot;isDefault&quot;: true}&lt;/code&gt;：这是默认的构建任务，按 Ctrl+Shift+B 会执行它&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&quot;problemMatcher&quot;: [&quot;$gcc&quot;]&lt;/code&gt;：捕获 gcc 的编译错误，显示在问题面板里&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;launch.json（调试配置）&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;{
   &quot;version&quot;: &quot;0.2.0&quot;,
   &quot;configurations&quot;: [
@@ -218,12 +728,38 @@ int main() {
   ]
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;配置好这两个文件以后，写好 C 源文件，按下 F5 就可以直接调试运行了，比命令行方便多了。&lt;/p&gt;
+&lt;p&gt;配置说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&quot;name&quot;: &quot;C Debug&quot;&lt;/code&gt;：配置名称，显示在调试下拉框里&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&quot;type&quot;: &quot;cppdbg&quot;&lt;/code&gt;：使用 C/C++ 调试器&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&quot;request&quot;: &quot;launch&quot;&lt;/code&gt;：启动调试&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&quot;program&quot;&lt;/code&gt;：要调试的可执行文件路径&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&quot;cwd&quot;&lt;/code&gt;：工作目录&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&quot;MIMode&quot;: &quot;gdb&quot;&lt;/code&gt;：使用 GDB 作为调试器&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&quot;miDebuggerPath&quot;: &quot;gdb&quot;&lt;/code&gt;：GDB 的可执行文件路径，因为在环境变量里，直接写 &lt;code&gt;gdb&lt;/code&gt; 就行&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&quot;externalConsole&quot;: false&lt;/code&gt;：在 VS Code 内置终端里运行，不弹出新窗口&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&quot;preLaunchTask&quot;: &quot;gcc build&quot;&lt;/code&gt;：启动调试前先执行编译任务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;配好后，打开 C 源文件，按 F5 就能编译并启动调试。如果代码有语法错误，编译会失败，问题面板会显示错误信息。如果编译成功，程序会启动并在第一行断点处暂停（如果你打了断点的话）。&lt;/p&gt;
 &lt;hr /&gt;
 &lt;h2&gt;用 CMake 管理多文件项目&lt;/h2&gt;
-&lt;p&gt;当你写项目时，代码量变大了，就需要把代码拆分成多个文件来管理。这时候手动用 gcc 逐个编译就很麻烦了，推荐使用 CMake 来统一管理构建。&lt;/p&gt;
-&lt;h3&gt;1. 项目结构示例&lt;/h3&gt;
-&lt;p&gt;一个典型的 C 项目结构是这样的：&lt;/p&gt;
+&lt;p&gt;单个文件的程序用 gcc 直接编译就行。但代码量大了，要拆成多个文件管理，还要分头文件和源文件，手动编译就很烦。&lt;/p&gt;
+&lt;p&gt;假设你有这样的项目结构：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.
+├── main.c
+├── utils.c
+├── utils.h
+├── math.c
+├── math.h
+└── ...更多文件
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;手动编译的命令会变成：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;gcc main.c utils.c math.c -o program.exe
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;每次增删文件都要改命令，还要记住哪些文件需要编译。更复杂的情况是，有些文件需要先编译成库，有些文件依赖其他文件，编译顺序也有讲究。&lt;/p&gt;
+&lt;p&gt;CMake 是一个构建系统生成器。你写一个 &lt;code&gt;CMakeLists.txt&lt;/code&gt; 描述项目结构和编译规则，CMake 会根据你的平台生成对应的构建文件（Windows 下是 Visual Studio 项目或 Makefile，Linux 下是 Makefile），然后自动处理编译顺序、依赖关系、增量编译等细节。&lt;/p&gt;
+&lt;h3&gt;项目结构示例&lt;/h3&gt;
+&lt;p&gt;一个典型的 C 项目结构：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;.
 ├── CMakeLists.txt
 ├── include
@@ -232,7 +768,12 @@ int main() {
     ├── hello.c
     └── main.c
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;我来分别创建这几个文件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;include/&lt;/code&gt;：放头文件（.h），声明函数和接口&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;src/&lt;/code&gt;：放源文件（.c），实现函数逻辑&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CMakeLists.txt&lt;/code&gt;：CMake 的配置文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这种分离的好处是：头文件暴露接口，源文件隐藏实现。其他代码只需要包含头文件就能调用函数，不需要关心具体怎么实现的。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;hello.h&lt;/code&gt;（头文件）：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;#ifndef HELLO_H
 #define HELLO_H
@@ -241,6 +782,7 @@ void say_hello();
 
 #endif
 &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;#ifndef HELLO_H&lt;/code&gt; 是「头文件保护」，防止同一个头文件被多次包含。如果多个源文件都包含了这个头文件，编译器只会处理一次，避免重复定义错误。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;hello.c&lt;/code&gt;（函数实现）：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
 #include &quot;../include/hello.h&quot;
@@ -249,6 +791,7 @@ void say_hello() {
     printf(&quot;Hello, World!\n&quot;);
 }
 &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;注意 include 路径。&lt;code&gt;#include &quot;../include/hello.h&quot;&lt;/code&gt; 是相对路径，从 &lt;code&gt;hello.c&lt;/code&gt; 的位置出发，上一级目录的 &lt;code&gt;include&lt;/code&gt; 文件夹里找 &lt;code&gt;hello.h&lt;/code&gt;。也可以用 &lt;code&gt;#include &quot;hello.h&quot;&lt;/code&gt;，然后在 CMakeLists.txt 里用 &lt;code&gt;include_directories&lt;/code&gt; 指定头文件搜索路径。两种写法都可以，但一个项目里要统一，不要混着用。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;main.c&lt;/code&gt;（主程序）：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;#include &quot;hello.h&quot;
 
@@ -257,14 +800,13 @@ int main() {
     return 0;
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;2. 编写 CMakeLists.txt&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;CMakeLists.txt&lt;/code&gt; 是 CMake 的配置文件，告诉它怎么编译我们的项目：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;main.c&lt;/code&gt; 只需要包含头文件 &lt;code&gt;hello.h&lt;/code&gt;，就能调用 &lt;code&gt;say_hello()&lt;/code&gt; 函数。它不需要知道 &lt;code&gt;say_hello()&lt;/code&gt; 是在哪个源文件里实现的，这是「分离编译」的核心思想。&lt;/p&gt;
+&lt;h3&gt;编写 CMakeLists.txt&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;cmake_minimum_required(VERSION 3.10)
 
 project(MyCProject C)
 
 set(CMAKE_C_STANDARD 11)
-
 set(CMAKE_BUILD_TYPE Debug)
 
 include_directories(include)
@@ -274,17 +816,28 @@ add_executable(main
     src/hello.c
 )
 &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;配置说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;cmake_minimum_required(VERSION 3.10)&lt;/code&gt;：指定最低 CMake 版本，低于这个版本会报错&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;project(MyCProject C)&lt;/code&gt;：项目名称和语言，C 表示 C 语言（不是 C++）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;set(CMAKE_C_STANDARD 11)&lt;/code&gt;：使用 C11 标准，支持 &lt;code&gt;_Generic&lt;/code&gt;、匿名结构体等新特性&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;set(CMAKE_BUILD_TYPE Debug)&lt;/code&gt;：调试模式，生成调试信息，不做优化&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;include_directories(include)&lt;/code&gt;：添加头文件搜索路径，这样代码里写 &lt;code&gt;#include &quot;hello.h&quot;&lt;/code&gt; 就能找到&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;add_executable(main ...)&lt;/code&gt;：定义可执行文件目标，名称是 &lt;code&gt;main&lt;/code&gt;，源文件列表是后面的那些&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;CMake 的优势在于跨平台。同样的 &lt;code&gt;CMakeLists.txt&lt;/code&gt;，在 Windows 上可以用 Visual Studio 编译，在 Linux 上可以用 GCC 编译，在 Mac 上可以用 Clang 编译，不需要为每个平台写不同的构建脚本。&lt;/p&gt;
 &lt;h3&gt;配置 CMake Tools&lt;/h3&gt;
-&lt;p&gt;在 VS Code 里配置 CMake Tools 有两种方式：&lt;/p&gt;
+&lt;p&gt;在 VS Code 里配置 CMake Tools：&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;在 VS Code 左侧点击 CMake 图标，然后点击「配置」按钮，选择 GCC 作为工具包&lt;/li&gt;
-&lt;li&gt;直接点击 VS Code 底部的工具包按钮，选择 GCC&lt;/li&gt;
+&lt;li&gt;点击左侧 CMake 图标，点击「配置」按钮，选择 GCC 作为工具包&lt;/li&gt;
+&lt;li&gt;或者点击 VS Code 底部的工具包按钮，选择 GCC&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;配置好之后，CMake Tools 会帮我们自动生成 build 目录，非常方便。&lt;/p&gt;
+&lt;p&gt;CMake Tools 会扫描系统里可用的编译器，列出你安装的 MinGW-w64。选择它之后，CMake Tools 会自动生成 build 目录，在里面放生成的构建文件。&lt;/p&gt;
+&lt;p&gt;CMake 支持「 out-of-source 」构建，意思是编译生成的文件和源代码分开。所有中间文件、可执行文件都在 &lt;code&gt;build/&lt;/code&gt; 目录里，源代码目录保持干净。这是最佳实践，避免把 &lt;code&gt;.o&lt;/code&gt;、&lt;code&gt;.exe&lt;/code&gt; 等生成文件和源代码混在一起。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h2&gt;VS Code 调试 CMake 项目&lt;/h2&gt;
-&lt;p&gt;用 CMake 构建的项目，调试配置会稍有不同。&lt;/p&gt;
-&lt;h3&gt;tasks.json&lt;/h3&gt;
+&lt;h3&gt;调试 CMake 项目&lt;/h3&gt;
+&lt;p&gt;CMake 项目的调试配置和单文件项目稍有不同，主要是可执行文件的路径变了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;tasks.json：&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;{
   &quot;version&quot;: &quot;2.0.0&quot;,
   &quot;tasks&quot;: [
@@ -299,7 +852,8 @@ add_executable(main
   ]
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;launch.json&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;cmake --build build&lt;/code&gt; 的意思是：在 &lt;code&gt;build&lt;/code&gt; 目录里执行构建。CMake 会根据 &lt;code&gt;build&lt;/code&gt; 目录里的构建文件（Makefile 或 Visual Studio 项目）调用对应的工具完成编译。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;launch.json：&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;{
   &quot;version&quot;: &quot;0.2.0&quot;,
   &quot;configurations&quot;: [
@@ -317,55 +871,57 @@ add_executable(main
   ]
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;配置好之后，同样是按下 F5 就可以调试运行了。&lt;/p&gt;
+&lt;p&gt;注意 &lt;code&gt;program&lt;/code&gt; 的路径是 &lt;code&gt;${workspaceFolder}/build/main.exe&lt;/code&gt;。CMake 把可执行文件输出到 &lt;code&gt;build&lt;/code&gt; 目录里，而不是项目根目录。这是因为 CMake 默认使用 out-of-source 构建，所有生成物都放在 build 目录。&lt;/p&gt;
+&lt;p&gt;配好后按 F5 就能调试运行。CMake 会自动处理依赖关系，只编译修改过的文件，比手动用 gcc 逐个编译快得多。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h2&gt;CLion&lt;/h2&gt;
-&lt;p&gt;最后简单介绍一下 CLion，这是 JetBrains 出品的专业 C/C++ IDE。&lt;/p&gt;
-&lt;h3&gt;1. 下载与安装&lt;/h3&gt;
-&lt;p&gt;官网地址：https://www.jetbrains.com/zh-cn/clion/&lt;/p&gt;
-&lt;p&gt;CLion 的好处是内置了对 CMake 的支持，而且功能非常全面。现在非商业用途也可以免费使用了，学生或者个人开发者都可以白嫖。&lt;/p&gt;
-&lt;h3&gt;2. 配置工具链&lt;/h3&gt;
-&lt;p&gt;CLion 需要编译器和调试器，我们之前安装的 MinGW-w64 正好可以用上。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;先确保 MinGW-w64 已经配置好（参考上面步骤）&lt;/li&gt;
-&lt;li&gt;打开 CLion，进入 &lt;code&gt;设置&lt;/code&gt; → &lt;code&gt;构建、执行、部署 &lt;/code&gt;→ &lt;code&gt;工具链&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;选择 MinGW，把路径指向 &lt;code&gt;D:\mingw64&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3&gt;3. 创建并运行项目&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;新建项目，选择 C Executable&lt;/li&gt;
-&lt;li&gt;选择保存位置，CLion 会自动生成 CMakeLists.txt&lt;/li&gt;
-&lt;li&gt;点击右上角的运行按钮就可以编译运行了&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3&gt;4. 使用建议&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;如果提示找不到编译器，先检查 Toolchains 配置&lt;/li&gt;
-&lt;li&gt;如果 CMake 报错，删掉项目下的 cmake-build-* 目录，然后重新加载&lt;/li&gt;
-&lt;li&gt;建议后续项目都用 CMake 来管理，这样迁移到其他 IDE 也方便&lt;/li&gt;
-&lt;/ul&gt;
+&lt;h2&gt;其他方案&lt;/h2&gt;
+&lt;p&gt;上面这套方案是我认为最适合大多数人的。如果你有特殊需求，可以考虑下面这些：&lt;/p&gt;
+&lt;h3&gt;Dev-C++&lt;/h3&gt;
+&lt;p&gt;老牌轻量 IDE，小熊猫改版比原版好用。适合只想快速跑通代码、不想折腾配置的人。&lt;/p&gt;
+&lt;p&gt;下载地址：http://royqh.net/redpandacpp/download/&lt;/p&gt;
+&lt;p&gt;选后缀带 MinGW64 的文件下载，安装完就能用。&lt;/p&gt;
+&lt;p&gt;但说实话，这工具的上限就在那里。你能用它写课程作业，但写大一点的项目会很痛苦。没有代码补全，没有调试，没有 Git 集成。它的定位是「让初学者快速入门」，不是「支撑专业开发」。&lt;/p&gt;
+&lt;h3&gt;Visual Studio&lt;/h3&gt;
+&lt;p&gt;功能强大的 IDE，体积也大。默认用 MSVC 编译器，和国内教材用的 GCC 有些差异。&lt;/p&gt;
+&lt;p&gt;下载地址：https://visualstudio.microsoft.com/zh-hans/&lt;/p&gt;
+&lt;p&gt;安装时勾选「使用 C++ 的桌面开发」。&lt;/p&gt;
+&lt;p&gt;如果你确定自己只会在 Windows 上写代码，且不在乎和教材的差异，可以用。但如果你以后要在 Linux 服务器上跑代码，建议还是 GCC。MSVC 的一些扩展（如 &lt;code&gt;scanf_s&lt;/code&gt;）不是标准 C，GCC 不认。&lt;/p&gt;
+&lt;p&gt;Visual Studio 的真正优势是调试器和性能分析工具，Visual Studio 自带的调试器为 x64dbg，在调试启动调试窗口后，按住 Ctrl + Alt + D可以打开反汇编的窗口，可以清晰的看到编写的C语言源码，编译的汇编代码和二进制在内存中的地址。这些是 VS Code + GDB 比不了的。&lt;/p&gt;
+&lt;p&gt;如果你写大型 C++ 项目，Visual Studio 是更好的选择。但纯 C 项目，MinGW-w64 + VS Code 够用。&lt;/p&gt;
+&lt;h3&gt;CLion&lt;/h3&gt;
+&lt;p&gt;JetBrains 出的专业 C/C++ IDE，内置 CMake 支持。非商业用途现在免费。&lt;/p&gt;
+&lt;p&gt;下载地址：https://www.jetbrains.com/zh-cn/clion/&lt;/p&gt;
+&lt;p&gt;需要配置 MinGW-w64 作为工具链，路径指向 &lt;code&gt;D:/mingw64&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;这工具很好，但很重。启动慢，吃内存。如果你的电脑配置一般，VS Code 更轻量。CLion 的优势是智能提示比 VS Code 强，重构功能更完善。但 VS Code 免费、开源、插件多，对大多数人来说够用。&lt;/p&gt;
 &lt;hr /&gt;
 &lt;h2&gt;常见问题&lt;/h2&gt;
-&lt;p&gt;最后整理几个常见的问题和解决方法：&lt;/p&gt;
-&lt;h3&gt;问题一：提示 &quot;gcc 不是内部或外部命令&quot;&lt;/h3&gt;
-&lt;p&gt;这说明环境变量没有配置好。检查一下：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;问题一：提示 &quot;gcc 不是内部或外部命令&quot;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;环境变量没配好。检查：&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;确认 bin 目录已经加到 Path 里了&lt;/li&gt;
-&lt;li&gt;重启终端或者重启电脑后再试试&lt;/li&gt;
-&lt;li&gt;确认路径没有中文或者空格&lt;/li&gt;
+&lt;li&gt;bin 目录已经加到 Path 里&lt;/li&gt;
+&lt;li&gt;重启终端或者重启电脑后再试&lt;/li&gt;
+&lt;li&gt;路径没有中文或者空格&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3&gt;问题二：CMake 找不到编译器&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;问题二：CMake 找不到编译器&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;先确认 &lt;code&gt;gcc --version&lt;/code&gt; 能正常输出版本&lt;/li&gt;
+&lt;li&gt;确认 &lt;code&gt;gcc --version&lt;/code&gt; 能正常输出版本&lt;/li&gt;
 &lt;li&gt;关掉所有终端，重新打开再执行 CMake&lt;/li&gt;
 &lt;/ol&gt;
+&lt;p&gt;CMake 会缓存编译器信息，如果之前配置失败，缓存可能损坏。删掉 &lt;code&gt;build&lt;/code&gt; 目录重新配置，或者执行 &lt;code&gt;cmake --fresh&lt;/code&gt; 强制刷新。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;问题三：VS Code 调试时提示找不到程序&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;检查 &lt;code&gt;launch.json&lt;/code&gt; 里的 &lt;code&gt;program&lt;/code&gt; 路径是否正确。CMake 项目的可执行文件在 build 目录里，单文件项目和 CMake 项目的配置不一样。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;问题四：中文输出乱码&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Windows 的编码问题。在代码里加一行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;windows.h&amp;gt;
+SetConsoleOutputCP(CP_UTF8);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;或者在终端执行 &lt;code&gt;chcp 65001&lt;/code&gt; 切换到 UTF-8 编码。&lt;/p&gt;
+&lt;p&gt;这是 Windows 的锅，不是你的。Linux 和 macOS 默认 UTF-8，不会有这个问题。Windows 历史遗留的 GBK 编码和 UTF-8 混用，导致各种乱码。上面的代码强制把控制台编码设为 UTF-8，和源代码编码一致，就能正常显示中文。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;问题五：调试时断点不生效&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;检查编译时有没有加 &lt;code&gt;-g&lt;/code&gt; 参数。&lt;code&gt;-g&lt;/code&gt; 生成调试信息，没有它 GDB 不知道代码对应哪一行，断点就不会生效。CMake 项目里 &lt;code&gt;set(CMAKE_BUILD_TYPE Debug)&lt;/code&gt; 会自动加 &lt;code&gt;-g&lt;/code&gt;，Release 模式不会。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;p&gt;好了，这篇教程就到这里啦！希望能够帮助大家顺利搭建好 C 语言的开发环境。&lt;/p&gt;
-</content:encoded></item><item><title>使用 nvm 安装和管理 Node.js</title><link>https://xsgovo.github.io/20260320a/</link><guid isPermaLink="true">https://xsgovo.github.io/20260320a/</guid><description>使用 nvm 安装、切换和管理多版本 Node.js，并配置镜像与 pnpm。</description><pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;你知道人类最古老的三大错觉是什么吗？&lt;/p&gt;
-&lt;p&gt;第一，我能反杀。&lt;/p&gt;
-&lt;p&gt;第二，这件衣服我以后会穿。&lt;/p&gt;
-&lt;p&gt;第三，这次装的 Node.js 版本，应该够用了。&lt;/p&gt;
-&lt;hr /&gt;
-&lt;p&gt;你们有没有遇到过这种情况。&lt;/p&gt;
+&lt;p&gt;环境搭好只是开始，后面还有指针、内存、数据结构在等着你。但至少，你不用再为配置问题浪费时间了。&lt;/p&gt;
+</content:encoded></item><item><title>使用 nvm 安装和管理 Node.js</title><link>https://xsgovo.github.io/20260320a/</link><guid isPermaLink="true">https://xsgovo.github.io/20260320a/</guid><description>使用 nvm 安装、切换和管理多版本 Node.js，并配置镜像与 pnpm。</description><pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;你们有没有遇到过这种情况。&lt;/p&gt;
 &lt;p&gt;你在公司里干活，用的是 Node 16。你们组那个祖传项目，是 Node 8 写的。你们老大说：&quot;别动，能跑就行。&quot;&lt;/p&gt;
 &lt;p&gt;你回到家，想搞点自己的小项目，人家要求 Node 22。你装上了 Node 22，祖传项目打不开了。你又装回 Node 14，新项目又报错了。&lt;/p&gt;
 &lt;p&gt;于是你开始研究：&quot;能不能让两个版本同时存在？&quot;&lt;/p&gt;
@@ -378,12 +934,11 @@ add_executable(main
 &lt;p&gt;它把你的每一个 Node 版本装在各自的目录里。你想用哪个，它就把哪个的目录加到环境变量里。一条命令，三秒切换。&lt;/p&gt;
 &lt;p&gt;而且如果你用的是 Windows，请认准 &lt;strong&gt;nvm-windows&lt;/strong&gt;。其他的 nvm 是给 Mac 和 Linux 用的，你别装错了。装错了你也装不上，但你会花五分钟去研究为什么装不上。&lt;/p&gt;
 &lt;p&gt;这时你可能会说，为什么不用 fnm、Volta 呢？不也可以管理 Node 版本吗？&lt;/p&gt;
-&lt;p&gt;我只能说当然可以，但是没必要。&lt;/p&gt;
-&lt;p&gt;你大概率是从某个满脑子幻觉的 AI 那里听到过这些工具，但对于我来说都大差不差。&lt;/p&gt;
-&lt;p&gt;我想你也是。&lt;/p&gt;
-&lt;p&gt;因为&lt;strong&gt;你大概率不想在环境工具上搞科研。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;fnm 是用 Rust 写的，确实比 nvm-windows 快几毫秒。但你在 Windows 上切换 Node 版本，一年能切换几次？为了这几毫秒去折腾一个非官方工具，不值。&lt;/p&gt;
+&lt;p&gt;Volta 倒是不错，但它会接管你整个工具链，连 npm 都要按它的方式来，而且目前对pnpm的兼容性有限。如果你只是想管理 Node 版本，没必要引入这么多概念。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;你大概率不想在环境工具上搞科研。&lt;/strong&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h2&gt;安装这件事——有两个坑&lt;/h2&gt;
+&lt;h2&gt;下载安装 nvm&lt;/h2&gt;
 &lt;p&gt;去这个地址下载：&lt;code&gt;https://nvm.uihtm.com/doc/download-nvm&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;找到 Windows 的安装包，下载，运行。&lt;/p&gt;
 &lt;p&gt;安装过程没什么可说的，没有什么坑。&lt;/p&gt;
@@ -452,7 +1007,6 @@ add_executable(main
 &lt;p&gt;这里我整理了一下 nvm 最常用的命令：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;nvm install &amp;lt;版本号&amp;gt;      # 安装指定版本
 nvm list                  # 查看已安装的版本
-nvm list available        # 查看所有可安装的版本
 nvm use &amp;lt;版本号&amp;gt;          # 切换到指定版本
 nvm uninstall &amp;lt;版本号&amp;gt;    # 卸载指定版本
 nvm root                  # 查看 Node.js 安装根目录
@@ -464,18 +1018,18 @@ nvm root                  # 查看 Node.js 安装根目录
 &lt;h2&gt;npm 和 pnpm 的镜像&lt;/h2&gt;
 &lt;p&gt;nvm 搞定了，顺手把包管理器的镜像也配一下。&lt;/p&gt;
 &lt;p&gt;因为 npm 默认也是走官方源，在大陆访问慢，有时候包直接装不上。&lt;/p&gt;
-&lt;p&gt;两条命令：&lt;/p&gt;
+&lt;p&gt;配置 npm镜像：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;npm config set registry https://registry.npmmirror.com
 &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;配置 pnpm镜像：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;pnpm config set registry https://registry.npmmirror.com
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;配完之后，&lt;code&gt;npm install&lt;/code&gt; 和 &lt;code&gt;pnpm install&lt;/code&gt; 都会走淘宝镜像，速度直接起飞。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;npm 的镜像和 nvm 的镜像，配置方式不同，但来源是一样的——都是 npmmirror。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;你可能会问：我用 npm 还是 pnpm？&lt;/p&gt;
 &lt;p&gt;我推荐 pnpm。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;但 pnpm 这件事，我想单独说一段。&lt;/strong&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;h2&gt;pnpm——我是怎么从 npm 叛逃的&lt;/h2&gt;
+&lt;h2&gt;关于pnpm——我是怎么从 npm 叛逃的&lt;/h2&gt;
 &lt;p&gt;pnpm 是什么？&lt;/p&gt;
 &lt;p&gt;简单说——是一个比 npm 更好用的包管理器。&lt;/p&gt;
 &lt;p&gt;npm 的问题是：每次你 &lt;code&gt;npm install&lt;/code&gt;，它会把所有依赖包复制到当前项目目录里。你十个项目用同一个包，那个包就被复制了十份。&lt;/p&gt;
@@ -485,8 +1039,7 @@ nvm root                  # 查看 Node.js 安装根目录
 &lt;p&gt;&lt;strong&gt;所以 pnpm 不仅仅是快——它更安全。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;怎么装 pnpm？&lt;strong&gt;有两种方式。&lt;/strong&gt;&lt;/p&gt;
 &lt;h3&gt;方式一：npm 全局安装&lt;/h3&gt;
-&lt;p&gt;如果你用的还是上古 Node.js，还不支持 corepack。&lt;/p&gt;
-&lt;p&gt;没有关系，nvm 会帮你搞定这一切的，你可以放心直接全局安装 pnpm：&lt;/p&gt;
+&lt;p&gt;如果你还在用 Node 14 这种老版本，使用 nvm了的话， nvm会在你切换版本的同时帮你去切换当前 Node版本安装的全局包，你可以放心直接全局安装 pnpm：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;npm install -g pnpm
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;装完之后验证一下：&lt;/p&gt;
@@ -507,19 +1060,11 @@ nvm root                  # 查看 Node.js 安装根目录
 &lt;p&gt;启用 Corepack：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;corepack enable pnpm
 &lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
 &lt;h2&gt;结语&lt;/h2&gt;
-&lt;p&gt;好了，我们来回顾一下。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;nvm 解决了什么问题？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;版本隔离的问题。你再也不用卸载重装了。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;镜像解决了什么问题？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;下载速度的问题。你再也不用对着进度条发呆了。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;pnpm 解决了什么问题？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;包管理效率的问题。你再也不用看着 C 盘一点点被蚕食了。&lt;/p&gt;
-&lt;p&gt;这三件套组合起来，你就拥有了一套稳定、灵活、高效的 Node.js 本地开发环境。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;工具存在的意义，是让你有更多时间去关心真正重要的事情。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;而不是让你花三个小时研究为什么你的 Node 版本装不上去。&lt;/p&gt;
-&lt;p&gt;如果这个教程帮你解决了问题——&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;那说明你终于下定决心，把那些本该浪费在配置环境上的时间，用来做真正有意义的事情了。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;nvm 解决版本隔离，镜像解决下载速度，pnpm 解决包管理效率。&lt;/p&gt;
+&lt;p&gt;三件套配齐，你就再也不用研究为什么 Node 装不上了。&lt;/p&gt;
+&lt;p&gt;虽然你可能会在别的配置上再浪费三个小时。&lt;/p&gt;
 </content:encoded></item><item><title>Ubuntu 安装 MySQL</title><link>https://xsgovo.github.io/20260308a/</link><guid isPermaLink="true">https://xsgovo.github.io/20260308a/</guid><description>介绍在 Ubuntu 系统上安装、配置并开启远程访问 MySQL 数据库的步骤。</description><pubDate>Sun, 08 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;在终端安装 MySQL（默认使用系统仓库当前版本）：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;sudo apt install mysql-server -y
 &lt;/code&gt;&lt;/pre&gt;
