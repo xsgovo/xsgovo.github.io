@@ -5,7 +5,7 @@
   <link href="https://xsgovo.github.io/" rel="alternate" type="text/html"/>
   <link href="https://xsgovo.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://xsgovo.github.io/</id>
-  <updated>2026-04-10T11:27:22.064Z</updated>
+  <updated>2026-04-12T16:05:28.315Z</updated>
   <language>zh_CN</language>
   <entry>
     <title>Windows 配置 Python 环境——从安装到项目管理</title>
@@ -14,22 +14,14 @@
     <published>2026-04-09T00:00:00.000Z</published>
     <updated>2026-04-09T00:00:00.000Z</updated>
     <summary>在 Windows 上从零开始配置 Python 开发环境，包括 Python 安装、虚拟环境管理、包管理工具选择与项目工程化实践。</summary>
-    <content type="html"><![CDATA[<p>Python 的环境问题，本质上不是“不会安装”，而是“选错工具”。</p>
-<p>这个生态发展了太久：
-老工具没有消失，新工具不断出现，不同流派之间还存在明显分裂。</p>
-<p>于是一个看似简单的问题：</p>
-<blockquote>
-<p>“我要怎么在 Windows 上装 Python？”</p>
+    <content type="html"><![CDATA[<blockquote>
+<p>[!WARNING]
+<strong>AI 生成内容声明</strong>：
+本文内容由人工智能辅助生成，经过人工审阅与校对完成。</p>
 </blockquote>
-<p>背后其实隐藏着一连串选择：</p>
-<ul>
-<li>用官方 Python 还是用 conda？</li>
-<li>用 <code>pip</code> 还是 <code>uv</code>？</li>
-<li>要不要用 <code>pyproject.toml</code>？</li>
-<li>环境要不要隔离？</li>
-</ul>
-<p>如果没人帮你把这套逻辑理清，很容易在第一步就卡住。</p>
-<p>这篇文章，就是把这些选择一次讲明白。</p>
+<hr />
+<p>由于 Python 早期的工程结构非常的放飞自我，官方的 Python 体系在早期就是一个烂摊子，于是就有了各式各样的第三方工具。</p>
+<p>这篇文章，就是教你如何使用这些工具快速初始化你的项目。</p>
 <hr />
 <h2>先搞清楚你要什么</h2>
 <p>Python 环境管理工具可以分成两大派系：</p>
@@ -61,7 +53,7 @@
 <li>PyPI 派：用 uv 管理 Python 版本，通过 <code>uv run</code> 调用</li>
 <li>Conda 派：用 conda 创建隔离环境，通过 <code>conda activate</code> 切换</li>
 </ul>
-<p>**不要两派混着走。**我见过有人在 conda 环境里用 pip 装包，装完发现 CUDA 版本对不上，PyTorch 直接罢工。排查了三个小时，最后重装整个环境。</p>
+<p>我见过有人在 conda 环境里用 pip 装包，装完发现 CUDA 版本对不上，PyTorch 直接罢工。排查了三个小时，最后重装整个环境。</p>
 <p>所以先问自己：我要不要碰深度学习？</p>
 <p>不碰，走 PyPI 派。要碰，走 Conda 派。</p>
 <hr />
@@ -571,7 +563,13 @@ pixi run python main.py	# 运行文件
     <published>2026-03-21T00:00:00.000Z</published>
     <updated>2026-03-21T00:00:00.000Z</updated>
     <summary>在 Windows 上安装 C 语言开发环境，包含编译器选择、VS Code 配置与 CMake 管理项目的方法。</summary>
-    <content type="html"><![CDATA[<p>学 C 语言的第一步不是写代码，是把环境搭好。环境搭不好，后面全是坑。</p>
+    <content type="html"><![CDATA[<blockquote>
+<p>[!WARNING]
+<strong>AI 生成内容声明</strong>：
+本文内容由人工智能辅助生成，经过人工审阅与校对完成。</p>
+</blockquote>
+<hr />
+<p>学 C 语言的第一步不是写代码，是把环境搭好。环境搭不好，后面全是坑。</p>
 <p>Windows 上配 C 语言环境，我只推荐一个方案：<strong>MinGW-w64 + VS Code</strong>。其他方案要么过时，要么太重，要么藏着各种暗坑。等你把这组工具用熟了，想换 CLion 或者研究其他工具都很容易。</p>
 <p>这篇文章就是教你把这套环境搭起来，从安装到能跑多文件项目。</p>
 <hr />
@@ -963,7 +961,13 @@ SetConsoleOutputCP(CP_UTF8);
     <published>2026-03-20T00:00:00.000Z</published>
     <updated>2026-03-20T00:00:00.000Z</updated>
     <summary>使用 nvm 安装、切换和管理多版本 Node.js，并配置镜像与 pnpm。</summary>
-    <content type="html"><![CDATA[<p>你们有没有遇到过这种情况。</p>
+    <content type="html"><![CDATA[<blockquote>
+<p>[!WARNING]
+<strong>AI 生成内容声明</strong>：
+本文内容由人工智能辅助生成，经过人工审阅与校对完成。</p>
+</blockquote>
+<hr />
+<p>你们有没有遇到过这种情况。</p>
 <p>你在公司里干活，用的是 Node 16。你们组那个祖传项目，是 Node 8 写的。你们老大说："别动，能跑就行。"</p>
 <p>你回到家，想搞点自己的小项目，人家要求 Node 22。你装上了 Node 22，祖传项目打不开了。你又装回 Node 14，新项目又报错了。</p>
 <p>于是你开始研究："能不能让两个版本同时存在？"</p>
