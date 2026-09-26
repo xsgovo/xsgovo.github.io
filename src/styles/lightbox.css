@@ -1,0 +1,313 @@
+/* 原生图片灯箱（m3-lightbox）—— 替代 @fancyapps/ui 的样式层。
+   覆盖层在暗色遮罩上展示，控件用半透明胶囊按钮，与 Shirone 设计语言一致。 */
+
+.m3-lightbox {
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+	display: flex;
+	flex-direction: column;
+	color: #fff;
+	font-family: var(--m3e-font-sans, system-ui);
+}
+
+.m3-lightbox[hidden] {
+	display: none;
+}
+
+/* ---------- 遮罩与开合过渡 ---------- */
+
+.m3-lightbox__backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.9);
+	opacity: 0;
+	transition: opacity 0.2s ease;
+}
+
+.m3-lightbox.is-open .m3-lightbox__backdrop {
+	opacity: 1;
+}
+
+.m3-lightbox__stage {
+	position: relative;
+	flex: 1;
+	min-height: 0;
+	display: grid;
+	place-items: center;
+	overflow: hidden;
+	touch-action: none;
+	cursor: zoom-in;
+}
+
+.m3-lightbox__stage-inner {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	transition:
+		transform 0.25s cubic-bezier(0.2, 0, 0, 1),
+		opacity 0.25s ease;
+}
+
+/* Ken Burns 容器：每张图展示期间以非线性缓动缓慢放大（JS 在切换时重启） */
+.m3-lightbox__kb {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: grid;
+	place-items: center;
+}
+
+.m3-lightbox__kb.is-animating {
+	animation: m3-lightbox-kenburns 7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+@keyframes m3-lightbox-kenburns {
+	from {
+		transform: scale(1);
+	}
+	to {
+		transform: scale(1.08);
+	}
+}
+
+.m3-lightbox__img {
+	grid-area: 1 / 1;
+	max-width: min(94vw, 1600px);
+	max-height: 100%;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	user-select: none;
+	-webkit-user-drag: none;
+	opacity: 0;
+	transform-origin: center;
+	transition: opacity 0.3s ease;
+	will-change: transform, opacity;
+	cursor: grab;
+}
+
+.m3-lightbox__img.is-current {
+	opacity: 1;
+}
+
+.m3-lightbox__img.is-zoomed {
+	cursor: move;
+}
+
+/* 减少动效：直接呈现，Ken Burns 停用 */
+@media (prefers-reduced-motion: reduce) {
+	.m3-lightbox__backdrop,
+	.m3-lightbox__stage-inner,
+	.m3-lightbox__img {
+		transition: none;
+	}
+
+	.m3-lightbox__kb.is-animating {
+		animation: none;
+	}
+}
+
+html.m3-lightbox-lock {
+	overflow: hidden;
+}
+
+/* ---------- 顶部工具栏 ---------- */
+
+.m3-lightbox__toolbar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 3;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	padding: 0.75rem 1rem;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), transparent);
+}
+
+.m3-lightbox__counter {
+	font-size: 0.9rem;
+	font-weight: 500;
+	font-variant-numeric: tabular-nums;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	padding-inline: 0.5rem;
+}
+
+.m3-lightbox__actions {
+	display: flex;
+	align-items: center;
+	gap: 0.375rem;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
+
+.m3-lightbox__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	border: none;
+	border-radius: 0.75rem;
+	background: rgba(255, 255, 255, 0.12);
+	color: #fff;
+	cursor: pointer;
+	transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.m3-lightbox__btn:hover {
+	background: rgba(255, 255, 255, 0.22);
+}
+
+.m3-lightbox__btn:active {
+	transform: scale(0.92);
+}
+
+.m3-lightbox__btn.is-active {
+	background: rgba(255, 255, 255, 0.32);
+}
+
+.m3-lightbox__btn:focus-visible {
+	outline: 2px solid rgba(255, 255, 255, 0.85);
+	outline-offset: 2px;
+}
+
+/* ---------- 左右翻页按钮 ---------- */
+
+.m3-lightbox__nav {
+	position: absolute;
+	top: 50%;
+	z-index: 3;
+	transform: translateY(-50%);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	border: none;
+	border-radius: 999px;
+	background: rgba(0, 0, 0, 0.45);
+	color: #fff;
+	cursor: pointer;
+	transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.m3-lightbox__nav:hover {
+	background: rgba(0, 0, 0, 0.65);
+}
+
+.m3-lightbox__nav:active {
+	transform: translateY(-50%) scale(0.92);
+}
+
+.m3-lightbox__nav--prev {
+	left: 0.75rem;
+}
+
+.m3-lightbox__nav--next {
+	right: 0.75rem;
+}
+
+@media (max-width: 640px) {
+	.m3-lightbox__nav {
+		width: 40px;
+		height: 40px;
+	}
+}
+
+/* ---------- 说明文字 ---------- */
+
+.m3-lightbox__caption {
+	position: absolute;
+	left: 50%;
+	bottom: 1.25rem;
+	z-index: 3;
+	transform: translateX(-50%);
+	max-width: min(80vw, 56rem);
+	max-height: 30vh;
+	overflow: auto;
+	text-align: center;
+	font-size: 0.9rem;
+	line-height: 1.5;
+	color: rgba(255, 255, 255, 0.92);
+	background: rgba(0, 0, 0, 0.55);
+	padding: 0.625rem 1rem;
+	border-radius: 0.75rem;
+	backdrop-filter: blur(6px);
+}
+
+.m3-lightbox__caption.is-raised {
+	bottom: 6.5rem;
+}
+
+/* ---------- 缩略图条 ---------- */
+
+.m3-lightbox__thumbs {
+	position: absolute;
+	left: 50%;
+	bottom: 0.75rem;
+	z-index: 2;
+	transform: translateX(-50%);
+	max-width: min(92vw, 60rem);
+	padding: 0.375rem;
+	border-radius: 0.75rem;
+	background: rgba(0, 0, 0, 0.55);
+	backdrop-filter: blur(6px);
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.m3-lightbox__thumbs.is-hidden {
+	opacity: 0;
+	pointer-events: none;
+	transform: translateX(-50%) translateY(0.5rem);
+}
+
+.m3-lightbox__thumbs-track {
+	display: flex;
+	gap: 0.375rem;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.m3-lightbox__thumbs-track::-webkit-scrollbar {
+	display: none;
+}
+
+.m3-lightbox__thumb {
+	flex: 0 0 auto;
+	width: 56px;
+	height: 56px;
+	padding: 0;
+	border: 2px solid transparent;
+	border-radius: 0.5rem;
+	overflow: hidden;
+	cursor: pointer;
+	background: rgba(255, 255, 255, 0.08);
+	transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.m3-lightbox__thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.m3-lightbox__thumb:hover {
+	border-color: rgba(255, 255, 255, 0.5);
+	transform: scale(1.05);
+}
+
+.m3-lightbox__thumb.is-active {
+	border-color: #fff;
+}
+
+/* 单图场景：隐藏翻页/缩略图/播放控件 */
+.m3-lightbox--single .m3-lightbox__nav,
+.m3-lightbox--single .m3-lightbox__thumbs,
+.m3-lightbox__actions [data-action="play"] {
+	display: none;
+}

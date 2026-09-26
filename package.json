@@ -1,0 +1,74 @@
+{
+  "name": "shirone",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "An expressive, anime-inspired blog theme built on Material 3 Expressive, Astro 7, and Svelte 5",
+  "license": "MIT",
+  "author": "matsuzaka-yuki",
+  "homepage": "https://shirone.mysqil.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LyraVoid/Shirone.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LyraVoid/Shirone/issues"
+  },
+  "keywords": [
+    "astro",
+    "astro-theme",
+    "blog-theme",
+    "material-design-3",
+    "material-3-expressive",
+    "m3e",
+    "svelte-5",
+    "tailwindcss-4"
+  ],
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "predev": "pnpm icons:generate",
+    "dev": "astro dev",
+    "prebuild": "pnpm icons:generate",
+    "build": "astro build && npx pagefind --site dist",
+    "preview": "astro preview",
+    "check": "astro check",
+    "type-check": "tsc --noEmit",
+    "icons:generate": "node scripts/icons/generate-local-icons.mjs",
+    "new-post": "node scripts/new-post.js",
+    "anime:sync": "node scripts/anime/sync.mjs",
+    "update:astro": "pnpm dlx @astrojs/upgrade",
+    "update:other": "pnpm dlx npm-check-updates -u --reject \"astro,@astrojs/*\" && pnpm install",
+    "update:all": "pnpm run update:astro && pnpm run update:other"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "^7.3.1",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "@astrojs/svelte": "9.0.1",
+    "@expressive-code/plugin-frames": "^0.44.2",
+    "@expressive-code/plugin-line-numbers": "^0.44.2",
+    "@iconify/svelte": "^5.2.2",
+    "@material/material-color-utilities": "^0.4.0",
+    "@swup/astro": "^1.8.0",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "7.3.5",
+    "astro-expressive-code": "^0.44.2",
+    "astro-icon": "^1.2.0",
+    "mdast-util-to-string": "^4.0.0",
+    "reading-time": "^1.5.0",
+    "sharp": "^0.35.4",
+    "svelte": "^5.57.1",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@iconify-json/fa6-brands": "^1.2.6",
+    "@iconify-json/fa6-regular": "^1.2.4",
+    "@iconify-json/fa6-solid": "^1.2.4",
+    "@iconify-json/material-symbols": "^1.2.93",
+    "@iconify-json/simple-icons": "^1.2.97",
+    "pagefind": "^1.5.2",
+    "typescript": "^6.0.3"
+  },
+  "packageManager": "pnpm@11.15.1"
+}

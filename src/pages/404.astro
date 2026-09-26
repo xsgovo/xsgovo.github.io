@@ -1,0 +1,24 @@
+---
+import Button from "@components/atoms/action/Button.svelte";
+import Card from "@components/atoms/display/Card.svelte";
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { url } from "@utils/url-utils";
+---
+
+<MainGridLayout title="404" description={i18n(I18nKey.notFoundDescription)} page="404">
+	<Card class="mx-auto flex max-w-xl flex-col items-center gap-4 px-8 py-16 text-center">
+		<p class="text-[4rem] leading-none font-bold text-[var(--primary)]" aria-hidden="true">404</p>
+		<h1 class="text-2xl font-medium text-[var(--on-surface)]">
+			{i18n(I18nKey.notFoundTitle)}
+		</h1>
+		<p class="text-[var(--on-surface-variant)]">{i18n(I18nKey.notFoundDescription)}</p>
+		<Button
+			href={url("/")}
+			variant="tonal"
+			label={i18n(I18nKey.backToHome)}
+			icon="material-symbols:home-outline-rounded"
+		/>
+	</Card>
+</MainGridLayout>

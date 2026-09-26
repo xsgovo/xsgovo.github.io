@@ -1,0 +1,210 @@
+enum I18nKey {
+	home = "home",
+	about = "about",
+	archive = "archive",
+	/** 归档分组切换（Tabs）：tablist 无障碍名称 */
+	archiveGroup = "archiveGroup",
+	archiveGroupYear = "archiveGroupYear",
+	archiveGroupCategory = "archiveGroupCategory",
+	archiveGroupTag = "archiveGroupTag",
+	search = "search",
+	clear = "clear",
+
+	friends = "friends",
+	friendsNoResults = "friendsNoResults",
+	friendsBanner = "friendsBanner",
+	friendsCount = "friendsCount",
+	friendsCounts = "friendsCounts",
+
+	pinned = "pinned",
+	loadMore = "loadMore",
+
+	anime = "anime",
+	animeBanner = "animeBanner",
+	animeNoResults = "animeNoResults",
+	animeCounts = "animeCounts",
+	animeStatusWatching = "animeStatusWatching",
+	animeStatusCompleted = "animeStatusCompleted",
+	animeStatusPlanned = "animeStatusPlanned",
+	animeStatusOnHold = "animeStatusOnHold",
+	animeStatusDropped = "animeStatusDropped",
+	animeSyncEmpty = "animeSyncEmpty",
+
+	compass = "compass",
+	compassBanner = "compassBanner",
+	compassNoResults = "compassNoResults",
+	compassCounts = "compassCounts",
+
+	devices = "devices",
+	devicesBanner = "devicesBanner",
+	devicesCounts = "devicesCounts",
+	devicesNoResults = "devicesNoResults",
+	devicesSearchPlaceholder = "devicesSearchPlaceholder",
+	devicesCategoryLabel = "devicesCategoryLabel",
+	devicesStatusActive = "devicesStatusActive",
+	devicesStatusBackup = "devicesStatusBackup",
+	devicesStatusArchived = "devicesStatusArchived",
+	devicesStatusWishlist = "devicesStatusWishlist",
+	devicesViewSpecs = "devicesViewSpecs",
+	devicesFeatured = "devicesFeatured",
+
+	timeline = "timeline",
+	timelineBanner = "timelineBanner",
+	timelineCounts = "timelineCounts",
+	timelineCategories = "timelineCategories",
+	timelineNoResults = "timelineNoResults",
+
+
+
+	imageViewer = "imageViewer",
+
+	tags = "tags",
+	categories = "categories",
+	tableOfContents = "tableOfContents",
+	announcement = "announcement",
+	announcementClose = "announcementClose",
+
+	uncategorized = "uncategorized",
+	noTags = "noTags",
+
+	wordCount = "wordCount",
+	wordsCount = "wordsCount",
+	minuteCount = "minuteCount",
+	minutesCount = "minutesCount",
+	postCount = "postCount",
+	postsCount = "postsCount",
+	categoriesCount = "categoriesCount",
+	tagsCount = "tagsCount",
+	noData = "noData",
+
+	stats = "stats",
+	statsPosts = "statsPosts",
+	statsWords = "statsWords",
+	statsDays = "statsDays",
+	statsUpdated = "statsUpdated",
+	statsToday = "statsToday",
+	statsYesterday = "statsYesterday",
+	statsDaysAgo = "statsDaysAgo",
+
+	calendar = "calendar",
+	calendarBackToday = "calendarBackToday",
+	calendarPrevMonth = "calendarPrevMonth",
+	calendarNextMonth = "calendarNextMonth",
+
+
+	sidebar = "sidebar",
+	sidebarSecondary = "sidebarSecondary",
+
+	themeColor = "themeColor",
+	colorStyle = "colorStyle",
+	colorSpec = "colorSpec",
+
+	styleTonalSpot = "styleTonalSpot",
+	styleVibrant = "styleVibrant",
+	styleContent = "styleContent",
+	styleExpressive = "styleExpressive",
+	styleRainbow = "styleRainbow",
+	styleFruitSalad = "styleFruitSalad",
+	styleMonochrome = "styleMonochrome",
+	styleNeutral = "styleNeutral",
+	styleFidelity = "styleFidelity",
+
+	spec2021 = "spec2021",
+	spec2025 = "spec2025",
+
+	lightMode = "lightMode",
+	darkMode = "darkMode",
+	systemMode = "systemMode",
+
+	reduceMotion = "reduceMotion",
+
+	wallpaperMode = "wallpaperMode",
+	wallpaperModeBanner = "wallpaperModeBanner",
+	wallpaperModeNone = "wallpaperModeNone",
+
+	texturePreset = "texturePreset",
+	texturePresetNone = "texturePresetNone",
+	texturePresetStarlight = "texturePresetStarlight",
+	texturePresetCyberDots = "texturePresetCyberDots",
+	texturePresetTopography = "texturePresetTopography",
+	texturePresetGeometric = "texturePresetGeometric",
+	texturePresetSakura = "texturePresetSakura",
+	textureOpacity = "textureOpacity",
+
+	layoutMode = "layoutMode",
+	layoutList = "layoutList",
+	layoutGrid = "layoutGrid",
+
+	cancel = "cancel",
+	reset = "reset",
+
+	more = "more",
+	categoriesViewAll = "categoriesViewAll",
+	tagsViewAll = "tagsViewAll",
+
+	paginationPrev = "paginationPrev",
+	paginationNext = "paginationNext",
+	paginationPage = "paginationPage",
+	paginationJump = "paginationJump",
+
+	author = "author",
+	publishedAt = "publishedAt",
+	lastUpdatedNotice = "lastUpdatedNotice",
+	lastUpdatedWarning = "lastUpdatedWarning",
+	license = "license",
+	continueReading = "continueReading",
+	relatedReading = "relatedReading",
+	relatedReadingSubtitle = "relatedReadingSubtitle",
+	randomReading = "randomReading",
+	randomReadingSubtitle = "randomReadingSubtitle",
+
+	copySuccess = "copySuccess",
+	copyLink = "copyLink",
+	copyFailed = "copyFailed",
+
+	shareArticle = "shareArticle",
+	shareArticleDescription = "shareArticleDescription",
+	generateSharePoster = "generateSharePoster",
+	generatingSharePoster = "generatingSharePoster",
+	sharePosterPreviewAlt = "sharePosterPreviewAlt",
+	downloadSharePoster = "downloadSharePoster",
+	sharePosterFailed = "sharePosterFailed",
+	retry = "retry",
+	backToTop = "backToTop",
+	backToHome = "backToHome",
+	close = "close",
+
+	// Feed 订阅与使用指南
+	rss = "rss",
+	rssSubtitle = "rssSubtitle",
+	atom = "atom",
+	atomSubtitle = "atomSubtitle",
+	feedLink = "feedLink",
+	feedHowToUse = "feedHowToUse",
+	feedHowToUseDesc = "feedHowToUseDesc",
+	feedOpenXml = "feedOpenXml",
+	feedRecentPosts = "feedRecentPosts",
+
+	// 404
+	notFoundTitle = "notFoundTitle",
+	notFoundDescription = "notFoundDescription",
+
+	// 图片灯箱
+	lightboxPrev = "lightboxPrev",
+	lightboxNext = "lightboxNext",
+	lightboxClose = "lightboxClose",
+	lightboxZoomIn = "lightboxZoomIn",
+	lightboxZoomOut = "lightboxZoomOut",
+	lightboxOneToOne = "lightboxOneToOne",
+	lightboxRotateCCW = "lightboxRotateCCW",
+	lightboxRotateCW = "lightboxRotateCW",
+	lightboxFlipX = "lightboxFlipX",
+	lightboxFlipY = "lightboxFlipY",
+	lightboxReset = "lightboxReset",
+	lightboxFullscreen = "lightboxFullscreen",
+	lightboxThumbs = "lightboxThumbs",
+	lightboxPlay = "lightboxPlay",
+	lightboxPause = "lightboxPause",
+}
+
+export default I18nKey;

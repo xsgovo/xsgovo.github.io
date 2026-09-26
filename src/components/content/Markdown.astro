@@ -1,0 +1,30 @@
+---
+interface Props {
+	class: string;
+}
+const className = Astro.props.class;
+---
+<div data-pagefind-body class={`prose dark:prose-invert prose-base !max-w-none custom-md markdown-content ${className}`}>
+	<slot />
+</div>
+
+<style is:global>
+/* 原 styles/markdown/generic.styl（仅此一处使用，直接内联） */
+.custom-md {
+	img {
+		border-radius: var(--shape-corner-m);
+	}
+
+	hr {
+		border: 0;
+		border-top: 1px solid var(--line-divider);
+	}
+
+	iframe {
+		border-radius: var(--shape-corner-m);
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 100%;
+	}
+}
+</style>

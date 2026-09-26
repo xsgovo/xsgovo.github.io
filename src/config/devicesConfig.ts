@@ -1,0 +1,30 @@
+import type { DevicesConfig } from "@/types/devicesConfig";
+
+/**
+ * 设备展示页行为与展示配置。
+ *
+ * 遵循「配置管行为，数据管内容」原则：
+ * - enable：页面总开关；false 时导航入口同步隐藏，访问 /devices/ 跳转 404；
+ * - categories：场景分类清单（数组顺序即页面顶部 Chips 顺序）；
+ * - disabledIds：可选被禁用的设备 ID 列表；
+ *
+ * 注：设备的具体清单数据（设备名、品牌、规格、感受说明、图片等）请在 `src/data/devices.ts` 中维护。
+ */
+export const devicesConfig: DevicesConfig = {
+	enable: true,
+	categories: [
+		{
+			key: "phone",
+			label: "Phone",
+			icon: "material-symbols:smartphone-outline",
+			description: "日常使用的手机设备",
+		},
+		{
+			key: "tablet",
+			label: "Tablet",
+			icon: "material-symbols:tablet-android-outline-rounded",
+			description: "平板设备",
+		},
+	],
+	// disabledIds: [],
+};

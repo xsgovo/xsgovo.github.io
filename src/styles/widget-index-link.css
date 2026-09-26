@@ -1,0 +1,31 @@
+/* 侧栏 widget「查看全部」索引链接（Categories / Tags 共用）。
+   组件在 <style> 里 @import 本文件即可；
+   Astro 会按各组件自身作用域附加 cid 属性，行为与内联样式一致。 */
+.widget-index-link {
+	padding: 0.625rem 1rem 0;
+
+	& > a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.25rem;
+		width: 100%;
+		min-height: 2.25rem;
+		padding: 0 0.5rem;
+		border-radius: var(--shape-corner-m);
+		color: var(--primary);
+		font: var(--m3e-type-label-medium);
+		font-weight: 600;
+		text-decoration: none;
+		transition: background-color var(--m3e-duration-short) var(--m3e-easing-standard);
+
+		&:hover {
+			background: color-mix(in oklab, var(--primary) 8%, transparent);
+		}
+
+		& > :global(svg) {
+			width: 1.125rem;
+			height: 1.125rem;
+		}
+	}
+}

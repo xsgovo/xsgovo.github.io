@@ -1,0 +1,149 @@
+@reference "tailwindcss";
+
+/* Expressive Code：隐藏 frames 插件的 macOS 三圆点标题栏（figcaption.header），
+   保持原站代码块紧凑的单一背景外观；复制按钮独立于 header，不受影响。
+   !important 用于压过 EC 自带的 .frame.is-terminal .header{display:flex}（更高 specificity 且更晚加载）。 */
+.expressive-code figcaption.header {
+  display: none !important;
+}
+
+/* EC 对 has-title/is-terminal 帧把 pre 顶部圆角清零（原设计顶角由标题栏承担），
+   标题栏隐藏后顶部会变成直角、与底部圆角不对称，这里恢复四角统一圆角。 */
+.expressive-code .frame pre,
+.expressive-code .frame code {
+  border-top-left-radius: calc(var(--ec-brdRad) + var(--ec-brdWd)) !important;
+  border-top-right-radius: calc(var(--ec-brdRad) + var(--ec-brdWd)) !important;
+}
+
+/* EC 的复制按钮 top 按"标题栏高度"计算（is-terminal 帧为 2.4rem），标题栏隐藏后
+   按钮会漂到单行块中部甚至溢出块外；统一回收至右上角。 */
+.expressive-code .copy {
+  inset-block-start: 0.5rem !important;
+}
+
+.custom-md {
+  h1 {
+    @apply text-3xl;
+  }
+
+  a {
+    @apply relative bg-none transition rounded-md font-medium text-[var(--primary)]
+        underline decoration-[var(--link-underline)] decoration-1 decoration-dashed underline-offset-4;
+    padding: var(--m3e-space-1);
+    margin: calc(var(--m3e-space-1) * -1);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    display: inline;
+    overflow-wrap: break-word;
+
+    &:hover,
+    &:active {
+      @apply decoration-transparent;
+      background: var(--btn-plain-bg-hover);
+      border-bottom: 1px dashed var(--link-hover);
+      text-decoration: none;
+    }
+  }
+
+  /* 行内代码（Expressive Code 的块级 <code> 带 data-language 且位于 pre 内，天然排除） */
+  :not(pre) > code {
+    @apply bg-[var(--inline-code-bg)] text-[var(--inline-code-color)] px-1 py-0.5 rounded-md overflow-hidden;
+
+    font-family:
+      var(--m3e-font-mono-family),
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      Liberation Mono,
+      Courier New,
+      monospace;
+    /* !important 权属边界：Tailwind Typography 拥有生成的代码标记；Shirone 的 Markdown 渲染器将其抑制。 */
+    &:before {
+      content: none !important;
+    }
+    &:after {
+      content: none !important;
+    }
+  }
+
+  ul,
+  ol {
+    li::marker {
+      @apply text-[var(--primary)];
+    }
+  }
+
+  blockquote {
+    @apply not-italic border-transparent relative;
+    font-weight: inherit;
+
+    &:before {
+      @apply content-[''] absolute -left-1 block transition bg-[var(--primary)] h-full w-1 rounded-full;
+    }
+
+    /* 移除默认样式中的双引号 */
+    p:before,
+    p:after {
+      @apply content-none;
+    }
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-inline: auto;
+  }
+
+  table {
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--outline-variant);
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: var(--shape-corner-m);
+
+    /* !important 权属边界：Tailwind Typography 拥有 prose 单元格间距；响应式表格拥有其单元格几何尺寸。 */
+    th {
+      @apply text-left bg-[var(--surface-container-high)] text-[var(--on-surface)] font-semibold;
+      padding: var(--m3e-space-3) var(--m3e-space-4) !important;
+    }
+
+    td {
+      @apply text-[var(--on-surface-variant)];
+      padding: var(--m3e-space-2) var(--m3e-space-4) !important;
+    }
+
+    th,
+    td {
+      @apply border-b border-[var(--outline-variant)];
+      white-space: nowrap;
+    }
+
+    tr:last-child td {
+      @apply border-b-0;
+    }
+
+    /* !important 权属边界：Tailwind Typography 拥有 prose 代码呈现；表格单元格拥有这套紧凑型代码变体。 */
+    :is(th, td) code {
+      padding: 0 var(--m3e-space-1) !important;
+      border-radius: var(--shape-corner-xs) !important;
+      background: color-mix(in oklab, var(--on-surface) 8%, transparent) !important;
+      color: var(--on-surface) !important;
+      font: var(--m3e-type-code) !important;
+      letter-spacing: 0;
+      white-space: nowrap;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+  }
+
+  /* --- 标题间距 --- */
+  :is(h1, h2, h3) {
+    margin-top: var(--m3e-space-4);
+    margin-bottom: var(--m3e-space-2);
+  }
+}

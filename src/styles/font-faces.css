@@ -1,0 +1,16 @@
+/* 系统字体栈。所有字体角色均解析为访客设备的默认字体。 */
+:root {
+    --m3e-font-sans: system-ui, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    --font-sans: var(--m3e-font-sans);
+    --m3e-font-mono-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* 代码是独立的字体角色，绝不能继承正文字体或 CJK 字体族。 */
+pre,
+code,
+kbd,
+samp,
+.expressive-code,
+.expressive-code * {
+    font-family: var(--m3e-font-mono-family) !important;
+}
