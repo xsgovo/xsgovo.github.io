@@ -31,8 +31,7 @@ yarn.lock
 
 *.iml
 
-# anime snapshot data & downloaded covers
-src/data/anime-snapshots/*.json
+# anime covers（快照 JSON 入库，供 CI 构建使用；封面为远程 URL，本地缓存不入库）
 public/assets/anime/covers/*
 
 
