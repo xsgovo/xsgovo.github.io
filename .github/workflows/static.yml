@@ -31,6 +31,9 @@ jobs:
       - uses: actions/configure-pages@v5
       - name: Install & check
         run: pnpm install --frozen-lockfile && pnpm check
+      - name: Sync bangumi data
+        # 防御：sync 脚本在请求全挂时会静默写空快照并退出 0，校验非空防止部署空页面
+        run: pnpm anime:sync && node -e "const j=require('./src/data/anime-snapshots/bangumi.json'); if (!j.items?.length) { console.error('anime snapshot is empty'); process.exit(1); }"
       - name: Build
         # 按项目约定构建前清缓存，防止 content layer 沿用旧渲染
         run: rm -rf .astro node_modules/.astro node_modules/.vite && pnpm build
