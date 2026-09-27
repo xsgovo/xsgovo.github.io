@@ -17,28 +17,29 @@ concurrency:
 
 jobs:
   deploy:
+    name: 构建并部署博客
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4 # 版本读 package.json 的 packageManager 字段
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
       - uses: actions/configure-pages@v5
-      - name: Install & check
-        run: pnpm install --frozen-lockfile && pnpm check
-      - name: Sync bangumi data
-        # 防御：sync 脚本在请求全挂时会静默写空快照并退出 0，校验非空防止部署空页面
-        run: pnpm anime:sync && node -e "const j=require('./src/data/anime-snapshots/bangumi.json'); if (!j.items?.length) { console.error('anime snapshot is empty'); process.exit(1); }"
-      - name: Build
-        # 按项目约定构建前清缓存，防止 content layer 沿用旧渲染
-        run: rm -rf .astro node_modules/.astro node_modules/.vite && pnpm build
-      - uses: actions/upload-pages-artifact@v3
+      - run: pnpm install --frozen-lockfile
+      - name: 同步番组数据
+        run: pnpm anime:sync
+      - name: 检查番组数据
+        run: node -e "const j=require('./src/data/anime-snapshots/bangumi.json'); if (!j.items?.length) process.exit(1)"
+      - name: 检查并构建
+        run: pnpm check && pnpm build
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
-      - uses: actions/deploy-pages@v5
+      - name: 部署到 GitHub Pages
         id: deployment
+        uses: actions/deploy-pages@v5
